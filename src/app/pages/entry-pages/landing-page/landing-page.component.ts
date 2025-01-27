@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-landing-page',

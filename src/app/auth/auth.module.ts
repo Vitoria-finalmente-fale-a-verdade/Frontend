@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EntryPagesRoutingModule } from './entry-pages-routing.module';
+import { AuthRoutingModule } from './auth-routing.module';
 
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LoginComponent } from './login/login.component';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,10 +11,10 @@ import { RippleModule } from 'primeng/ripple';
 import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
-  declarations: [LandingPageComponent],
+  declarations: [LoginComponent],
   imports: [
     CommonModule,
-    EntryPagesRoutingModule,
+    AuthRoutingModule,
     ButtonModule,
     InputTextModule,
     CardModule,
@@ -22,4 +22,4 @@ import { CheckboxModule } from 'primeng/checkbox';
     CheckboxModule,
   ]
 })
-export class EntryPagesModule { }
+export class AuthModule { }
