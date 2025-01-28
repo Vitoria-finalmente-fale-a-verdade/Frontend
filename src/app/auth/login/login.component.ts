@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
 
     }
     else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Signin Failed' });
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Nome de usuário ou senha inválidos' });
     }
     this.loading = false;
     // .subscribe(() => {
