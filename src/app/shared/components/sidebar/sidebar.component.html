@@ -1,9 +1,52 @@
-<p-sidebar [visible]="true" position="left" styleClass="w-64">
-  <h2>Menu</h2>
-  <ul>
-      <li>teste0</li>
-      <li>teste1</li>
-      <li>teste2</li>
-  </ul>
-</p-sidebar>
+<p-drawer #drawerRef [(visible)]="visible" [style]="{border: 'none'}">
+  <ng-template #headless>
+    <div class="flex flex-col h-full" (mouseleave)="closeCallback()">
+      <div class="flex items-center justify-between px-6 pt-4 shrink-0">
+        <img src="assets/logo-text.png" alt="Logomarca" class="max-h-16 ml-4" />
+      </div>
+      <div class="overflow-y-auto">
+        <ul class="list-none p-4 m-0">
+          <li *ngFor="let menu of menus">
+            <ul class="list-none p-0 m-0 overflow-hidden">
+              <li class="rounded hover:bg-red-500 transition-all">
+                <a [href]="menu.path" pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple pl-8">
+                  <i [class]="'mr-2 pi pi-' + menu.icon"></i>
+                  <span class="font-medium">{{menu.title}}</span>
+                </a>
+              </li>
 
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="mt-auto">
+        <hr class="mb-4 mx-4 border-t border-0 border-surface" />
+        <a pRipple class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+          <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+          <span class="font-bold">Amy Elsner</span>
+        </a>
+      </div>
+    </div>
+  </ng-template>
+</p-drawer>
+<div #closedDrawerRef class="h-screen fixed bg-white" (mouseenter)="openCallback()">
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between px-6 pt-4 shrink-0">
+      <img src="assets/logo.png" alt="Logomarca" class="max-h-16" />
+    </div>
+    <div class="overflow-y-auto">
+      <ul class="list-none p-4 m-0">
+        <li *ngFor="let menu of menus">
+          <ul class="list-none p-0 m-0 overflow-hidden">
+            <li class="rounded hover:bg-red-200">
+              <a [href]="menu.path" pRipple class="flex items-center justify-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                <i [class]="'mr-2 pi pi-' + menu.icon"></i>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
