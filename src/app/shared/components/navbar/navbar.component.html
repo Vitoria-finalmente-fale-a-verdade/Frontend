@@ -1,8 +1,15 @@
-<p-menubar styleClass="m-4 !bg-[#FFFFFF55] backdrop-blur-md fixed top-0 left-28 right-0" >
+<p-menubar styleClass="!fixed m-4 !bg-dark-transparent backdrop-blur-md top-0 ml-2 left-32 right-2 z-20">
   <ng-template pTemplate="start">
+    <h1 class="font-bold text-lg text-white">DASHBOARDS</h1>
   </ng-template>
 
   <ng-template pTemplate="end">
-    <button pButton icon="pi pi-user" class="p-button-rounded p-button-text text-white"></button>
+    <div class="flex items-center gap-8">
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input type="text" pInputText pSize="small" autocomplete="off" placeholder="Pesquisar cliente" class="!bg-[#FFFFFF88] w-72" />
+      </p-iconfield>
+      <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+    </div>
   </ng-template>
 </p-menubar>

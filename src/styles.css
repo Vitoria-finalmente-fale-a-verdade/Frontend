@@ -3,3 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-dashboard-gradient {
+  background-image: linear-gradient(to top right, theme('colors.red.500') 50%, theme('colors.orange.400'));
+}

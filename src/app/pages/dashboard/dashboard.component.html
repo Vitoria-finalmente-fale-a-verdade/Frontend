@@ -1,0 +1,41 @@
+<div class="flex flex-col gap-4">
+  <div class="flex gap-4 justify-between">
+    <div class="flex flex-col gap-2 flex-1 border-[1px] border-white rounded-xl h-28 p-3 text-white !bg-dark-transparent">
+      <h3 class="text-lg font-semibold">CLIENTE</h3>
+      <div class="flex gap-2">
+        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large" />
+        <div class="mt-2 leading-none font-light">
+          <p class="text-xl leading-none">Cliente 1</p>
+          <small class="text-xs font-light">Itaguaçu - ES</small>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let selectItem of selectList" class="flex flex-col gap-4 flex-1 border-[1px] border-white rounded-xl h-28 p-3 text-white !bg-dark-transparent">
+      <h3 class="text-lg font-semibold">{{selectItem.title.toLocaleUpperCase()}}</h3>
+      <p-select [options]="selectItem.options" [(ngModel)]="selectedOptions[selectItem.controlName]" size="small" />
+    </div>
+  </div>
+
+  <div class="flex gap-4 justify-between">
+    <p-card *ngFor="let card of cards" class="flex-1" styleClass="flex flex-col gap-4 h-28 p-3 text-white">
+      <ng-template #header>
+        <div class="flex w-full gap-2 justify-between">
+          <div class="flex-1">
+            <h3 class="text-sm text-gray-500 mb-1">{{card.title.toLocaleUpperCase()}}</h3>
+            <p class="font-bold text-[1.6rem] leading-none">
+              {{card.value.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+              })}}
+            </p>
+          </div>
+          <div class="rounded-full h-fit p-2 flex items-center text-white" [ngClass]="'bg-' + card.color">
+            <i [ngClass]="'!text-[1.6rem] !leading-none pi pi-' + card.icon"></i>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+
+<div *ngFor="let _ of Array(200)">Opa opa opa</div>
