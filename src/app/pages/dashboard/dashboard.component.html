@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-x-4 gap-y-8">
   <div class="flex gap-4 justify-between">
     <div class="flex flex-col gap-2 flex-1 border-[1px] border-white rounded-xl h-28 p-3 text-white !bg-dark-transparent">
       <h3 class="text-lg font-semibold">CLIENTE</h3>
@@ -36,6 +36,19 @@
       </ng-template>
     </p-card>
   </div>
-</div>
 
-<div *ngFor="let _ of Array(200)">Opa opa opa</div>
+  <div class="flex gap-4">
+    <p-card class="flex-1" styleClass="p-2">
+      <ng-template #header>
+        <h2 class="font-bold text-4xl text-center">Gráfico 1</h2>
+      </ng-template>
+      <p-chart type="doughnut" [data]="doughnutData" [options]="doughnutOptions" class="w-full md:w-[30rem]" />
+    </p-card>
+    <p-card class="flex-1" styleClass="p-2">
+      <ng-template #header>
+        <h2 class="font-bold text-4xl text-center">Gráfico 2</h2>
+      </ng-template>
+      <p-chart type="bar" [data]="barData" [options]="barOptions" class="h-[30rem]" />
+    </p-card>
+  </div>
+</div>

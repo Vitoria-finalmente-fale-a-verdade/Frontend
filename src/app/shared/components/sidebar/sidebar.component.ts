@@ -26,7 +26,7 @@ export class SidebarComponent {
 
   menus = [
     {
-      path: 'dashboard',
+      path: '',
       title: 'Dashboard',
       icon: 'home'
     },

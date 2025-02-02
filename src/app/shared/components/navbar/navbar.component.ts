@@ -6,6 +6,7 @@ import {AvatarModule} from 'primeng/avatar';
 import {FloatLabelModule} from 'primeng/floatlabel';
 import {InputIconModule} from 'primeng/inputicon';
 import {IconFieldModule} from 'primeng/iconfield';
+import {AuthService} from '../../../services/auth.service';
 
 
 @Component({
@@ -16,5 +17,10 @@ import {IconFieldModule} from 'primeng/iconfield';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+  constructor(private authService: AuthService) {
+  }
 
+  logout() {
+    this.authService.logout();
+  }
 }
