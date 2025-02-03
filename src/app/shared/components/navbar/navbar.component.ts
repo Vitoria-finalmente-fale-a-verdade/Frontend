@@ -1,26 +1,34 @@
-import { Component } from '@angular/core';
-import { MenubarModule } from 'primeng/menubar';
-import { ButtonModule } from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
-import {AvatarModule} from 'primeng/avatar';
-import {FloatLabelModule} from 'primeng/floatlabel';
-import {InputIconModule} from 'primeng/inputicon';
-import {IconFieldModule} from 'primeng/iconfield';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../services/auth.service';
+import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
+import {MenuItem} from 'primeng/api';
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MenubarModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, AvatarModule, FloatLabelModule],
+  imports: [PrimeNgModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService) {
   }
 
-  logout() {
-    this.authService.logout();
+  profileMenuItems: MenuItem[] = [];
+
+  ngOnInit() {
+    this.profileMenuItems = [
+      {
+        label: [this.authService.user.firstName, this.authService.user.lastName].join(' '),
+        items: [
+          {
+            label: 'Sair',
+            icon: 'pi pi-sign-out',
+            command: this.authService.logout,
+          }
+        ]
+      }
+    ];
   }
 }

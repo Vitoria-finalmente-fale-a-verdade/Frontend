@@ -1,21 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(
-    private router: Router,
-  ) {
+  constructor() {
   }
 
   public get user(): any {
-    return localStorage.getItem('user');
+    return JSON.parse(localStorage.getItem('user') ?? 'null');
   }
 
   public get token(): any {
-    return localStorage.getItem('token');
+    return JSON.parse(localStorage.getItem('token') ?? 'null');
   }
 
   public set user(value: any) {
@@ -56,6 +53,6 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
 
-    this.router.navigate(['/login']);
+    location.reload();
   }
 }

@@ -9,9 +9,10 @@
         <p-inputicon styleClass="pi pi-search" />
         <input type="text" pInputText pSize="small" autocomplete="off" placeholder="Pesquisar cliente" class="!bg-[#FFFFFF88] w-72" />
       </p-iconfield>
-      <p-button outlined rounded (click)="logout()" styleClass="!p-0">
+      <p-button outlined rounded (click)="profileMenu.toggle($event)" styleClass="!p-0">
         <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
       </p-button>
     </div>
   </ng-template>
 </p-menubar>
+<p-menu #profileMenu [model]="profileMenuItems" [popup]="true" />
