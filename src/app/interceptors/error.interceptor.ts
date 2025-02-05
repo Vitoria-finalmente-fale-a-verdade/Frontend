@@ -10,7 +10,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
-      console.log(err.status);
       if (err.status !== 401 && err.status !== 403) {
         throw err;
       }
