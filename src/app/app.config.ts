@@ -5,10 +5,10 @@ import { providePrimeNG } from 'primeng/config';
 
 import { routes } from './app.routes';
 import { MyTheme } from './theme';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
-import {errorInterceptor} from './interceptors/error.interceptor';
 import {GlobalErrorHandlerService} from './services/global-error-handler.service';
 import {MessageService} from 'primeng/api';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {errorInterceptor} from './interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

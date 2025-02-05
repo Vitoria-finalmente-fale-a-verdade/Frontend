@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
@@ -14,7 +14,8 @@ import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
   imports: [
     CommonModule,
     PrimeNgModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   standalone: true
 })
@@ -40,18 +41,15 @@ export class LoginComponent implements OnInit {
     }
     this.loading = true;
 
-    const response = this.authService.login(this.f['username'].value, this.f['password'].value);
-
-    if (response) {
-      setTimeout(() => {
-        this.router.navigate(['']);
-      }, 2000);
-
-    }
-    else {
-      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Nome de usuário ou senha inválidos' });
-      this.loading = false;
-    }
+    this.authService.login(this.f['username'].value, this.f['password'].value).subscribe({
+      next: () => {
+        this.router.navigate(['']).then();
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Nome de usuário ou senha inválidos' });
+        this.loading = false;
+      }
+    });
   }
 
 

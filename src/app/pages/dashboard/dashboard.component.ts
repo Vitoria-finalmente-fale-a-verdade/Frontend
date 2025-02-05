@@ -123,5 +123,4 @@ export class DashboardComponent {
       color: 'purple-400'
     }
   ];
-  protected readonly Array = Array;
 }

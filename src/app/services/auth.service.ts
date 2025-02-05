@@ -1,10 +1,17 @@
 import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable, tap} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {
+
+  baseUrl = environment.baseUrl + 'auth/';
+
+  constructor(private client: HttpClient, private router: Router) {
   }
 
   public get user(): any {
@@ -27,29 +34,26 @@ export class AuthService {
     return !!this.token;
   }
 
-  login(username: string, password: string): any {
-    if (username === 'admin' && password === 'admin') {
-      const token = '123456789';
-      const userData = {
-        id: '987654321',
-        username: 'pedro.soares',
-        firstName: 'Pedro',
-        lastName: 'Soares',
-      };
-
-      this.token = token;
-      this.user = userData;
-
-      return {
-        token: this.token,
-        user: this.user
-      };
-    } else {
-      return false;
-    }
+  login(username: string, password: string): Observable<any> {
+    return this.client.post(`${this.baseUrl}login/`, {username, password})
+      .pipe(
+        tap({
+          next: (res: any) => {
+            this.token = res.token;
+            this.user = res.user;
+          }
+        })
+      );
   }
 
   logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    this.router.navigate(['/login']).then();
+  }
+
+  logoutReload() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
 

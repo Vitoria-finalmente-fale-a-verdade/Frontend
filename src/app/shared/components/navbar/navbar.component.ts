@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
           {
             label: 'Sair',
             icon: 'pi pi-sign-out',
-            command: this.authService.logout,
+            command: this.authService.logoutReload,
           }
         ]
       }
