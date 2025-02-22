@@ -5,13 +5,14 @@ import {AuthService} from './auth.service';
   providedIn: 'root'
 })
 export class CustomersService {
+  storage = window.sessionStorage;
   selectedCustomerKey = 'customer';
   selectedCustomerChange = new EventEmitter();
 
   constructor(private authService: AuthService) { }
 
   public get selectedCustomer(): any {
-    const customer = localStorage.getItem(this.selectedCustomerKey);
+    const customer = this.storage.getItem(this.selectedCustomerKey);
     if (!customer)
       return this.authService.user;
 
@@ -20,6 +21,6 @@ export class CustomersService {
 
   public set selectedCustomer(value: any) {
     this.selectedCustomerChange.emit(value);
-    localStorage.setItem(this.selectedCustomerKey, JSON.stringify(value));
+    this.storage.setItem(this.selectedCustomerKey, JSON.stringify(value));
   }
 }

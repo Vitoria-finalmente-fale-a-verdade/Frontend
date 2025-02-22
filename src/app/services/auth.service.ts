@@ -9,25 +9,26 @@ import {Router} from '@angular/router';
 })
 export class AuthService {
 
+  storage = window.localStorage;
   baseUrl = environment.baseUrl + 'auth/';
 
   constructor(private client: HttpClient, private router: Router) {
   }
 
   public get user(): any {
-    return JSON.parse(localStorage.getItem('user') ?? 'null');
+    return JSON.parse(this.storage.getItem('user') ?? 'null');
   }
 
   public get token(): any {
-    return JSON.parse(localStorage.getItem('token') ?? 'null');
+    return JSON.parse(this.storage.getItem('token') ?? 'null');
   }
 
   public set user(value: any) {
-    localStorage.setItem('user', JSON.stringify(value));
+    this.storage.setItem('user', JSON.stringify(value));
   }
 
   public set token(value: any) {
-    localStorage.setItem('token', JSON.stringify(value));
+    this.storage.setItem('token', JSON.stringify(value));
   }
 
   public isAuthenticated(): boolean {
@@ -47,15 +48,15 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    this.storage.removeItem('token');
+    this.storage.removeItem('user');
 
     this.router.navigate(['/login']).then();
   }
 
   logoutReload() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    this.storage.removeItem('token');
+    this.storage.removeItem('user');
 
     location.reload();
   }
