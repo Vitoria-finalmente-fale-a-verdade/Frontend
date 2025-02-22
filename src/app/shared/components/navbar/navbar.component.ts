@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../services/auth.service';
 import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
 import {MenuItem} from 'primeng/api';
+import {SelectCustomerComponent} from '../../../components/select-customer/select-customer.component';
+import {FormsModule} from '@angular/forms';
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [PrimeNgModule],
+  imports: [PrimeNgModule, SelectCustomerComponent, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

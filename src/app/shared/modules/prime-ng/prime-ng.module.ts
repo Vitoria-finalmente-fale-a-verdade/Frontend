@@ -10,6 +10,7 @@ import {MenubarModule} from 'primeng/menubar';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {Menu} from 'primeng/menu';
+import {SkeletonModule} from 'primeng/skeleton';
 
 @NgModule({
   declarations: [],
@@ -25,6 +26,7 @@ import {Menu} from 'primeng/menu';
     IconFieldModule,
     InputIconModule,
     Menu,
+    SkeletonModule,
   ],
   exports: [
     CardModule,
@@ -38,6 +40,7 @@ import {Menu} from 'primeng/menu';
     IconFieldModule,
     InputIconModule,
     Menu,
+    SkeletonModule,
   ]
 })
 export class PrimeNgModule { }
