@@ -3,7 +3,7 @@
   <input type="text" pInputText pSize="small" [(ngModel)]="name" (focus)="customersList.show($event)" (ngModelChange)="changeName()" autocomplete="off" placeholder="Pesquisar cliente" class="!bg-[#FFFFFF88] w-72" />
 </p-iconfield>
 
-<p-menu #customersList [model]="[{label: 'Clientes', items: items}]" [popup]="true" styleClass="-translate-x-1/2 -translate-y-2 w-72 ml-2 max-h-72 overflow-auto">
+<p-menu #customersList [model]="[{label: 'Clientes', items: users}]" [popup]="true" styleClass="-translate-x-1/2 -translate-y-2 w-72 ml-2 max-h-72 overflow-auto">
   <ng-template #item let-item>
     <p-button severity="secondary" (onClick)="selectCustomer(item)" styleClass="flex flex-col gap-1 mb-1 rounded-md w-full">
       <span class=" text-sm font-bold">{{ item.firstName + ' ' + item.lastName }}</span>
@@ -18,11 +18,11 @@
         <p-skeleton height="1rem" width="70%" styleClass="mb-1" />
       </div>
     </div>
-    <div *ngIf="loaded && !items.length; else typeName" class="p-2 mx-auto mb-4 text-center text-sm">
+    <div *ngIf="loaded && !users.length; else typeName" class="p-2 mx-auto mb-4 text-center text-sm">
       Nenhum cliente encontrado
     </div>
     <ng-template #typeName>
-      <div *ngIf="!items.length" class="p-2 mx-auto mb-4 text-center text-sm">
+      <div *ngIf="!users.length" class="p-2 mx-auto mb-4 text-center text-sm">
         Digite um nome para procurar
       </div>
     </ng-template>

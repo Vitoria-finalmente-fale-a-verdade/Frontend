@@ -6,6 +6,7 @@ import {SelectModule} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {ChartModule} from 'primeng/chart';
 import {CustomersService} from '../../services/customers.service';
+import {User} from '../../models/user.model';
 
 @Component({
   selector: 'app-landing-page',
@@ -23,13 +24,13 @@ import {CustomersService} from '../../services/customers.service';
 })
 export class DashboardComponent implements OnInit {
 
-  selectedCustomer: any;
+  selectedCustomer: User;
 
   constructor(private customersService: CustomersService) {
+    this.selectedCustomer = this.customersService.selectedCustomer;
   }
 
   ngOnInit(): void {
-    this.selectedCustomer = this.customersService.selectedCustomer;
     this.customersService.selectedCustomerChange.subscribe(customer => {
       this.selectedCustomer = customer;
     })

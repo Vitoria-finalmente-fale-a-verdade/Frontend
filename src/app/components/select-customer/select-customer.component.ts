@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UsersService} from '../../services/users.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {MenuItem, MessageService} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import {debounceTime, Subject } from 'rxjs';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
 import {CustomersService} from '../../services/customers.service';
+import {User} from '../../models/user.model';
 
 @Component({
   selector: 'app-select-customer',
@@ -24,10 +25,9 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
   name: string = '';
   role: string = 'CUSTOMER';
 
-  users: any[] = [];
+  users: User[] = [];
   loading = false;
   loaded  = false;
-  items: MenuItem[] = [];
 
   private searchSubject = new Subject<void>();
   private readonly debounceTimeMs = 500;
@@ -50,7 +50,6 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
   changeName() {
     if (this.name.trim() == '') {
       this.users = [];
-      this.items = [];
     }
 
     this.searchSubject.next();
@@ -60,20 +59,19 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
     this.searchSubject.complete();
   }
 
-  public selectCustomer(customer: any) {
+  public selectCustomer(customer: User) {
+    this.name = '';
+    this.users = [];
     this.customersService.selectedCustomer = customer;
   }
 
   public findUsers() {
     this.loading = true;
     this.users = [];
-    this.items = [];
 
     this.usersService.find(this.name, this.role).subscribe({
-      next: (res: any) => {
+      next: (res: User[]) => {
         this.users = res;
-
-        this.items = res;
       },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({severity: 'error', summary: 'Erro', detail: 'Erro ao carregar clientes'});
