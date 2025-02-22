@@ -9,6 +9,7 @@ import {GlobalErrorHandlerService} from './services/global-error-handler.service
 import {MessageService} from 'primeng/api';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {errorInterceptor} from './interceptors/error.interceptor';
+import {jwtInterceptor} from './interceptors/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,11 +18,14 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
         theme: {
-            preset: MyTheme
+          preset: MyTheme,
+          options: {
+            darkModeSelector: '.dark-mode'
+          }
         }
     }),
     provideHttpClient(
-      withInterceptors([errorInterceptor])
+      withInterceptors([errorInterceptor, jwtInterceptor])
     ),
     {
       provide: ErrorHandler,
