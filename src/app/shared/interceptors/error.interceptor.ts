@@ -1,7 +1,7 @@
 import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {inject} from '@angular/core';
 import {catchError, EMPTY} from 'rxjs';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 

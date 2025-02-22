@@ -55,8 +55,11 @@ export class AuthService {
   }
 
   logoutReload() {
-    this.storage.removeItem('token');
-    this.storage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
 
     location.reload();
   }

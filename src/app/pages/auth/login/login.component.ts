@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import {CommonModule} from '@angular/common';
-import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
+import {PrimeNgModule} from '../../../shared/modules/prime-ng/prime-ng.module';
 
 @Component({
   selector: 'app-login',
