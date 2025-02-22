@@ -5,8 +5,8 @@
       <div class="flex gap-2">
         <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large" />
         <div class="mt-2 leading-none font-light">
-          <p class="text-xl leading-none">Cliente 1</p>
-          <small class="text-xs font-light">Itaguaçu - ES</small>
+          <p class="text-xl leading-none">{{selectedCustomer.firstName + ' ' + selectedCustomer.lastName}}</p>
+          <small class="text-xs font-light">{{'@' + selectedCustomer.username}}</small>
         </div>
       </div>
     </div>

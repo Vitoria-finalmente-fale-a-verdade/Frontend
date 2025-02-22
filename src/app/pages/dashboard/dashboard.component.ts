@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CardModule} from 'primeng/card';
 import {AvatarModule} from 'primeng/avatar';
 import {SelectModule} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {ChartModule} from 'primeng/chart';
+import {CustomersService} from '../../services/customers.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -20,7 +21,20 @@ import {ChartModule} from 'primeng/chart';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+
+  selectedCustomer: any;
+
+  constructor(private customersService: CustomersService) {
+  }
+
+  ngOnInit(): void {
+    this.selectedCustomer = this.customersService.selectedCustomer;
+    this.customersService.selectedCustomerChange.subscribe(customer => {
+      this.selectedCustomer = customer;
+    })
+  }
+
   doughnutData = {
     labels: ['Insumos', 'Mão de Obra', 'Mecanização'],
     datasets: [

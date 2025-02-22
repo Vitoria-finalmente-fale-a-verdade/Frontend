@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {delay, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,6 @@ export class UsersService {
       .set('name', name);
     role && params.set('role', role);
 
-    return this.client.get(`${this.baseUrl}find/`, {params: params}).pipe(
-      delay(0),
-    );
+    return this.client.get(`${this.baseUrl}find/`, {params: params});
   }
 }

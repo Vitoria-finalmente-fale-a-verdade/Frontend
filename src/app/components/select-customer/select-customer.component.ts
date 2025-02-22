@@ -6,6 +6,7 @@ import {debounceTime, Subject } from 'rxjs';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
+import {CustomersService} from '../../services/customers.service';
 
 @Component({
   selector: 'app-select-customer',
@@ -31,7 +32,10 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
   private searchSubject = new Subject<void>();
   private readonly debounceTimeMs = 500;
 
-  constructor(private usersService: UsersService, private messageService: MessageService) {
+  constructor(
+    private usersService: UsersService,
+    private messageService: MessageService,
+    private customersService: CustomersService) {
   }
 
   ngOnInit() {
@@ -56,6 +60,10 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
     this.searchSubject.complete();
   }
 
+  public selectCustomer(customer: any) {
+    this.customersService.selectedCustomer = customer;
+  }
+
   public findUsers() {
     this.loading = true;
     this.users = [];
@@ -65,12 +73,7 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
       next: (res: any) => {
         this.users = res;
 
-        this.items = res.map((item: any) => {
-          return {
-            name: item.firstName + ' ' + item.lastName,
-            username: item.username,
-          }
-        });
+        this.items = res;
       },
       error: (err: HttpErrorResponse) => {
         this.messageService.add({severity: 'error', summary: 'Erro', detail: 'Erro ao carregar clientes'});
