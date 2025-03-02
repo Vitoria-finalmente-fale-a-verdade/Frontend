@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {LazyTableData} from '../../models/lazy-table-data';
+import {LazyTableDataModel} from '../../models/lazy-table-data.model';
 import {TableModule} from 'primeng/table';
 import {CommonModule} from '@angular/common';
 import {SkeletonModule} from 'primeng/skeleton';
@@ -22,7 +22,7 @@ import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
   styleUrl: './lazy-table.component.css'
 })
 export class LazyTableComponent {
-  @Input({ required: true }) table!: LazyTableData;
+  @Input({ required: true }) table!: LazyTableDataModel;
   @Input() pageSize = 10;
   @Input({ required: true }) total!: number;
   @Input() loading = false;
