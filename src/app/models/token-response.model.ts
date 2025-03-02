@@ -1,7 +1,7 @@
-import {User} from './user.model';
+import {UserModel} from './user.model';
 
-export interface TokenResponse {
+export interface TokenResponseModel {
   token: string;
   expiresIn: number;
-  user: User;
+  user: UserModel;
 }

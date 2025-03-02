@@ -1,0 +1,23 @@
+<div class="flex justify-end items-center w-full mb-4">
+  <p-button
+    severity="secondary"
+    label="Novo usuário"
+    icon="pi pi-plus"
+    (onClick)="addUser()"
+  />
+</div>
+<app-lazy-table
+  [table]="tableData"
+  [loading]="loading"
+  [pageSize]="pageSize"
+  [total]="total"
+  (onPageChange)="onPageChange($event)"
+  (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
+/>
+<app-edit-user
+  [visible]="editVisible"
+  (onSave)="onSave()"
+  (onClose)="onEditCancel()"
+  [user]="currentEdit"
+  [roleList]="roleList"
+></app-edit-user>

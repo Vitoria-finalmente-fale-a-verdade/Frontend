@@ -6,7 +6,7 @@ import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { MyTheme } from './theme';
 import {GlobalErrorHandlerService} from './services/global-error-handler.service';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {errorInterceptor} from './shared/interceptors/error.interceptor';
 import {jwtInterceptor} from './shared/interceptors/jwt.interceptor';
@@ -31,6 +31,7 @@ export const appConfig: ApplicationConfig = {
       provide: ErrorHandler,
       useClass: GlobalErrorHandlerService
     },
-    MessageService
+    MessageService,
+    ConfirmationService,
   ]
 };

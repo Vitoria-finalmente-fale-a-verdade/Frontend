@@ -1,7 +1,10 @@
-export interface User {
+import {RoleModel} from './role.model';
+
+export interface UserModel {
+  id: string;
   firstName: string;
   lastName: string;
   username: string;
   phoneNumber: string;
-  roles: string[];
+  roles: RoleModel[];
 }

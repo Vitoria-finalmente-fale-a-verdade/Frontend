@@ -1,11 +1,11 @@
 <p-menubar styleClass="!fixed m-4 !bg-dark-transparent backdrop-blur-md top-0 ml-2 left-32 right-2 z-20">
   <ng-template pTemplate="start">
-    <h1 class="font-bold text-lg text-white">DASHBOARDS</h1>
+    <h1 class="font-bold text-lg text-white">{{ title ? title.toLocaleUpperCase() : 'SEMENTE VITÓRIA' }}</h1>
   </ng-template>
 
   <ng-template pTemplate="end">
     <div class="flex items-center gap-8">
-      <app-select-customer />
+      <app-select-customer *isAuthorized="[Roles.ADMIN]" />
       <p-button outlined rounded (click)="profileMenu.toggle($event)" styleClass="!p-0">
         <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
       </p-button>

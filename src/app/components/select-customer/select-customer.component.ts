@@ -7,7 +7,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
 import {CustomersService} from '../../services/customers.service';
-import {User} from '../../models/user.model';
+import {UserModel} from '../../models/user.model';
 
 @Component({
   selector: 'app-select-customer',
@@ -25,7 +25,7 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
   name: string = '';
   role: string = 'CUSTOMER';
 
-  users: User[] = [];
+  users: UserModel[] = [];
   loading = false;
   loaded  = false;
 
@@ -59,7 +59,7 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
     this.searchSubject.complete();
   }
 
-  public selectCustomer(customer: User) {
+  public selectCustomer(customer: UserModel) {
     this.name = '';
     this.users = [];
     this.customersService.selectedCustomer = customer;
@@ -70,7 +70,7 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
     this.users = [];
 
     this.usersService.find(this.name, this.role).subscribe({
-      next: (res: User[]) => {
+      next: (res: UserModel[]) => {
         this.users = res;
       },
       error: (err: HttpErrorResponse) => {

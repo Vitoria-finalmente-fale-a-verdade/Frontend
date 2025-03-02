@@ -11,6 +11,10 @@ import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {Menu} from 'primeng/menu';
 import {SkeletonModule} from 'primeng/skeleton';
+import {RippleModule} from 'primeng/ripple';
+import {FloatLabelModule} from 'primeng/floatlabel';
+import {InputMaskModule} from 'primeng/inputmask';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 @NgModule({
   declarations: [],
@@ -27,6 +31,7 @@ import {SkeletonModule} from 'primeng/skeleton';
     InputIconModule,
     Menu,
     SkeletonModule,
+    RippleModule,
   ],
   exports: [
     CardModule,
@@ -41,6 +46,10 @@ import {SkeletonModule} from 'primeng/skeleton';
     InputIconModule,
     Menu,
     SkeletonModule,
+    RippleModule,
+    FloatLabelModule,
+    InputMaskModule,
+    MultiSelectModule,
   ]
 })
 export class PrimeNgModule { }

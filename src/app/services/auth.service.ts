@@ -3,8 +3,8 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {Router} from '@angular/router';
-import {User} from '../models/user.model';
-import {TokenResponse} from '../models/token-response.model';
+import {UserModel} from '../models/user.model';
+import {TokenResponseModel} from '../models/token-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
   constructor(private client: HttpClient, private router: Router) {
   }
 
-  public get user(): User {
+  public get user(): UserModel {
     return JSON.parse(this.storage.getItem('user') ?? 'null');
   }
 
@@ -25,7 +25,7 @@ export class AuthService {
     return this.storage.getItem('token') ?? '';
   }
 
-  public set user(value: User) {
+  public set user(value: UserModel) {
     this.storage.setItem('user', JSON.stringify(value));
   }
 
@@ -37,8 +37,8 @@ export class AuthService {
     return !!this.token;
   }
 
-  login(username: string, password: string): Observable<TokenResponse> {
-    return this.client.post<TokenResponse>(`${this.baseUrl}login/`, {username, password})
+  login(username: string, password: string): Observable<TokenResponseModel> {
+    return this.client.post<TokenResponseModel>(`${this.baseUrl}login/`, {username, password})
       .pipe(
         tap({
           next: (res) => {

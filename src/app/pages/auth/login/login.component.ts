@@ -10,7 +10,6 @@ import {PrimeNgModule} from '../../../shared/modules/prime-ng/prime-ng.module';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [MessageService],
   imports: [
     CommonModule,
     PrimeNgModule,

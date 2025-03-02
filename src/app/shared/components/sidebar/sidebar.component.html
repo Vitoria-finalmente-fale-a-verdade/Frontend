@@ -7,8 +7,8 @@
       <ul class="list-none p-4 m-0">
         <li *ngFor="let menu of menus">
           <ul class="list-none p-0 m-0 overflow-hidden">
-            <li class="rounded hover:bg-red-200 text-black transition-colors">
-              <a [href]="menu.path" pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 p-ripple" [ngClass]="visible ? '' : 'justify-center'">
+            <li *isAuthorized="menu.roles" class="rounded hover:bg-red-200 text-black transition-colors">
+              <a [routerLink]="menu.path" pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 p-ripple" [ngClass]="visible ? '' : 'justify-center'">
                 <i [class]="'mr-2 pi pi-' + menu.icon"></i>
                 <span class="transition-all font-medium overflow-hidden " [ngClass]="visible ? 'max-w-32' : 'max-w-0'">{{menu.title}}</span>
               </a>

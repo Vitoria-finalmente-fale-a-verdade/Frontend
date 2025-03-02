@@ -5,6 +5,10 @@ import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
 import {StyleClassModule} from 'primeng/styleclass';
 import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {SidebarMenuModel} from '../../../models/sidebar-menu.model';
+import {IsAuthorizedDirective} from '../../directives/is-authorized.directive';
+import {Roles} from '../../../models/role.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +19,9 @@ import {CommonModule} from '@angular/common';
     AvatarModule,
     ButtonModule,
     RippleModule,
-    StyleClassModule
+    StyleClassModule,
+    RouterModule,
+    IsAuthorizedDirective,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
@@ -24,7 +30,7 @@ export class SidebarComponent {
 
   visible = false;
 
-  menus = [
+  menus: SidebarMenuModel[] = [
     {
       path: '',
       title: 'Dashboard',
@@ -33,7 +39,8 @@ export class SidebarComponent {
     {
       path: 'users',
       title: 'Usuários',
-      icon: 'user'
+      icon: 'user',
+      roles: [Roles.ADMIN]
     }
   ]
 

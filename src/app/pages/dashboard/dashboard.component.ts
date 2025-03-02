@@ -6,7 +6,7 @@ import {SelectModule} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {ChartModule} from 'primeng/chart';
 import {CustomersService} from '../../services/customers.service';
-import {User} from '../../models/user.model';
+import {UserModel} from '../../models/user.model';
 
 @Component({
   selector: 'app-landing-page',
@@ -24,7 +24,7 @@ import {User} from '../../models/user.model';
 })
 export class DashboardComponent implements OnInit {
 
-  selectedCustomer: User;
+  selectedCustomer: UserModel;
 
   constructor(private customersService: CustomersService) {
     this.selectedCustomer = this.customersService.selectedCustomer;

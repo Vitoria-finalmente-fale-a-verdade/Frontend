@@ -4,22 +4,38 @@ import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
 import {MenuItem} from 'primeng/api';
 import {SelectCustomerComponent} from '../../../components/select-customer/select-customer.component';
 import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {IsAuthorizedDirective} from '../../directives/is-authorized.directive';
+import {Roles} from '../../../models/role.model';
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [PrimeNgModule, SelectCustomerComponent, FormsModule],
+  imports: [PrimeNgModule, SelectCustomerComponent, FormsModule, IsAuthorizedDirective],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
-  constructor(private authService: AuthService) {
+  profileMenuItems: MenuItem[] = [];
+  title?: string;
+
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
   }
 
-  profileMenuItems: MenuItem[] = [];
-
   ngOnInit() {
+    this.title = this.route.snapshot.firstChild?.data['title'];
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.title = this.route.snapshot.firstChild?.data['title'];
+      }
+    })
+
     this.profileMenuItems = [
       {
         label: [this.authService.user.firstName, this.authService.user.lastName].join(' '),
@@ -33,4 +49,6 @@ export class NavbarComponent implements OnInit {
       }
     ];
   }
+
+  protected readonly Roles = Roles;
 }

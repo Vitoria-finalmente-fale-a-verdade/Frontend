@@ -1,0 +1,26 @@
+<p-dialog
+  [(visible)]="visible"
+  [draggable]="false"
+  [header]="title"
+  [dismissableMask]="true"
+  (onHide)="onClose()"
+>
+  <div class="py-2">
+    <ng-content></ng-content>
+  </div>
+  <div class="flex gap-2 mt-4 justify-end">
+    <p-button
+      (onClick)="onClose()"
+      outlined
+      severity="secondary"
+    >Cancelar</p-button>
+
+    <p-button
+      severity="primary"
+      (onClick)="onSubmit()"
+      [loading]="loading"
+    >
+      Salvar
+    </p-button>
+  </div>
+</p-dialog>
