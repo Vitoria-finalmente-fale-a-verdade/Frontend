@@ -1,0 +1,46 @@
+<p-card>
+  <p-table [value]="loading ? Array.from(Array(pageSize).keys()) : table.data">
+    <ng-template #header>
+      <tr>
+        <th *ngFor="let header of table.headers">{{header.title}}</th>
+        <th class="!text-center" *ngIf="table.actions?.length">
+          Ações
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr *ngIf="!loading; else loadingBody">
+        <td *ngFor="let header of table.headers">
+          {{ row[header.field] }}
+        </td>
+        <td *ngIf="table.actions?.length">
+          <div class="flex items-center justify-center flex-nowrap text-nowrap">
+            <p-button
+              *ngFor="let action of table.actions"
+              pRipple
+              [icon]="'pi ' + action.icon"
+              (onClick)="onAction($event, action.id, row)"
+              text
+              rounded
+              [severity]="action.severity ?? 'info'"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+  <p-paginator (onPageChange)="onChange($event)" [rows]="pageSize" [totalRecords]="total" [rowsPerPageOptions]="[10, 20, 30]" />
+</p-card>
+
+<ng-template #loadingBody>
+  <tr>
+    <td *ngFor="let _ of table.headers">
+      <p-skeleton height="1rem"/>
+    </td>
+    <td *ngIf="table.actions?.length">
+      <p-skeleton height="1rem"/>
+    </td>
+  </tr>
+</ng-template>
