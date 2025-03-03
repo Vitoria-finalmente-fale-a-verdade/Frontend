@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {EditFormComponent} from '../edit-form/edit-form.component';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
@@ -8,6 +8,7 @@ import {UsersService} from '../../services/users.service';
 import {MessageService} from 'primeng/api';
 import {HttpErrorResponse} from '@angular/common/http';
 import {RoleModel} from '../../models/role.model';
+import {RolesService} from '../../services/roles.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -22,14 +23,14 @@ import {RoleModel} from '../../models/role.model';
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.css'
 })
-export class EditUserComponent implements OnChanges {
+export class EditUserComponent implements OnInit, OnChanges {
   @Input({ required: true }) visible!: boolean;
   @Input() user?: UserModel;
-  @Input() roleList?: RoleModel[];
 
   @Output() onSave = new EventEmitter();
   @Output() onClose = new EventEmitter();
 
+  roleList?: RoleModel[];
   editForm!: FormGroup;
   loading = false;
   edit = false;
@@ -38,9 +39,18 @@ export class EditUserComponent implements OnChanges {
     private formBuilder: FormBuilder,
     private usersService: UsersService,
     private messageService: MessageService,
+    private rolesService: RolesService,
   ) { }
 
-  ngOnChanges() {
+  ngOnInit() {
+    this.getRoles();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['visible']) {
+      return;
+    }
+
     this.edit = !!this.user?.id;
 
     this.editForm = this.formBuilder.group({
@@ -49,6 +59,16 @@ export class EditUserComponent implements OnChanges {
       lastName: [this.user?.lastName, Validators.required],
       phoneNumber: [this.user?.phoneNumber],
       roles: [this.user?.roles.map(r => r.id), Validators.required],
+    });
+  }
+
+  getRoles() {
+    this.rolesService.getAll().subscribe({
+      next: response => {
+        this.roleList = response;
+      }, error: () => {
+        this.messageService.add({summary: 'Erro', detail: 'Erro ao buscar permissões', severity: 'error'});
+      }
     });
   }
 

@@ -7,9 +7,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {EditUserComponent} from '../../../components/edit-user/edit-user.component';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
-import {RolesService} from '../../../services/roles.service';
 import {UserModel} from '../../../models/user.model';
-import {RoleModel} from '../../../models/role.model';
 
 @Component({
   selector: 'app-user-list',
@@ -30,7 +28,6 @@ export class UserListComponent implements OnInit {
   total = 0;
   editVisible = false;
   currentEdit?: UserModel;
-  roleList?: RoleModel[];
 
   tableData: LazyTableDataModel = {
     headers: [
@@ -68,24 +65,12 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private usersSerivce: UsersService,
-    private rolesService: RolesService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
   ) { }
 
   ngOnInit() {
     this.getUsers();
-    this.getRoles();
-  }
-
-  getRoles() {
-    this.rolesService.getAll().subscribe({
-      next: response => {
-        this.roleList = response;
-      }, error: () => {
-        this.messageService.add({summary: 'Erro', detail: 'Erro ao buscar permissões', severity: 'error'});
-      }
-    });
   }
 
   getUsers() {
@@ -158,7 +143,7 @@ export class UserListComponent implements OnInit {
                 });
               }
             });
-          }
+          },
         });
     }
   }

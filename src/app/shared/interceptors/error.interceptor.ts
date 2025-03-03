@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
-      if (router.url === '/login' || (err.status !== 401 && err.status !== 403)) {
+      if (router.url === '/login' || (err.status !== 403)) {
         throw err;
       }
 

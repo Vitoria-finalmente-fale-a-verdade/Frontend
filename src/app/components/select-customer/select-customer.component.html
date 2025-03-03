@@ -22,7 +22,7 @@
       Nenhum cliente encontrado
     </div>
     <ng-template #typeName>
-      <div *ngIf="!users.length" class="p-2 mx-auto mb-4 text-center text-sm">
+      <div *ngIf="!users.length && !name" class="p-2 mx-auto mb-4 text-center text-sm">
         Digite um nome para procurar
       </div>
     </ng-template>

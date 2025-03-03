@@ -13,5 +13,5 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
   providers: []
 })
 export class AppComponent {
-  title = 'semente-vitoria-frontend';
+  title = 'Smart Farm';
 }

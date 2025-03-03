@@ -7,18 +7,20 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {IsAuthorizedDirective} from '../../directives/is-authorized.directive';
 import {Roles} from '../../../models/role.model';
+import {ChangePasswordComponent} from '../../../components/change-password/change-password.component';
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [PrimeNgModule, SelectCustomerComponent, FormsModule, IsAuthorizedDirective],
+  imports: [PrimeNgModule, SelectCustomerComponent, FormsModule, IsAuthorizedDirective, ChangePasswordComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
   profileMenuItems: MenuItem[] = [];
   title?: string;
+  resetPasswordPopup = false;
 
   constructor(
     private authService: AuthService,
@@ -40,6 +42,11 @@ export class NavbarComponent implements OnInit {
       {
         label: [this.authService.user.firstName, this.authService.user.lastName].join(' '),
         items: [
+          {
+            label: 'Redefinir senha',
+            icon: 'pi pi-lock',
+            command: () => this.resetPasswordPopup = true
+          },
           {
             label: 'Sair',
             icon: 'pi pi-sign-out',

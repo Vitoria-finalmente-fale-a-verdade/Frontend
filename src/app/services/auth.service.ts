@@ -65,4 +65,8 @@ export class AuthService {
 
     location.reload();
   }
+
+  changePassword(data: any) {
+    return this.client.patch<void>(`${this.baseUrl}change-password/`, data);
+  }
 }
