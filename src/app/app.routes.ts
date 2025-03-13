@@ -6,6 +6,7 @@ import {authGuard} from './shared/guards/auth.guard';
 import {loginGuard} from './shared/guards/login.guard';
 import {UserListComponent} from './pages/users/user-list/user-list.component';
 import {Roles} from './models/role.model';
+import {PropertyListComponent} from './pages/manage/property-list/property-list.component';
 
 
 export const routes: Routes = [
@@ -33,6 +34,18 @@ export const routes: Routes = [
           title: 'Usuários',
           roles: [Roles.ADMIN]
         }
+      },
+      {
+        path: 'manage',
+        children: [
+          {
+            path: 'properties',
+            component: PropertyListComponent,
+            data: {
+              title: 'Propriedades'
+            }
+          },
+        ]
       }
     ]
   },
