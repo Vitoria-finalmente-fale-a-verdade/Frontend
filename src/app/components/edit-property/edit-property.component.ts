@@ -103,7 +103,7 @@ export class EditPropertyComponent implements OnInit, OnChanges {
       name: [null, Validators.required],
       city: [{value: null, disabled: true}, Validators.required],
       state: [null, Validators.required],
-      region: [null, Validators.required],
+      region: [],
     });
   }
 
@@ -113,7 +113,7 @@ export class EditPropertyComponent implements OnInit, OnChanges {
       name: this.property?.name ?? '',
       city: this.property?.city ?? null,
       state: this.property?.state ?? null,
-      region: this.property?.region ?? '',
+      region: this.property?.region ?? null,
     });
 
     this.getCities();
