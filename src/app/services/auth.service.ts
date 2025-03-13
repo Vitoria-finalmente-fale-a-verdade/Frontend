@@ -5,32 +5,33 @@ import {Observable, tap} from 'rxjs';
 import {Router} from '@angular/router';
 import {UserModel} from '../models/user.model';
 import {TokenResponseModel} from '../models/token-response.model';
+import {StorageService} from './storage.service';
+import {StorageModel} from '../models/storage.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
 
-  storage = window.localStorage;
   baseUrl = environment.baseUrl + 'auth/';
 
-  constructor(private client: HttpClient, private router: Router) {
+  constructor(private client: HttpClient, private router: Router, private storageService: StorageService) {
   }
 
   public get user(): UserModel {
-    return JSON.parse(this.storage.getItem('user') ?? 'null');
+    return this.storageService.get(StorageModel.USER);
   }
 
   public get token(): string {
-    return this.storage.getItem('token') ?? '';
+    return this.storageService.get(StorageModel.TOKEN);
   }
 
   public set user(value: UserModel) {
-    this.storage.setItem('user', JSON.stringify(value));
+    this.storageService.set(StorageModel.USER, value);
   }
 
   public set token(value: string) {
-    this.storage.setItem('token', value);
+    this.storageService.set(StorageModel.TOKEN, value);
   }
 
   public isAuthenticated(): boolean {
@@ -50,8 +51,9 @@ export class AuthService {
   }
 
   logout() {
-    this.storage.removeItem('token');
-    this.storage.removeItem('user');
+    this.storageService.remove(StorageModel.TOKEN);
+    this.storageService.remove(StorageModel.USER);
+    this.storageService.remove(StorageModel.CUSTOMER);
 
     this.router.navigate(['/login']).then();
   }
@@ -59,9 +61,11 @@ export class AuthService {
   logoutReload() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('customer');
 
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
+    sessionStorage.removeItem('customer');
 
     location.reload();
   }
