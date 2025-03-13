@@ -30,6 +30,17 @@
       </tr>
     </ng-template>
 
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="7">
+          <div class="flex flex-col items-center justify-center gap-3 my-2">
+            <p-image src="assets/empty-table.png" width="256" aria-hidden="true" />
+            <p class="text-lg font-bold">Nenhum resultado encontrado</p>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
   </p-table>
   <p-paginator (onPageChange)="onChange($event)" [rows]="pageSize" [totalRecords]="total" [rowsPerPageOptions]="[10, 20, 30]" />
 </p-card>
