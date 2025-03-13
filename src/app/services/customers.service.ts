@@ -1,19 +1,19 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {UserModel} from '../models/user.model';
+import {StorageService} from './storage.service';
+import {StorageModel} from '../models/storage.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomersService {
-  storage = window.sessionStorage;
-  selectedCustomerKey = 'customer';
   selectedCustomerChange = new EventEmitter();
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private storageService: StorageService) { }
 
   public get selectedCustomer(): UserModel {
-    const customer = this.storage.getItem(this.selectedCustomerKey);
+    const customer = this.storageService.get(StorageModel.CUSTOMER);
     if (!customer)
       return this.authService.user;
 
@@ -22,6 +22,6 @@ export class CustomersService {
 
   public set selectedCustomer(value: UserModel) {
     this.selectedCustomerChange.emit(value);
-    this.storage.setItem(this.selectedCustomerKey, JSON.stringify(value));
+    this.storageService.set(StorageModel.CUSTOMER, value);
   }
 }
