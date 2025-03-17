@@ -23,11 +23,8 @@ export class ExplorationsService {
     return this.client.get<PaginateResponseModel<ExplorationModel>>(`${this.baseUrl}`, {params: params});
   }
 
-  public find(name: string) {
-    const params = new HttpParams()
-      .set('name', name)
-
-    return this.client.get<ExplorationModel[]>(`${this.baseUrl}find/`, {params: params});
+  public getAll() {
+    return this.client.get<ExplorationModel[]>(`${this.baseUrl}all`);
   }
 
   public create(exploration: ExplorationModel) {
