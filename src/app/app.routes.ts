@@ -5,6 +5,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import {authGuard} from './shared/guards/auth.guard';
 import {loginGuard} from './shared/guards/login.guard';
 import {UserListComponent} from './pages/users/user-list/user-list.component';
+import { ExplorationListComponent } from './pages/explorations/exploration-list/exploration-list.component';
 import {Roles} from './models/role.model';
 
 
@@ -31,6 +32,14 @@ export const routes: Routes = [
         component: UserListComponent,
         data: {
           title: 'Usuários',
+          roles: [Roles.ADMIN]
+        }
+      },
+      {
+        path: 'explorations',
+        component: ExplorationListComponent,
+        data: {
+          title: 'Explorações',
           roles: [Roles.ADMIN]
         }
       }

@@ -41,6 +41,12 @@ export class SidebarComponent {
       title: 'Usuários',
       icon: 'user',
       roles: [Roles.ADMIN]
+    },
+    {
+      path: 'explorations',
+      title: 'Explorações',
+      icon: 'user',
+      roles: [Roles.ADMIN]
     }
   ]
 

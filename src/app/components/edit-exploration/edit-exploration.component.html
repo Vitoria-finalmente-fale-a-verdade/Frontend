@@ -1,0 +1,32 @@
+<app-edit-form
+  [loading]="loading"
+  [visible]="visible"
+  (onCancel)="onCancel()"
+  (onSave)="onSubmit()"
+  [title]="(exploration?.id ? 'Editar' : 'Novo') + ' usuário'"
+>
+  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-2">
+    <p-floatlabel variant="on">
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="name">Nome</label>
+      <input
+        id="name"
+        formControlName="name"
+        type="text"
+        class="w-full px-4 py-2"
+        pInputText
+        required
+      />
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="property">Propriedade</label>
+      <input
+        id="property"
+        formControlName="property"
+        type="text"
+        class="w-full px-4 py-2"
+        pInputText
+        required
+      />
+    </p-floatlabel>
+  </form>
+</app-edit-form>
