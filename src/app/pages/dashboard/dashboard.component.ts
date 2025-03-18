@@ -5,8 +5,8 @@ import {AvatarModule} from 'primeng/avatar';
 import {SelectModule} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {ChartModule} from 'primeng/chart';
-import {CustomersService} from '../../services/customers.service';
 import {UserModel} from '../../models/user.model';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -26,12 +26,12 @@ export class DashboardComponent implements OnInit {
 
   selectedCustomer: UserModel;
 
-  constructor(private customersService: CustomersService) {
-    this.selectedCustomer = this.customersService.selectedCustomer;
+  constructor(private authService: AuthService) {
+    this.selectedCustomer = this.authService.customer;
   }
 
   ngOnInit(): void {
-    this.customersService.selectedCustomerChange.subscribe(customer => {
+    this.authService.customerChange.subscribe(customer => {
       this.selectedCustomer = customer;
     })
   }

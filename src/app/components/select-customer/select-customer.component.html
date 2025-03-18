@@ -1,17 +1,35 @@
-<p-iconfield>
-  <p-inputicon styleClass="pi pi-search" />
-  <input type="text" pInputText pSize="small" [(ngModel)]="name" (focus)="customersList.show($event)" (ngModelChange)="changeName()" autocomplete="off" placeholder="Pesquisar cliente" class="!bg-[#FFFFFF88] w-72" />
-</p-iconfield>
-
-<p-menu #customersList [model]="[{label: 'Clientes', items: users}]" [popup]="true" styleClass="-translate-x-1/2 -translate-y-2 w-72 ml-2 max-h-72 overflow-auto">
-  <ng-template #item let-item>
-    <p-button severity="secondary" (onClick)="selectCustomer(item)" styleClass="flex flex-col gap-1 mb-1 rounded-md w-full">
-      <span class=" text-sm font-bold">{{ item.firstName + ' ' + item.lastName }}</span>
-      <small class="opacity-75">{{ '@' + item.username }}</small>
-    </p-button>
+<p-select
+  [options]="users"
+  [(ngModel)]="customer"
+  optionLabel="firstName"
+  (onChange)="selectCustomer($event.value)"
+  [loading]="loading"
+  filter
+  (onFilter)="changeName($event.filter)"
+  [placeholder]="authService.user.firstName + ' ' + authService.user.lastName"
+  emptyMessage=" "
+  emptyFilterMessage=" "
+  showClear
+  size="small"
+  appendTo="body"
+  variant="outlined"
+  class="!bg-[#FFFFFF88]"
+>
+  <ng-template let-customer pTemplate="selectedItem">
+    <div class="item">
+      <div>{{customer.firstName}} {{customer.lastName}}</div>
+    </div>
   </ng-template>
 
-  <ng-template #end>
+  <ng-template let-customer pTemplate="item">
+    <div class="item">
+      <div>{{customer.firstName}} {{customer.lastName}}</div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="empty"></ng-template>
+
+  <ng-template pTemplate="footer">
     <div *ngIf="loading" class="p-2">
       <div *ngFor="let i of [1,2,3]" class="mb-4">
         <p-skeleton height="1rem" width="100%" styleClass="mb-1" />
@@ -22,9 +40,9 @@
       Nenhum cliente encontrado
     </div>
     <ng-template #typeName>
-      <div *ngIf="!users.length && !name" class="p-2 mx-auto mb-4 text-center text-sm">
+      <div *ngIf="!users.length" class="p-2 mx-auto mb-4 text-center text-sm">
         Digite um nome para procurar
       </div>
     </ng-template>
   </ng-template>
-</p-menu>
+</p-select>

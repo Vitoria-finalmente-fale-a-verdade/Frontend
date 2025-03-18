@@ -7,6 +7,7 @@ import {PaginatorState} from 'primeng/paginator';
 import {PropertiesService} from '../../../services/properties.service';
 import {EditPropertyComponent} from '../../../components/edit-property/edit-property.component';
 import {PropertyModel} from '../../../models/property.model';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-property-list',
@@ -65,10 +66,12 @@ export class PropertyListComponent implements OnInit {
     private propertiesService: PropertiesService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
     this.getProperties();
+    this.authService.customerChange.subscribe(() => this.getProperties());
   }
 
   getProperties() {
