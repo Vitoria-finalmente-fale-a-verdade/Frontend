@@ -9,8 +9,13 @@ export class StorageService {
   constructor() { }
 
   public get(key: string) {
+    const item = this.storage.getItem(key);
+    if (!item || item == 'undefined') {
+      return null;
+    }
+
     try {
-      return JSON.parse(this.storage.getItem(key)!);
+      return JSON.parse(item);
     }
     catch (ex) {
       return this.storage.getItem(key);
@@ -18,6 +23,9 @@ export class StorageService {
   }
 
   public set(key: string, value: any) {
+    if (!value) {
+      return this.remove(key);
+    }
     try {
       value = JSON.stringify(value);
     }
