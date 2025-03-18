@@ -15,6 +15,11 @@ import {RippleModule} from 'primeng/ripple';
 import {FloatLabelModule} from 'primeng/floatlabel';
 import {InputMaskModule} from 'primeng/inputmask';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {DropdownModule} from 'primeng/dropdown';
+import {CheckboxModule} from 'primeng/checkbox';
+import {FieldsetModule} from 'primeng/fieldset';
+import {ToggleSwitchModule} from 'primeng/toggleswitch';
+import {ImageModule} from 'primeng/image';
 
 @NgModule({
   declarations: [],
@@ -32,6 +37,11 @@ import {MultiSelectModule} from 'primeng/multiselect';
     Menu,
     SkeletonModule,
     RippleModule,
+    DropdownModule,
+    CheckboxModule,
+    FieldsetModule,
+    ToggleSwitchModule,
+    ImageModule,
   ],
   exports: [
     CardModule,
@@ -50,6 +60,11 @@ import {MultiSelectModule} from 'primeng/multiselect';
     FloatLabelModule,
     InputMaskModule,
     MultiSelectModule,
+    DropdownModule,
+    CheckboxModule,
+    FieldsetModule,
+    ToggleSwitchModule,
+    ImageModule,
   ]
 })
 export class PrimeNgModule { }
