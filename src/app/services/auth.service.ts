@@ -16,7 +16,7 @@ export class AuthService {
 
   baseUrl = environment.baseUrl + 'auth/';
   customerChange = new Subject<UserModel>();
-  propertyChange = new Subject<PropertyModel>();
+  propertyChange = new Subject<PropertyModel|null>();
 
   constructor(private client: HttpClient, private router: Router, private storageService: StorageService) {
   }
@@ -52,7 +52,7 @@ export class AuthService {
     }
 
     this.setProperty();
-    this.customerChange.next(value!);
+    this.customerChange.next(this.customer);
   }
 
   public get property() {
@@ -66,7 +66,7 @@ export class AuthService {
       this.storageService.set(StorageModel.PROPERTY, value);
     }
 
-    this.propertyChange.next(value!);
+    this.propertyChange.next(this.property);
   }
 
   private setProperty(property?: PropertyModel) {
