@@ -6,6 +6,8 @@ import {SkeletonModule} from 'primeng/skeleton';
 import {PaginatorModule, PaginatorState} from 'primeng/paginator';
 import {CardModule} from 'primeng/card';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
+import {FormsModule} from '@angular/forms';
+import getProp from '../../shared/utils/get-prop';
 
 @Component({
   selector: 'app-lazy-table',
@@ -16,7 +18,8 @@ import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
     SkeletonModule,
     PaginatorModule,
     CardModule,
-    PrimeNgModule
+    PrimeNgModule,
+    FormsModule,
   ],
   templateUrl: './lazy-table.component.html',
   styleUrl: './lazy-table.component.css'
@@ -39,4 +42,6 @@ export class LazyTableComponent {
   }
 
   protected readonly Array = Array;
+  protected readonly Intl = Intl;
+  protected readonly getProp = getProp;
 }

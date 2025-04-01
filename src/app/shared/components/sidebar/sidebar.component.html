@@ -1,22 +1,43 @@
-<div #closedDrawerRef class="h-screen fixed z-50 bg-white" (mouseleave)="closeCallback()" (mouseenter)="openCallback()">
+<aside (mouseenter)="openCallback()" (mouseleave)="closeCallback()" [ngClass]="visible ? 'shadow-2xl' : ''"
+       class="h-screen fixed z-50 bg-white">
   <div class="flex flex-col h-full">
-    <div class="flex items-center justify-between mt-4 shrink-0 transition-all" [ngClass]="visible ? 'ml-6 w-[180px]' : 'mx-3 w-[60px]'">
-      <img [src]="visible ? 'assets/logo-text.png' : 'assets/logo.png'" alt="Logomarca" class="h-[60px] object-cover object-left"/>
+    <div [ngClass]="visible ? 'ml-6 w-[180px]' : 'mx-3 w-[60px]'"
+         class="flex items-center justify-between mt-4 shrink-0 transition-all">
+      <img [src]="visible ? 'assets/logo-text.png' : 'assets/logo.png'" alt="Logomarca"
+           class="h-[60px] object-cover object-left"/>
     </div>
-    <div class="overflow-y-auto">
-      <ul class="list-none p-4 m-0">
-        <li *ngFor="let menu of menus">
-          <ul class="list-none p-0 m-0 overflow-hidden">
-            <li *isAuthorized="menu.roles" class="rounded hover:bg-red-200 text-black transition-colors">
-              <a [routerLink]="menu.path" pRipple class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 p-ripple" [ngClass]="visible ? '' : 'justify-center'">
-                <i [class]="'mr-2 pi pi-' + menu.icon"></i>
-                <span class="transition-all font-medium overflow-hidden " [ngClass]="visible ? 'max-w-32' : 'max-w-0'">{{menu.title}}</span>
-              </a>
-            </li>
-
-          </ul>
-        </li>
-      </ul>
+    <div [ngClass]="visible ? 'overflow-y-auto' : 'overflow-y-hidden'" class="p-4">
+      <p-panelmenu [model]="items" [ngClass]="'custom-app-sidebar'">
+        <ng-template #item let-item>
+          <ng-container *ngIf="item.route != undefined; else urlRef">
+            <a [ngClass]="visible ? 'px-3' : 'justify-center'" [routerLink]="item.route" class="flex items-center
+                    cursor-pointer text-color py-2">
+              <span [class]="item.icon"></span>
+              <span [ngClass]="visible ? 'max-w-80 ml-2' : 'max-w-0'"
+                    class="transition-all overflow-hidden text-nowrap">{{ item.label }}</span>
+            </a>
+          </ng-container>
+          <ng-template #urlRef>
+            <a *ngIf="item.url; else noLink" [href]="item.url" [ngClass]="visible ? 'px-3' : 'justify-center'" class="flex items-center
+                    cursor-pointer text-color py-2">
+              <span [class]="item.icon"></span>
+              <span [ngClass]="visible ? 'max-w-80 ml-2' : 'max-w-0'"
+                    class="transition-all overflow-hidden text-nowrap">{{ item.label }}</span>
+            </a>
+            <ng-template #noLink>
+              <span [ngClass]="visible ? 'px-4' : 'justify-center'"
+                    class="flex items-center cursor-pointer text-surface-700 dark:text-surface-0 py-2">
+                  <span [class]="item.icon"></span>
+                  <span [ngClass]="visible ? 'max-w-80 ml-2' : 'max-w-0'"
+                        class="transition-all overflow-hidden text-nowrap">{{ item.label }}</span>
+                  <i *ngIf="item.items"
+                     [hidden]="!visible"
+                     [ngClass]="visible ? 'max-w-32 ml-auto' : ''" class="pi pi-angle-down text-primary ml-auto transition-all overflow-hidden text-nowrap"></i>
+              </span>
+            </ng-template>
+          </ng-template>
+        </ng-template>
+      </p-panelmenu>
     </div>
   </div>
-</div>
+</aside>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
@@ -8,6 +8,7 @@ import {PropertiesService} from '../../../services/properties.service';
 import {EditPropertyComponent} from '../../../components/edit-property/edit-property.component';
 import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-property-list',
@@ -20,13 +21,14 @@ import {AuthService} from '../../../services/auth.service';
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.css'
 })
-export class PropertyListComponent implements OnInit {
+export class PropertyListComponent implements OnInit, OnDestroy {
   loading = true;
   page = 0;
   pageSize = 10;
   total = 0;
   editVisible = false;
   currentEdit?: PropertyModel;
+  unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
     headers: [
@@ -71,7 +73,14 @@ export class PropertyListComponent implements OnInit {
 
   ngOnInit() {
     this.getProperties();
-    this.authService.customerChange.subscribe(() => this.getProperties());
+    this.authService.customerChange
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => this.getProperties());
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getProperties() {

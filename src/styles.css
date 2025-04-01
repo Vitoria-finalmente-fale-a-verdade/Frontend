@@ -7,3 +7,12 @@
 .bg-dashboard-gradient {
   background-image: linear-gradient(to top right, theme('colors.red.500') 50%, theme('colors.orange.400'));
 }
+
+.p-inputnumber, .p-inputnumber-input {
+  width: 100%;
+}
+
+.custom-app-sidebar .p-panelmenu-header:not(.p-disabled) .p-panelmenu-header-content:hover,
+.custom-app-sidebar .p-panelmenu-item:not(.p-disabled) > .p-panelmenu-item-content:hover {
+  background: theme(colors.red.200);
+}

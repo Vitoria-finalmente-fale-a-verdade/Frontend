@@ -3,4 +3,6 @@ export interface SidebarMenuModel {
   title: string;
   icon: string;
   roles?: string[];
+  children?: SidebarMenuModel[];
+  open?: boolean;
 }
