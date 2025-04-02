@@ -54,13 +54,6 @@ export const routes: Routes = [
               title: 'Explorações'
             }
           },
-          {
-            path: 'permanent-crops',
-            component: PermanentCropListComponent,
-            data: {
-              title: 'Culturas Permanentes'
-            }
-          },
         ]
       }
     ]
