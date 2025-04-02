@@ -7,6 +7,7 @@ import {loginGuard} from './shared/guards/login.guard';
 import {UserListComponent} from './pages/users/user-list/user-list.component';
 import {Roles} from './models/role.model';
 import {PropertyListComponent} from './pages/manage/property-list/property-list.component';
+import {ExplorationListComponent} from './pages/manage/exploration-list/exploration-list.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,13 @@ export const routes: Routes = [
             component: PropertyListComponent,
             data: {
               title: 'Propriedades'
+            }
+          },
+          {
+            path: 'explorations',
+            component: ExplorationListComponent,
+            data: {
+              title: 'Explorações'
             }
           },
         ]

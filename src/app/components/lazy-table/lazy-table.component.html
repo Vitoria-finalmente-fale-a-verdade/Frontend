@@ -12,7 +12,20 @@
     <ng-template #body let-row>
       <tr *ngIf="!loading; else loadingBody">
         <td *ngFor="let header of table.headers">
-          {{ row[header.field] }}
+          <div [ngSwitch]="header.type" [class]="header.center ? 'flex justify-center' : ''">
+            <ng-container *ngSwitchCase="'boolean'">
+              <i [class]="'pi ' + (getProp(row, header.field) ? 'pi-check' : 'pi-times')"></i>
+            </ng-container>
+            <ng-container *ngSwitchCase="'currency'">
+              {{ getProp(row, header.field) | currency: 'BRL' }}
+            </ng-container>
+            <ng-container *ngSwitchCase="'date'">
+              {{ getProp(row, header.field).toLocaleDateString('pt-BR') }}
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ getProp(row, header.field) }} {{ header.unit }}
+            </ng-container>
+          </div>
         </td>
         <td *ngIf="table.actions?.length">
           <div class="flex items-center justify-center flex-nowrap text-nowrap">

@@ -20,6 +20,10 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {FieldsetModule} from 'primeng/fieldset';
 import {ToggleSwitchModule} from 'primeng/toggleswitch';
 import {ImageModule} from 'primeng/image';
+import {DatePickerModule} from 'primeng/datepicker';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {ToggleButtonModule} from 'primeng/togglebutton';
+import {PanelMenuModule} from 'primeng/panelmenu';
 
 @NgModule({
   declarations: [],
@@ -42,6 +46,10 @@ import {ImageModule} from 'primeng/image';
     FieldsetModule,
     ToggleSwitchModule,
     ImageModule,
+    DatePickerModule,
+    InputNumberModule,
+    ToggleButtonModule,
+    PanelMenuModule,
   ],
   exports: [
     CardModule,
@@ -65,6 +73,10 @@ import {ImageModule} from 'primeng/image';
     FieldsetModule,
     ToggleSwitchModule,
     ImageModule,
+    DatePickerModule,
+    InputNumberModule,
+    ToggleButtonModule,
+    PanelMenuModule,
   ]
 })
 export class PrimeNgModule { }

@@ -1,52 +1,40 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
+import {ExplorationModel} from '../../../models/exploration.model';
+import {Subject, takeUntil} from 'rxjs';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {PaginatorState} from 'primeng/paginator';
-import {PropertiesService} from '../../../services/properties.service';
-import {EditPropertyComponent} from '../../../components/edit-property/edit-property.component';
-import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
-import {Subject, takeUntil} from 'rxjs';
+import {PaginatorState} from 'primeng/paginator';
+import {ExplorationsService} from '../../../services/explorations.service';
+import {EditExplorationComponent} from '../../../components/edit-exploration/edit-exploration.component';
 
 @Component({
-  selector: 'app-property-list',
+  selector: 'app-exploration-list',
   standalone: true,
-  imports: [
-    Button,
-    LazyTableComponent,
-    EditPropertyComponent
-  ],
-  templateUrl: './property-list.component.html',
-  styleUrl: './property-list.component.css'
+    imports: [
+      Button,
+      LazyTableComponent,
+      EditExplorationComponent,
+    ],
+  templateUrl: './exploration-list.component.html',
+  styleUrl: './exploration-list.component.css'
 })
-export class PropertyListComponent implements OnInit, OnDestroy {
+export class ExplorationListComponent implements OnInit, OnDestroy {
   loading = true;
   page = 0;
   pageSize = 10;
   total = 0;
   editVisible = false;
-  currentEdit?: PropertyModel;
+  currentEdit?: ExplorationModel;
   unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
     headers: [
       {
-        title: 'Nome',
-        field: 'name'
-      },
-      {
-        title: 'UF',
-        field: 'state'
-      },
-      {
-        title: 'Município',
-        field: 'city'
-      },
-      {
-        title: 'Região',
-        field: 'region'
+        title: 'Categoria',
+        field: 'category'
       },
     ],
     actions: [
@@ -65,17 +53,17 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private propertiesService: PropertiesService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
+    private explorationsService: ExplorationsService,
   ) { }
 
   ngOnInit() {
-    this.getProperties();
-    this.authService.customerChange
+    this.getExplorations();
+    this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getProperties());
+      .subscribe(() => this.getExplorations());
   }
 
   ngOnDestroy() {
@@ -83,10 +71,10 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getProperties() {
+  getExplorations() {
     this.loading = true;
 
-    this.propertiesService.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
+    this.explorationsService.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
@@ -98,12 +86,12 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.page = event.page ?? 0;
     this.pageSize = event.rows ?? this.pageSize;
 
-    this.getProperties();
+    this.getExplorations();
   }
 
   onSave() {
     this.editVisible = false;
-    this.getProperties();
+    this.getExplorations();
   }
 
   addProperty() {
@@ -124,7 +112,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       case 'delete':
         this.confirmationService.confirm({
           header: 'Cuidado!',
-          message: `Tem certeza que deseja excluir a propriedade '${row.name}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
+          message: `Tem certeza que deseja excluir a exploração '${row.category}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
           acceptButtonProps: {
             label: 'Excluir',
             severity: 'danger',
@@ -135,12 +123,12 @@ export class PropertyListComponent implements OnInit, OnDestroy {
             outlined: true
           },
           accept: () => {
-            this.propertiesService.delete(row.id).subscribe({
+            this.explorationsService.delete(row.id).subscribe({
               next: () => {
-                this.getProperties();
+                this.getExplorations();
                 this.messageService.add({
-                  summary: 'Propriedade excluída',
-                  detail: `A propriedade ${row.name} foi excluída com sucesso`,
+                  summary: 'Exploração excluída',
+                  detail: `A exploração ${row.category} foi excluída com sucesso`,
                   severity: 'success',
                 });
               }

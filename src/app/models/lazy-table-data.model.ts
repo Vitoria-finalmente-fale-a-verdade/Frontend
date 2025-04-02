@@ -2,6 +2,9 @@ export interface LazyTableDataModel {
   headers: {
     title: string;
     field: string;
+    type?: "string" | "boolean" | "currency" | "date";
+    center?: boolean;
+    unit?: string;
   }[];
   actions?: {
     id: string;

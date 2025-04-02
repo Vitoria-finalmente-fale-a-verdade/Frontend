@@ -8,6 +8,7 @@ import {TokenResponseModel} from '../models/token-response.model';
 import {StorageService} from './storage.service';
 import {StorageModel} from '../models/storage.model';
 import {PropertyModel} from '../models/property.model';
+import {Roles} from '../models/role.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,10 @@ export class AuthService {
 
   public get user(): UserModel {
     return this.storageService.get(StorageModel.USER);
+  }
+
+  public isAdmin() {
+    return this.user.roles.map(role => role.normalizedName).includes(Roles.ADMIN);
   }
 
   public get token(): string {
