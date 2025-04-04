@@ -78,7 +78,7 @@
                   "with": "src/environments/environment.staging.ts"
                 }
               ]
-            },
+            }
           },
           "defaultConfiguration": "production"
         },
