@@ -46,9 +46,10 @@ export class NavbarComponent implements OnInit {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (this.route.children.length > 1) {
+        if (this.route.children.length > 0) {
           this.title = this.route.children[this.route.children.length -1].snapshot.firstChild?.data['title'];
-        } else {
+        }
+        if (!this.title) {
           this.title = this.route.snapshot.firstChild?.data['title'];
         }
       }
