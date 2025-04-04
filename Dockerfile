@@ -15,6 +15,6 @@ ENV STYLE 'css'
 CMD ng new $APP_NAME --routing=$ROUTING --standalone=$STANDALONE --strict=$STRICT --style=$STYLE \
     && mv $APP_NAME/* . \
     && rm -rf $APP_NAME \
-    && ng serve --host 0.0.0.0 --port 4200
+    && ng serve --host 0.0.0.0 --port 4200 --disable-host-check
 
 EXPOSE 4200
