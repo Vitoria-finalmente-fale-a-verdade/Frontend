@@ -89,6 +89,9 @@
             },
             "development": {
               "buildTarget": "semente-vitoria-frontend:build:development"
+            },
+            "staging": {
+              "buildTarget": "semente-vitoria-frontend:build:staging"
             }
           },
           "defaultConfiguration": "development"
