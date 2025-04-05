@@ -9,6 +9,8 @@ import {RouterModule} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
+import {faBriefcase, faBuilding, faHome, faLeaf, faSeedling, faUser} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,6 +24,7 @@ import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
     StyleClassModule,
     RouterModule,
     PrimeNgModule,
+    FontAwesomeModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
@@ -40,37 +43,37 @@ export class SidebarComponent implements OnInit {
       {
         key: 'dashboard',
         label: 'Dashboard',
-        icon: 'pi pi-home',
+        faIcon: faHome,
         route: '',
       },
       {
         key: 'users',
         label: 'Usuários',
-        icon: 'pi pi-user',
+        faIcon: faUser,
         route: '/users',
         visible: this.authService.isAdmin()
       },
       {
         key: 'admins',
         label: 'Administrar',
-        icon: 'pi pi-briefcase',
+        faIcon: faBriefcase,
         items: [
           {
             key: 'properties',
             label: 'Propriedades',
-            icon: 'pi pi-building',
+            faIcon: faBuilding,
             route: 'manage/properties'
           },
           {
             key: 'explorations',
             label: 'Explorações',
-            icon: 'pi pi-hammer',
+            faIcon: faSeedling,
             route: 'manage/explorations'
           },
           {
             key: 'permanent-crops',
             label: 'Cultura Permanente',
-            icon: 'pi pi-crop',
+            faIcon: faLeaf,
             route: 'manage/permanent-crops'
           }
         ]

@@ -12,7 +12,7 @@
           <ng-container *ngIf="item.route != undefined; else urlRef">
             <a [ngClass]="visible ? 'px-3' : 'justify-center'" [routerLink]="item.route" class="flex items-center
                     cursor-pointer text-color py-2">
-              <span [class]="item.icon"></span>
+              <fa-icon [icon]="item.faIcon"></fa-icon>
               <span [ngClass]="visible ? 'max-w-80 ml-2' : 'max-w-0'"
                     class="transition-all overflow-hidden text-nowrap">{{ item.label }}</span>
             </a>
@@ -20,14 +20,14 @@
           <ng-template #urlRef>
             <a *ngIf="item.url; else noLink" [href]="item.url" [ngClass]="visible ? 'px-3' : 'justify-center'" class="flex items-center
                     cursor-pointer text-color py-2">
-              <span [class]="item.icon"></span>
+              <fa-icon [icon]="item.faIcon"></fa-icon>
               <span [ngClass]="visible ? 'max-w-80 ml-2' : 'max-w-0'"
                     class="transition-all overflow-hidden text-nowrap">{{ item.label }}</span>
             </a>
             <ng-template #noLink>
               <span [ngClass]="visible ? 'px-4' : 'justify-center'"
                     class="flex items-center cursor-pointer text-surface-700 dark:text-surface-0 py-2">
-                  <span [class]="item.icon"></span>
+                  <fa-icon [icon]="item.faIcon"></fa-icon>
                   <span [ngClass]="visible ? 'max-w-80 ml-2' : 'max-w-0'"
                         class="transition-all overflow-hidden text-nowrap">{{ item.label }}</span>
                   <i *ngIf="item.items"
