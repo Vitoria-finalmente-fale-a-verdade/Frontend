@@ -66,6 +66,12 @@ export class SidebarComponent implements OnInit {
             label: 'Explorações',
             icon: 'pi pi-hammer',
             route: 'manage/explorations'
+          },
+          {
+            key: 'permanent-crops',
+            label: 'Cultura Permanente',
+            icon: 'pi pi-crop',
+            route: 'manage/permanent-crops'
           }
         ]
       }
