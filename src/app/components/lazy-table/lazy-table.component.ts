@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {LazyTableDataModel} from '../../models/lazy-table-data.model';
 import {TableModule} from 'primeng/table';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {SkeletonModule} from 'primeng/skeleton';
 import {PaginatorModule, PaginatorState} from 'primeng/paginator';
 import {CardModule} from 'primeng/card';
@@ -20,6 +20,7 @@ import getProp from '../../shared/utils/get-prop';
     CardModule,
     PrimeNgModule,
     FormsModule,
+    NgOptimizedImage,
   ],
   templateUrl: './lazy-table.component.html',
   styleUrl: './lazy-table.component.css'
