@@ -104,9 +104,9 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
       name: this.permanentCrop?.name ?? '',
       explorationId: this.permanentCrop?.exploration?.id ?? '',
       implantationDate: this.permanentCrop?.implantationDate ?? new Date(),
-      area: this.permanentCrop?.area ?? 0,
-      unitValue: this.permanentCrop?.unitValue ?? 0,
-      lifeCycle: this.permanentCrop?.lifeCycle ?? 0,
+      area: this.permanentCrop?.area ?? null,
+      unitValue: this.permanentCrop?.unitValue ?? null,
+      lifeCycle: this.permanentCrop?.lifeCycle ?? null,
       isDepreciable: this.permanentCrop?.isDepreciable ?? false,
     });
   }
