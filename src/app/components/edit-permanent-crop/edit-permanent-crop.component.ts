@@ -1,14 +1,15 @@
-import {Component, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PermanentCropService} from '../../services/permanent-crop.service';
-import {Subject} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 import {EditFormComponent} from '../edit-form/edit-form.component';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
 import PermanentCropModel from '../../models/permanent-crop.model';
 import {ExplorationModel} from '../../models/exploration.model';
 import {ExplorationsService} from '../../services/explorations.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-edit-permanent-crop',
@@ -21,7 +22,7 @@ import {ExplorationsService} from '../../services/explorations.service';
   templateUrl: './edit-permanent-crop.component.html',
   styleUrl: './edit-permanent-crop.component.css'
 })
-export class EditPermanentCropComponent implements OnInit, OnChanges {
+export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy {
   @Input({ required: true }) visible!: boolean;
   @Input() permanentCrop?: PermanentCropModel;
 
@@ -33,6 +34,7 @@ export class EditPermanentCropComponent implements OnInit, OnChanges {
   edit = false;
   loadingExplorations = true;
   explorationList: ExplorationModel[] = [];
+  unsubscribe = new Subject<void>();
 
   today = new Date();
 
@@ -41,12 +43,17 @@ export class EditPermanentCropComponent implements OnInit, OnChanges {
     private permanentCropService: PermanentCropService,
     private messageService: MessageService,
     private explorationsService: ExplorationsService,
+    private authService: AuthService,
   ) {
     this.initForm();
   }
 
   ngOnInit() {
     this.getExplorations();
+
+    this.authService.propertyChange
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => this.getExplorations());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -56,6 +63,11 @@ export class EditPermanentCropComponent implements OnInit, OnChanges {
 
     this.edit = !!this.permanentCrop?.id;
     this.resetForm();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getExplorations() {
