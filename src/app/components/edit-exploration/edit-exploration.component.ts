@@ -72,11 +72,16 @@ export class EditExplorationComponent implements OnChanges {
       this.explorationsService.update(this.exploration.id, this.editForm.value).subscribe({
         next: () => {
           this.messageService.add({summary: 'Sucesso', detail: 'Exploração atualizada com sucesso', severity: 'success'});
-          this.emitSave()
+          this.emitSave();
         },
-        error: (_: HttpErrorResponse) => {
-          this.messageService.add({summary: 'Erro', detail: 'Erro ao salvar alterações', severity: 'error'});
-          this.loading = false;
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 409) {
+            this.messageService.add({summary: 'Erro', detail: 'Já existe uma exploração com essa categoria', severity: 'error'});
+          }
+          else {
+            this.messageService.add({summary: 'Erro', detail: 'Erro ao salvar alterações', severity: 'error'});
+          }
+          this.emitSave();
         }
       });
     } else {
@@ -85,9 +90,14 @@ export class EditExplorationComponent implements OnChanges {
           this.messageService.add({summary: 'Sucesso', detail: 'Exploração criada com sucesso', severity: 'success'});
           this.emitSave();
         },
-        error: (_: HttpErrorResponse) => {
-          this.messageService.add({summary: 'Erro', detail: 'Erro ao criar exploração', severity: 'error'});
-          this.loading = false;
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 409) {
+            this.messageService.add({summary: 'Erro', detail: 'Já existe uma exploração com essa categoria', severity: 'error'});
+          }
+          else {
+            this.messageService.add({summary: 'Erro', detail: 'Erro ao criar exploração', severity: 'error'});
+          }
+          this.emitSave();
         }
       });
     }
