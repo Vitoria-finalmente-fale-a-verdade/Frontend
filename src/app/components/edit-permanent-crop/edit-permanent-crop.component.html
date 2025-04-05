@@ -6,7 +6,7 @@
   (onSave)="onSubmit()"
   [title]="(edit ? 'Editar' : 'Novo') + ' cultura permanente'"
 >
-  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96">
+  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
     <p-floatlabel variant="on">
       <p-select
         id="exploration"
