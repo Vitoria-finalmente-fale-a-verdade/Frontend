@@ -10,6 +10,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {errorInterceptor} from './shared/interceptors/error.interceptor';
 import {jwtInterceptor} from './shared/interceptors/jwt.interceptor';
+import {jsonDateInterceptor} from './shared/interceptors/json-date.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +26,7 @@ export const appConfig: ApplicationConfig = {
         }
     }),
     provideHttpClient(
-      withInterceptors([errorInterceptor, jwtInterceptor])
+      withInterceptors([errorInterceptor, jwtInterceptor, jsonDateInterceptor])
     ),
     {
       provide: ErrorHandler,

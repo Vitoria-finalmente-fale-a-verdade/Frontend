@@ -22,12 +22,8 @@ export class ExplorationsService {
     return this.client.get<PaginateResponseModel<ExplorationModel>>(`${this.baseUrl}`, {params: params});
   }
 
-  public find(name: string, role?: string) {
-    const params = new HttpParams()
-      .set('name', name);
-    role && params.set('role', role);
-
-    return this.client.get<ExplorationModel[]>(`${this.baseUrl}find/`, {params: params});
+  public getAll() {
+    return this.client.get<ExplorationModel[]>(`${this.baseUrl}all/`);
   }
 
   public create(user: ExplorationModel) {

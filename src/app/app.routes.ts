@@ -8,6 +8,7 @@ import {UserListComponent} from './pages/users/user-list/user-list.component';
 import {Roles} from './models/role.model';
 import {PropertyListComponent} from './pages/manage/property-list/property-list.component';
 import {ExplorationListComponent} from './pages/manage/exploration-list/exploration-list.component';
+import {PermanentCropListComponent} from './pages/manage/permanent-crop-list/permanent-crop-list.component';
 
 
 export const routes: Routes = [
@@ -51,6 +52,13 @@ export const routes: Routes = [
             component: ExplorationListComponent,
             data: {
               title: 'Explorações'
+            }
+          },
+          {
+            path: 'permanent-crops',
+            component: PermanentCropListComponent,
+            data: {
+              title: 'Cultura Permanente'
             }
           },
         ]

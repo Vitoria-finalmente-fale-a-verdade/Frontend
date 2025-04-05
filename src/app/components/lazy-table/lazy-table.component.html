@@ -2,7 +2,7 @@
   <p-table [value]="loading ? Array.from(Array(pageSize).keys()) : table.data">
     <ng-template #header>
       <tr>
-        <th *ngFor="let header of table.headers">{{header.title}}</th>
+        <th *ngFor="let header of table.headers" [ngClass]="header.center ? '!text-center' : ''">{{header.title}}</th>
         <th class="!text-center" *ngIf="table.actions?.length">
           Ações
         </th>
@@ -20,7 +20,7 @@
               {{ getProp(row, header.field) | currency: 'BRL' }}
             </ng-container>
             <ng-container *ngSwitchCase="'date'">
-              {{ getProp(row, header.field).toLocaleDateString('pt-BR') }}
+              {{ getProp(row, header.field) | date: 'dd/MM/yyyy' }}
             </ng-container>
             <ng-container *ngSwitchDefault>
               {{ getProp(row, header.field) }} {{ header.unit }}
@@ -45,7 +45,7 @@
 
     <ng-template #emptymessage>
       <tr>
-        <td colspan="7">
+        <td [attr.colspan]="table.headers.length">
           <div class="flex flex-col items-center justify-center gap-3 my-2">
             <p-image src="assets/empty-table.png" width="256" aria-hidden="true" />
             <p class="text-lg font-bold">Nenhum resultado encontrado</p>
