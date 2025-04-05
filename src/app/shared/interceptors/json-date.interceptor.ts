@@ -35,7 +35,6 @@ export const jsonDateInterceptor: HttpInterceptorFn = (req, next) => {
       const body = val.body;
       convert(body);
     }
-    console.log(val);
     return val;
   }));
 };
