@@ -1,0 +1,22 @@
+<div class="flex justify-end items-center w-full mb-4">
+  <p-button
+    severity="secondary"
+    label="Novo maquinário"
+    icon="pi pi-plus"
+    (onClick)="addMachinery()"
+  />
+</div>
+<app-lazy-table
+  [table]="tableData"
+  [loading]="loading"
+  [pageSize]="pageSize"
+  [total]="total"
+  (onPageChange)="onPageChange($event)"
+  (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
+/>
+<app-edit-machinery
+  [visible]="editVisible"
+  (onSave)="onSave()"
+  (onClose)="onEditCancel()"
+  [machinery]="currentEdit"
+></app-edit-machinery>
