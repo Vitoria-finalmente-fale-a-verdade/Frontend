@@ -93,9 +93,6 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
       activityId: [null, Validators.required],
       implantationDate: [null, Validators.required],
       area: [null, Validators.required],
-      unitValue: [null, Validators.required],
-      lifeCycle: [null, Validators.required],
-      isDepreciable: [false, Validators.required],
     });
   }
 
@@ -105,9 +102,6 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
       activityId: this.crop?.activity?.id ?? '',
       implantationDate: this.crop?.implantationDate ?? new Date(),
       area: this.crop?.area ?? null,
-      unitValue: this.crop?.unitValue ?? null,
-      lifeCycle: this.crop?.lifeCycle ?? null,
-      isDepreciable: this.crop?.isDepreciable ?? false,
     });
   }
 
