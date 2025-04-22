@@ -52,24 +52,6 @@ export class CropListComponent implements OnInit, OnDestroy {
         center: true,
         unit: 'ha'
       },
-      {
-        title: 'Valor Unitário',
-        field: 'unitValue',
-        type: 'currency',
-        center: true
-      },
-      {
-        title: 'Depreciável',
-        field: 'isDepreciable',
-        type: 'boolean',
-        center: true
-      },
-      {
-        title: 'Vida Útil',
-        field: 'lifeCycle',
-        center: true,
-        unit: 'anos'
-      },
     ],
     actions: [
       {
