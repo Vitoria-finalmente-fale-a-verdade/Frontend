@@ -1,7 +1,7 @@
 import {PaginateResponseModel} from '../../models/paginate-response.model';
-import PermanentCropModel from '../../models/permanent-crop.model';
+import CropModel from '../../models/crop.model';
 
-export const permanentCrops: PaginateResponseModel<PermanentCropModel> = {
+export const crops: PaginateResponseModel<CropModel> = {
   page: 0,
   pageSize: 10,
   total: 0,

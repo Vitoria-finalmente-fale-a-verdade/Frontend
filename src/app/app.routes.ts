@@ -8,7 +8,7 @@ import {UserListComponent} from './pages/users/user-list/user-list.component';
 import {Roles} from './models/role.model';
 import {PropertyListComponent} from './pages/manage/property-list/property-list.component';
 import {ActivityListComponent} from './pages/manage/activity-list/activity-list.component';
-import {PermanentCropListComponent} from './pages/manage/permanent-crop-list/permanent-crop-list.component';
+import {CropListComponent} from './pages/manage/crop-list/crop-list.component';
 import { MachineryListComponent } from './pages/manage/machinery-list/machinery-list.component';
 
 
@@ -56,10 +56,10 @@ export const routes: Routes = [
             }
           },
           {
-            path: 'permanent-crops',
-            component: PermanentCropListComponent,
+            path: 'crops',
+            component: CropListComponent,
             data: {
-              title: 'Cultura Permanente'
+              title: 'Cultura'
             }
           },
           {

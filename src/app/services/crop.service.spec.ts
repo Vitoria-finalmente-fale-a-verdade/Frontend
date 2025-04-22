@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PermanentCropService } from './permanent-crop.service';
+import { CropService } from './crop.service';
 
 describe('CultureService', () => {
-  let service: PermanentCropService;
+  let service: CropService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PermanentCropService);
+    service = TestBed.inject(CropService);
   });
 
   it('should be created', () => {

@@ -1,6 +1,6 @@
 import {ActivityModel} from './activity.model';
 
-export default interface PermanentCropModel {
+export default interface CropModel {
   id: string;
   activityId: string;
   activity: ActivityModel,

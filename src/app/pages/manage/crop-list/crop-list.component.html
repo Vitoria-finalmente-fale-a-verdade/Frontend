@@ -1,7 +1,7 @@
 <div class="flex justify-end items-center w-full mb-4">
   <p-button
     severity="secondary"
-    label="Nova cultura permanente"
+    label="Nova cultura"
     icon="pi pi-plus"
     (onClick)="addCulture()"
   />
@@ -14,9 +14,9 @@
   (onPageChange)="onPageChange($event)"
   (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
 />
-<app-edit-permanent-crop
+<app-edit-crop
   [visible]="editVisible"
   (onSave)="onSave()"
   (onClose)="onEditCancel()"
-  [permanentCrop]="currentEdit"
-></app-edit-permanent-crop>
+  [crop]="currentEdit"
+></app-edit-crop>

@@ -4,7 +4,7 @@
   [visible]="visible"
   (onCancel)="onCancel()"
   (onSave)="onSubmit()"
-  [title]="(edit ? 'Editar' : 'Novo') + ' cultura permanente'"
+  [title]="(edit ? 'Editar' : 'Novo') + ' cultura'"
 >
   <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
     <p-floatlabel variant="on">

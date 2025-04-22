@@ -3,31 +3,31 @@ import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {PaginatorState} from 'primeng/paginator';
-import {PermanentCropService} from '../../../services/permanent-crop.service';
+import {CropService} from '../../../services/crop.service';
 import {Button} from 'primeng/button';
 import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
 import {Subject, takeUntil} from 'rxjs';
-import PermanentCropModel from '../../../models/permanent-crop.model';
-import {EditPermanentCropComponent} from '../../../components/edit-permanent-crop/edit-permanent-crop.component';
+import CropModel from '../../../models/crop.model';
+import {EditCropComponent} from '../../../components/edit-crop/edit-crop.component';
 
 @Component({
-  selector: 'app-permanent-crop-list',
+  selector: 'app-crop-list',
   standalone: true,
   imports: [
     Button,
     LazyTableComponent,
-    EditPermanentCropComponent,
+    EditCropComponent,
   ],
-  templateUrl: './permanent-crop-list.component.html',
-  styleUrl: './permanent-crop-list.component.css'
+  templateUrl: './crop-list.component.html',
+  styleUrl: './crop-list.component.css'
 })
-export class PermanentCropListComponent implements OnInit, OnDestroy {
+export class CropListComponent implements OnInit, OnDestroy {
   loading = true;
   page = 0;
   pageSize = 10;
   total = 0;
   editVisible = false;
-  currentEdit?: PermanentCropModel;
+  currentEdit?: CropModel;
   unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
@@ -87,17 +87,17 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private permanentCropsService: PermanentCropService,
+    private cropsService: CropService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
   ) { }
 
   ngOnInit() {
-    this.getPermanentCrops();
+    this.getCrops();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getPermanentCrops());
+      .subscribe(() => this.getCrops());
   }
 
   ngOnDestroy() {
@@ -105,10 +105,10 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getPermanentCrops() {
+  getCrops() {
     this.loading = true;
 
-    this.permanentCropsService.get({page: this.page, pageSize: this.pageSize}).subscribe({
+    this.cropsService.get({page: this.page, pageSize: this.pageSize}).subscribe({
       next: data => {
         this.tableData.data = data.items;
 
@@ -132,12 +132,12 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
     this.page = event.page ?? 0;
     this.pageSize = event.rows ?? this.pageSize;
 
-    this.getPermanentCrops();
+    this.getCrops();
   }
 
   onSave() {
     this.editVisible = false;
-    this.getPermanentCrops();
+    this.getCrops();
   }
 
   addCulture() {
@@ -169,11 +169,11 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
             outlined: true
           },
           accept: () => {
-            this.permanentCropsService.delete(row.id).subscribe({
+            this.cropsService.delete(row.id).subscribe({
               next: () => {
-                this.getPermanentCrops();
+                this.getCrops();
                 this.messageService.add({
-                  summary: 'Cultura Permanente excluída',
+                  summary: 'Cultura excluída',
                   detail: `A cultura ${row.name} foi excluída com sucesso`,
                   severity: 'success',
                 });
