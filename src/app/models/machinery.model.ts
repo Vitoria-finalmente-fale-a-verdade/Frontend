@@ -1,8 +1,8 @@
-import {ExplorationModel} from './exploration.model';
+import {ActivityModel} from './activity.model';
 
 export default interface MachineryModel {
   id: string;
-  exploration: ExplorationModel,
+  activity: ActivityModel,
   description: string;
   acquisitionDate: Date;
   acquisitionValue: number;

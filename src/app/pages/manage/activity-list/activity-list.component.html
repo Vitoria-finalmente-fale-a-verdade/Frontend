@@ -14,9 +14,9 @@
   (onPageChange)="onPageChange($event)"
   (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
 />
-<app-edit-exploration
+<app-edit-activity
   [visible]="editVisible"
   (onSave)="onSave()"
   (onClose)="onEditCancel()"
-  [exploration]="currentEdit"
-></app-edit-exploration>
+  [activity]="currentEdit"
+></app-edit-activity>

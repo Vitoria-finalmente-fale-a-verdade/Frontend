@@ -3,14 +3,14 @@ import {environment} from '../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {PaginateRequestModel} from '../models/paginate-request.model';
 import {PaginateResponseModel} from '../models/paginate-response.model';
-import {ExplorationModel} from '../models/exploration.model';
+import {ActivityModel} from '../models/activity.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExplorationsService {
+export class ActivitiesService {
 
-  baseUrl = environment.baseUrl + 'explorations/';
+  baseUrl = environment.baseUrl + 'activities/';
 
   constructor(private client: HttpClient) { }
 
@@ -19,19 +19,19 @@ export class ExplorationsService {
       .set('page', paginate.page)
       .set('pageSize', paginate.pageSize);
 
-    return this.client.get<PaginateResponseModel<ExplorationModel>>(`${this.baseUrl}`, {params: params});
+    return this.client.get<PaginateResponseModel<ActivityModel>>(`${this.baseUrl}`, {params: params});
   }
 
   public getAll() {
-    return this.client.get<ExplorationModel[]>(`${this.baseUrl}all/`);
+    return this.client.get<ActivityModel[]>(`${this.baseUrl}all/`);
   }
 
-  public create(user: ExplorationModel) {
-    return this.client.post<ExplorationModel>(`${this.baseUrl}`, user);
+  public create(user: ActivityModel) {
+    return this.client.post<ActivityModel>(`${this.baseUrl}`, user);
   }
 
-  public update(id: string, user: ExplorationModel) {
-    return this.client.put<ExplorationModel>(`${this.baseUrl}${id}`, user);
+  public update(id: string, user: ActivityModel) {
+    return this.client.put<ActivityModel>(`${this.baseUrl}${id}`, user);
   }
 
   public delete(id: string) {

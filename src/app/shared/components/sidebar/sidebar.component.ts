@@ -65,10 +65,10 @@ export class SidebarComponent implements OnInit {
             route: 'manage/properties'
           },
           {
-            key: 'explorations',
-            label: 'Explorações',
+            key: 'activities',
+            label: 'Atividades',
             faIcon: faSeedling,
-            route: 'manage/explorations'
+            route: 'manage/activities'
           },
           {
             key: 'permanent-crops',

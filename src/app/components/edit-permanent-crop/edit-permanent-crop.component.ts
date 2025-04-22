@@ -7,8 +7,8 @@ import {Subject, takeUntil} from 'rxjs';
 import {EditFormComponent} from '../edit-form/edit-form.component';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
 import PermanentCropModel from '../../models/permanent-crop.model';
-import {ExplorationModel} from '../../models/exploration.model';
-import {ExplorationsService} from '../../services/explorations.service';
+import {ActivityModel} from '../../models/activity.model';
+import {ActivitiesService} from '../../services/activities.service';
 import {AuthService} from '../../services/auth.service';
 
 @Component({
@@ -32,8 +32,8 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
   editForm!: FormGroup;
   loading = false;
   edit = false;
-  loadingExplorations = true;
-  explorationList: ExplorationModel[] = [];
+  loadingActivities = true;
+  activityList: ActivityModel[] = [];
   unsubscribe = new Subject<void>();
 
   today = new Date();
@@ -42,18 +42,18 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
     private formBuilder: FormBuilder,
     private permanentCropService: PermanentCropService,
     private messageService: MessageService,
-    private explorationsService: ExplorationsService,
+    private activitiesService: ActivitiesService,
     private authService: AuthService,
   ) {
     this.initForm();
   }
 
   ngOnInit() {
-    this.getExplorations();
+    this.getActivities();
 
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getExplorations());
+      .subscribe(() => this.getActivities());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -70,11 +70,11 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
     this.unsubscribe.complete();
   }
 
-  getExplorations() {
-    this.explorationsService.getAll().subscribe({
+  getActivities() {
+    this.activitiesService.getAll().subscribe({
       next: data => {
-        this.explorationList = data;
-        this.loadingExplorations = false;
+        this.activityList = data;
+        this.loadingActivities = false;
       },
       error: _ => {
         this.messageService.add({
@@ -82,7 +82,7 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
           detail: 'Erro ao buscar explorações',
           severity: 'error',
         })
-        this.loadingExplorations = false;
+        this.loadingActivities = false;
       }
     })
   }
@@ -90,7 +90,7 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
   initForm() {
     this.editForm = this.formBuilder.group({
       name: [null, Validators.required],
-      explorationId: [null, Validators.required],
+      activityId: [null, Validators.required],
       implantationDate: [null, Validators.required],
       area: [null, Validators.required],
       unitValue: [null, Validators.required],
@@ -102,7 +102,7 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
   resetForm() {
     this.editForm.setValue({
       name: this.permanentCrop?.name ?? '',
-      explorationId: this.permanentCrop?.exploration?.id ?? '',
+      activityId: this.permanentCrop?.activity?.id ?? '',
       implantationDate: this.permanentCrop?.implantationDate ?? new Date(),
       area: this.permanentCrop?.area ?? null,
       unitValue: this.permanentCrop?.unitValue ?? null,

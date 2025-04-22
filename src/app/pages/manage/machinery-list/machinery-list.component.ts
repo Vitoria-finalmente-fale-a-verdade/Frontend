@@ -33,8 +33,8 @@ export class MachineryListComponent implements OnInit, OnDestroy {
   tableData: LazyTableDataModel = {
     headers: [
       {
-        title: 'Exploração',
-        field: 'exploration.category'
+        title: 'Atividade',
+        field: 'activity.category'
       },
       {
         title: 'Descrição',

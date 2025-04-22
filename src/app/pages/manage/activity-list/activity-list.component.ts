@@ -1,33 +1,33 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
-import {ExplorationModel} from '../../../models/exploration.model';
+import {ActivityModel} from '../../../models/activity.model';
 import {Subject, takeUntil} from 'rxjs';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {PaginatorState} from 'primeng/paginator';
-import {ExplorationsService} from '../../../services/explorations.service';
-import {EditExplorationComponent} from '../../../components/edit-exploration/edit-exploration.component';
+import {ActivitiesService} from '../../../services/activities.service';
+import {EditActivityComponent} from '../../../components/edit-activity/edit-activity.component';
 
 @Component({
-  selector: 'app-exploration-list',
+  selector: 'app-activity-list',
   standalone: true,
     imports: [
       Button,
       LazyTableComponent,
-      EditExplorationComponent,
+      EditActivityComponent,
     ],
-  templateUrl: './exploration-list.component.html',
-  styleUrl: './exploration-list.component.css'
+  templateUrl: './activity-list.component.html',
+  styleUrl: './activity-list.component.css'
 })
-export class ExplorationListComponent implements OnInit, OnDestroy {
+export class ActivityListComponent implements OnInit, OnDestroy {
   loading = true;
   page = 0;
   pageSize = 10;
   total = 0;
   editVisible = false;
-  currentEdit?: ExplorationModel;
+  currentEdit?: ActivityModel;
   unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
@@ -56,14 +56,14 @@ export class ExplorationListComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
-    private explorationsService: ExplorationsService,
+    private activitiesService: ActivitiesService,
   ) { }
 
   ngOnInit() {
-    this.getExplorations();
+    this.getActivities();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getExplorations());
+      .subscribe(() => this.getActivities());
   }
 
   ngOnDestroy() {
@@ -71,10 +71,10 @@ export class ExplorationListComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getExplorations() {
+  getActivities() {
     this.loading = true;
 
-    this.explorationsService.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
+    this.activitiesService.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
@@ -86,12 +86,12 @@ export class ExplorationListComponent implements OnInit, OnDestroy {
     this.page = event.page ?? 0;
     this.pageSize = event.rows ?? this.pageSize;
 
-    this.getExplorations();
+    this.getActivities();
   }
 
   onSave() {
     this.editVisible = false;
-    this.getExplorations();
+    this.getActivities();
   }
 
   addProperty() {
@@ -112,7 +112,7 @@ export class ExplorationListComponent implements OnInit, OnDestroy {
       case 'delete':
         this.confirmationService.confirm({
           header: 'Cuidado!',
-          message: `Tem certeza que deseja excluir a exploração '${row.category}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
+          message: `Tem certeza que deseja excluir a atividade '${row.category}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
           acceptButtonProps: {
             label: 'Excluir',
             severity: 'danger',
@@ -123,12 +123,12 @@ export class ExplorationListComponent implements OnInit, OnDestroy {
             outlined: true
           },
           accept: () => {
-            this.explorationsService.delete(row.id).subscribe({
+            this.activitiesService.delete(row.id).subscribe({
               next: () => {
-                this.getExplorations();
+                this.getActivities();
                 this.messageService.add({
-                  summary: 'Exploração excluída',
-                  detail: `A exploração ${row.category} foi excluída com sucesso`,
+                  summary: 'Atividade excluída',
+                  detail: `A atividade ${row.category} foi excluída com sucesso`,
                   severity: 'success',
                 });
               }

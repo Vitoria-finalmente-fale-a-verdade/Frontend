@@ -8,17 +8,17 @@
   <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
     <p-floatlabel variant="on">
       <p-select
-        id="exploration"
+        id="activity"
         class="w-full"
-        [options]="explorationList"
-        formControlName="explorationId"
+        [options]="activityList"
+        formControlName="activityId"
         optionLabel="category"
-        [loading]="loadingExplorations"
+        [loading]="loadingActivities"
         appendTo="body"
         dataKey="id"
         optionValue="id"
       />
-      <label class="block text-sm font-medium text-gray-700 mb-1" for="state">Exploração</label>
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="state">Atividade</label>
     </p-floatlabel>
     <div class="flex gap-2 items-center">
       <p-floatlabel variant="on">
