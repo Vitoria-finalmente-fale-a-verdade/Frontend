@@ -89,22 +89,22 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
 
   initForm() {
     this.editForm = this.formBuilder.group({
-      description: [null, Validators.required],
-      activityId: [null, Validators.required],
+      name: [null, Validators.required],
       acquisitionDate: [null, Validators.required],
-      acquisitionValue: [null, Validators.required],
-      serviceLife: [null, Validators.required],
+      unitValue: [null, Validators.required],
+      quantity: [null, Validators.required],
+      lifeCycle: [null, Validators.required],
       isDepreciable: [false, Validators.required],
     });
   }
 
   resetForm() {
     this.editForm.setValue({
-      description: this.machinery?.description ?? '',
-      activityId: this.machinery?.activity?.id ?? '',
+      name: this.machinery?.name ?? '',
       acquisitionDate: this.machinery?.acquisitionDate ?? new Date(),
-      acquisitionValue: this.machinery?.acquisitionValue ?? null,
-      serviceLife: this.machinery?.serviceLife ?? null,
+      unitValue: this.machinery?.unitValue ?? null,
+      quantity: this.machinery?.quantity ?? null,
+      lifeCycle: this.machinery?.lifeCycle ?? null,
       isDepreciable: this.machinery?.isDepreciable ?? false,
     });
   }

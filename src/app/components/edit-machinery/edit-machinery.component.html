@@ -6,30 +6,16 @@
   [title]="(edit ? 'Editar' : 'Novo') + ' maquinário'"
 >
   <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
-    <p-floatlabel variant="on">
-      <p-select
-        id="activity"
-        class="w-full"
-        [options]="activityList"
-        formControlName="activityId"
-        optionLabel="category"
-        [loading]="loadingActivities"
-        appendTo="body"
-        dataKey="id"
-        optionValue="id"
-      />
-      <label class="block text-sm font-medium text-gray-700 mb-1" for="state">Atividade</label>
-    </p-floatlabel>
     <div class="flex gap-2 items-center">
       <p-floatlabel variant="on">
         <input
-          id="description"
-          formControlName="description"
+          id="name"
+          formControlName="name"
           type="text"
           pInputText
           class="w-full"
         />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="description">Descrição</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="name">Nome</label>
       </p-floatlabel>
       <p-floatlabel variant="on" class="flex-2">
         <p-datePicker
@@ -47,21 +33,29 @@
     <div class="flex items-center gap-2">
       <p-floatlabel variant="on">
         <p-input-number
-          id="serviceLife"
-          inputId="serviceLife"
-          formControlName="serviceLife"
+          id="lifeCycle"
+          inputId="lifeCycle"
+          formControlName="lifeCycle"
         />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="serviceLife">Vida útil</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="lifeCycle">Vida útil</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
         <p-input-number
-          id="acquisitionValue"
-          inputId="acquisitionValue"
-          formControlName="acquisitionValue"
+          id="unitValue"
+          inputId="unitValue"
+          formControlName="unitValue"
           mode="currency"
           currency="BRL"
         />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="acquisitionValue">Valor de compra</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="unitValue">Valor</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-input-number
+          id="quantity"
+          inputId="quantity"
+          formControlName="quantity"
+        />
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="quantity">Quantidade</label>
       </p-floatlabel>
     </div>
     <p-toggle-button

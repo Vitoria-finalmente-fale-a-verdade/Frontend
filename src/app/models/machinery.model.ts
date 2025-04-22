@@ -1,14 +1,9 @@
-import {ActivityModel} from './activity.model';
-
 export default interface MachineryModel {
-  id: string;
-  activity: ActivityModel,
-  description: string;
+  name: string;
+  quantity: number;
   acquisitionDate: Date;
-  acquisitionValue: number;
-  residualValue: number;
-  serviceLife: number;
+  unitValue: number;
+  lifeCycle: number;
   isDepreciable: boolean;
-  annualDepreciation: number;
-  currentValue: number;
+  id: string;
 }
