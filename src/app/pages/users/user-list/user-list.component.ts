@@ -7,7 +7,7 @@ import {EditUserComponent} from '../../../components/edit-user/edit-user.compone
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 import {UserModel} from '../../../models/user.model';
-import {PaginateRequestModel} from '../../../models/paginate-request.model';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-user-list',
@@ -23,7 +23,7 @@ import {PaginateRequestModel} from '../../../models/paginate-request.model';
 })
 export class UserListComponent implements OnInit {
   loading = true;
-  paginateData = { page: 0, pageSize: 10 } as PaginateRequestModel;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: UserModel;

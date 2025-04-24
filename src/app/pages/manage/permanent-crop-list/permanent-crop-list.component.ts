@@ -8,7 +8,7 @@ import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.comp
 import {Subject, takeUntil} from 'rxjs';
 import PermanentCropModel from '../../../models/permanent-crop.model';
 import {EditPermanentCropComponent} from '../../../components/edit-permanent-crop/edit-permanent-crop.component';
-import {PaginateRequestModel} from '../../../models/paginate-request.model';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-permanent-crop-list',
@@ -23,7 +23,7 @@ import {PaginateRequestModel} from '../../../models/paginate-request.model';
 })
 export class PermanentCropListComponent implements OnInit, OnDestroy {
   loading = true;
-  paginateData = { pageSize: 10 } as PaginateRequestModel;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: PermanentCropModel;

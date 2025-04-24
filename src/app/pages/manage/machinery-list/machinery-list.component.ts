@@ -8,7 +8,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
 import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
 import { MachineryService } from '../../../services/machinery.service';
-import {PaginateRequestModel} from '../../../models/paginate-request.model';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-machinery-list',
@@ -23,7 +23,7 @@ import {PaginateRequestModel} from '../../../models/paginate-request.model';
 })
 export class MachineryListComponent implements OnInit, OnDestroy {
   loading = true;
-  paginateData = { pageSize: 10 } as PaginateRequestModel;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: MachineryModel;

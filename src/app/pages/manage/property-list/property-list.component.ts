@@ -8,7 +8,7 @@ import {EditPropertyComponent} from '../../../components/edit-property/edit-prop
 import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
 import {Subject, takeUntil} from 'rxjs';
-import {PaginateRequestModel} from '../../../models/paginate-request.model';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-property-list',
@@ -23,7 +23,7 @@ import {PaginateRequestModel} from '../../../models/paginate-request.model';
 })
 export class PropertyListComponent implements OnInit, OnDestroy {
   loading = true;
-  paginateData = { page: 0, pageSize: 10 } as PaginateRequestModel;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: PropertyModel;

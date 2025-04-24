@@ -8,7 +8,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {ExplorationsService} from '../../../services/explorations.service';
 import {EditExplorationComponent} from '../../../components/edit-exploration/edit-exploration.component';
-import {PaginateRequestModel} from '../../../models/paginate-request.model';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-exploration-list',
@@ -23,7 +23,7 @@ import {PaginateRequestModel} from '../../../models/paginate-request.model';
 })
 export class ExplorationListComponent implements OnInit, OnDestroy {
   loading = true;
-  paginateData = { pageSize: 10 } as PaginateRequestModel;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: ExplorationModel;
