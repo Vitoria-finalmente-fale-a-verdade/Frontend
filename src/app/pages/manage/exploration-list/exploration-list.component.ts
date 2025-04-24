@@ -6,9 +6,9 @@ import {Subject, takeUntil} from 'rxjs';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
-import {PaginatorState} from 'primeng/paginator';
 import {ExplorationsService} from '../../../services/explorations.service';
 import {EditExplorationComponent} from '../../../components/edit-exploration/edit-exploration.component';
+import {PaginateRequestModel} from '../../../models/paginate-request.model';
 
 @Component({
   selector: 'app-exploration-list',
@@ -23,8 +23,7 @@ import {EditExplorationComponent} from '../../../components/edit-exploration/edi
 })
 export class ExplorationListComponent implements OnInit, OnDestroy {
   loading = true;
-  page = 0;
-  pageSize = 10;
+  paginateData = { pageSize: 10 } as PaginateRequestModel;
   total = 0;
   editVisible = false;
   currentEdit?: ExplorationModel;
@@ -74,19 +73,12 @@ export class ExplorationListComponent implements OnInit, OnDestroy {
   getExplorations() {
     this.loading = true;
 
-    this.explorationsService.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
+    this.explorationsService.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
       this.loading = false;
     });
-  }
-
-  onPageChange(event: PaginatorState) {
-    this.page = event.page ?? 0;
-    this.pageSize = event.rows ?? this.pageSize;
-
-    this.getExplorations();
   }
 
   onSave() {

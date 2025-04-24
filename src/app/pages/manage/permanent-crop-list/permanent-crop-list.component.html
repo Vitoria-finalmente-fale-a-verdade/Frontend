@@ -9,9 +9,9 @@
 <app-lazy-table
   [table]="tableData"
   [loading]="loading"
-  [pageSize]="pageSize"
+  [(paginateData)]="paginateData"
   [total]="total"
-  (onPageChange)="onPageChange($event)"
+  (onPaginate)="getPermanentCrops()"
   (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
 />
 <app-edit-permanent-crop

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {LazyTableDataModel} from '../../models/lazy-table-data.model';
-import {TableModule} from 'primeng/table';
+import {TableLazyLoadEvent, TableModule} from 'primeng/table';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {SkeletonModule} from 'primeng/skeleton';
 import {PaginatorModule, PaginatorState} from 'primeng/paginator';
@@ -8,6 +8,7 @@ import {CardModule} from 'primeng/card';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
 import {FormsModule} from '@angular/forms';
 import getProp from '../../shared/utils/get-prop';
+import {PaginateRequestModel} from '../../models/paginate-request.model';
 
 @Component({
   selector: 'app-lazy-table',
@@ -27,15 +28,32 @@ import getProp from '../../shared/utils/get-prop';
 })
 export class LazyTableComponent {
   @Input({ required: true }) table!: LazyTableDataModel;
-  @Input() pageSize = 10;
+  @Input({required: true}) paginateData!: PaginateRequestModel;
   @Input({ required: true }) total!: number;
   @Input() loading = false;
 
-  @Output() onPageChange = new EventEmitter();
+  @Output() paginateDataChange = new EventEmitter<PaginateRequestModel>();
+  @Output() onPaginate = new EventEmitter<void>();
   @Output() onActionClick = new EventEmitter();
 
-  onChange(event: PaginatorState) {
-    this.onPageChange.emit(event);
+  onPaginateOutput(paginate: PaginateRequestModel) {
+    this.paginateData = paginate;
+
+    this.paginateDataChange.emit(paginate);
+    this.onPaginate.emit();
+  }
+
+  onPageChange(event: PaginatorState) {
+    this.paginateData.page = event.page ?? 0;
+
+    this.onPaginateOutput(this.paginateData);
+  }
+
+  onSortChange(event: TableLazyLoadEvent) {
+    this.paginateData.orderBy = event.sortField as string;
+    this.paginateData.descending = event.sortOrder == -1;
+
+    this.onPaginateOutput(this.paginateData);
   }
 
   onAction(event: MouseEvent, id: string, row: any) {

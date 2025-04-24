@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {UsersService} from '../../../services/users.service';
-import {PaginatorState} from 'primeng/paginator';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {EditUserComponent} from '../../../components/edit-user/edit-user.component';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 import {UserModel} from '../../../models/user.model';
+import {PaginateRequestModel} from '../../../models/paginate-request.model';
 
 @Component({
   selector: 'app-user-list',
@@ -23,8 +23,7 @@ import {UserModel} from '../../../models/user.model';
 })
 export class UserListComponent implements OnInit {
   loading = true;
-  page = 0;
-  pageSize = 10;
+  paginateData = { page: 0, pageSize: 10 } as PaginateRequestModel;
   total = 0;
   editVisible = false;
   currentEdit?: UserModel;
@@ -33,11 +32,18 @@ export class UserListComponent implements OnInit {
     headers: [
       {
         title: 'Nome',
-        field: 'name'
+        field: 'firstName',
+        sortable: true,
+      },
+      {
+        title: 'Sobrenome',
+        field: 'lastName',
+        sortable: true,
       },
       {
         title: 'Username',
-        field: 'username'
+        field: 'username',
+        sortable: true,
       },
       {
         title: 'Permissões',
@@ -76,11 +82,10 @@ export class UserListComponent implements OnInit {
   getUsers() {
     this.loading = true;
 
-    this.usersSerivce.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
+    this.usersSerivce.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items.map(user => {
         let item: any;
         item = user;
-        item.name = user.firstName + ' ' + user.lastName;
         item.permissions = user.roles.map(r => r.name).join(', ');
         item.phoneMasked = user.phoneNumber?.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
 
@@ -90,13 +95,6 @@ export class UserListComponent implements OnInit {
       this.total = data.total;
       this.loading = false;
     });
-  }
-
-  onPageChange(event: PaginatorState) {
-    this.page = event.page ?? 0;
-    this.pageSize = event.rows ?? this.pageSize;
-
-    this.getUsers();
   }
 
   onSave() {

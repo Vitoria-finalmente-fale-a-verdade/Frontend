@@ -2,13 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
-import {PaginatorState} from 'primeng/paginator';
 import {PermanentCropService} from '../../../services/permanent-crop.service';
 import {Button} from 'primeng/button';
 import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
 import {Subject, takeUntil} from 'rxjs';
 import PermanentCropModel from '../../../models/permanent-crop.model';
 import {EditPermanentCropComponent} from '../../../components/edit-permanent-crop/edit-permanent-crop.component';
+import {PaginateRequestModel} from '../../../models/paginate-request.model';
 
 @Component({
   selector: 'app-permanent-crop-list',
@@ -23,8 +23,7 @@ import {EditPermanentCropComponent} from '../../../components/edit-permanent-cro
 })
 export class PermanentCropListComponent implements OnInit, OnDestroy {
   loading = true;
-  page = 0;
-  pageSize = 10;
+  paginateData = { pageSize: 10 } as PaginateRequestModel;
   total = 0;
   editVisible = false;
   currentEdit?: PermanentCropModel;
@@ -108,7 +107,7 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
   getPermanentCrops() {
     this.loading = true;
 
-    this.permanentCropsService.get({page: this.page, pageSize: this.pageSize}).subscribe({
+    this.permanentCropsService.get(this.paginateData).subscribe({
       next: data => {
         this.tableData.data = data.items;
 
@@ -126,13 +125,6 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
-  }
-
-  onPageChange(event: PaginatorState) {
-    this.page = event.page ?? 0;
-    this.pageSize = event.rows ?? this.pageSize;
-
-    this.getPermanentCrops();
   }
 
   onSave() {
