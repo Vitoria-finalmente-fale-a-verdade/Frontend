@@ -4,12 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {PaginateRequestModel} from '../models/paginate-request.model';
 import {PaginateResponseModel} from '../models/paginate-response.model';
 import {PropertyModel} from '../models/property.model';
-<<<<<<< HEAD:src/app/services/crop.service.ts
-import CropModel from '../models/crop.model';
-=======
-import PermanentCropModel from '../models/permanent-crop.model';
 import getPaginateParams from '../shared/utils/get-paginate-params';
->>>>>>> origin/main:src/app/services/permanent-crop.service.ts
+import CropModel from '../models/crop.model';
 
 @Injectable({
   providedIn: 'root'

@@ -9,7 +9,6 @@ import {AuthService} from '../../../services/auth.service';
 import {ActivitiesService} from '../../../services/activities.service';
 import {EditActivityComponent} from '../../../components/edit-activity/edit-activity.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
-import { PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-activity-list',
@@ -34,7 +33,8 @@ export class ActivityListComponent implements OnInit, OnDestroy {
     headers: [
       {
         title: 'Categoria',
-        field: 'category'
+        field: 'category',
+        sortable: true,
       },
     ],
     actions: [
@@ -74,19 +74,12 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   getActivities() {
     this.loading = true;
 
-    this.activitiesService.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
+    this.activitiesService.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
       this.loading = false;
     });
-  }
-
-  onPageChange(event: PaginatorState) {
-    this.page = event.page ?? 0;
-    this.pageSize = event.rows ?? this.pageSize;
-
-    this.getActivities();
   }
 
   onSave() {

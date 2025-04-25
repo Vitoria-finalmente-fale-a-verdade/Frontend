@@ -33,22 +33,19 @@ export class MachineryListComponent implements OnInit, OnDestroy {
     headers: [
       {
         title: 'Nome',
-        field: 'name'
+        field: 'name',
+        sortable: true,
       },
       {
-<<<<<<< HEAD
         title: 'Valor',
         field: 'unitValue',
-        type: 'currency'
-=======
-        title: 'Descrição',
-        field: 'description',
+        type: 'currency',
         sortable: true,
->>>>>>> origin/main
       },
       {
         title: 'Quantidade',
-        field: 'quantity'
+        field: 'quantity',
+        sortable: true,
       },
       {
         title: 'Data de Compra',
@@ -58,23 +55,6 @@ export class MachineryListComponent implements OnInit, OnDestroy {
         sortable: true,
       },
       {
-<<<<<<< HEAD
-=======
-        title: 'Valor',
-        field: 'acquisitionValue',
-        type: 'currency',
-        center: true,
-        sortable: true,
-      },
-      {
-        title: 'Depreciável',
-        field: 'isDepreciable',
-        type: 'boolean',
-        center: true,
-        sortable: true,
-      },
-      {
->>>>>>> origin/main
         title: 'Vida Útil',
         field: 'lifeCycle',
         center: true,

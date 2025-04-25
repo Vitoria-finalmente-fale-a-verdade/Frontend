@@ -3,12 +3,8 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {PaginateRequestModel} from '../models/paginate-request.model';
 import {PaginateResponseModel} from '../models/paginate-response.model';
-<<<<<<< HEAD:src/app/services/activities.service.ts
-import {ActivityModel} from '../models/activity.model';
-=======
-import {ExplorationModel} from '../models/exploration.model';
 import getPaginateParams from '../shared/utils/get-paginate-params';
->>>>>>> origin/main:src/app/services/explorations.service.ts
+import {ActivityModel} from '../models/activity.model';
 
 @Injectable({
   providedIn: 'root'
