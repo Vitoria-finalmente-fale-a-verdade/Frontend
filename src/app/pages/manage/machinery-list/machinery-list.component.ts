@@ -105,7 +105,6 @@ export class MachineryListComponent implements OnInit, OnDestroy {
 
         this.total = data.total;
         this.loading = false;
-        console.log(data);
       },
       error: () => {
         this.messageService.add({
