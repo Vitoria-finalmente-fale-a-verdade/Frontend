@@ -1,4 +1,4 @@
-export interface ExplorationModel {
+export interface ActivityModel {
   id: string;
   category: string;
 }

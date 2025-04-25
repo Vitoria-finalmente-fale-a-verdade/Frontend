@@ -3,13 +3,13 @@ import {EditFormComponent} from "../edit-form/edit-form.component";
 import {FloatLabel} from "primeng/floatlabel";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {InputText} from "primeng/inputtext";
-import {ExplorationModel} from '../../models/exploration.model';
+import {ActivityModel} from '../../models/activity.model';
 import {MessageService} from 'primeng/api';
 import {HttpErrorResponse} from '@angular/common/http';
-import {ExplorationsService} from '../../services/explorations.service';
+import {ActivitiesService} from '../../services/activities.service';
 
 @Component({
-  selector: 'app-edit-exploration',
+  selector: 'app-edit-activity',
   standalone: true,
     imports: [
         EditFormComponent,
@@ -18,12 +18,12 @@ import {ExplorationsService} from '../../services/explorations.service';
         InputText,
         ReactiveFormsModule,
     ],
-  templateUrl: './edit-exploration.component.html',
-  styleUrl: './edit-exploration.component.css'
+  templateUrl: './edit-activity.component.html',
+  styleUrl: './edit-activity.component.css'
 })
-export class EditExplorationComponent implements OnChanges {
+export class EditActivityComponent implements OnChanges {
   @Input({ required: true }) visible!: boolean;
-  @Input() exploration?: ExplorationModel;
+  @Input() activity?: ActivityModel;
 
   @Output() onSave = new EventEmitter();
   @Output() onClose = new EventEmitter();
@@ -35,7 +35,7 @@ export class EditExplorationComponent implements OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private explorationsService: ExplorationsService,
+    private activitiesService: ActivitiesService,
   ) {
     this.initForm();
   }
@@ -45,7 +45,7 @@ export class EditExplorationComponent implements OnChanges {
       return;
     }
 
-    this.edit = !!this.exploration?.id;
+    this.edit = !!this.activity?.id;
     this.resetForm();
   }
 
@@ -57,7 +57,7 @@ export class EditExplorationComponent implements OnChanges {
 
   resetForm() {
     this.editForm.setValue({
-      category: this.exploration?.category ?? '',
+      category: this.activity?.category ?? '',
     });
   }
 
@@ -68,15 +68,15 @@ export class EditExplorationComponent implements OnChanges {
     }
 
     this.loading = true;
-    if (this.exploration) {
-      this.explorationsService.update(this.exploration.id, this.editForm.value).subscribe({
+    if (this.activity) {
+      this.activitiesService.update(this.activity.id, this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Exploração atualizada com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Atividade atualizada com sucesso', severity: 'success'});
           this.emitSave();
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 409) {
-            this.messageService.add({summary: 'Erro', detail: 'Já existe uma exploração com essa categoria', severity: 'error'});
+            this.messageService.add({summary: 'Erro', detail: 'Já existe uma atividade com essa categoria', severity: 'error'});
           }
           else {
             this.messageService.add({summary: 'Erro', detail: 'Erro ao salvar alterações', severity: 'error'});
@@ -85,17 +85,17 @@ export class EditExplorationComponent implements OnChanges {
         }
       });
     } else {
-      this.explorationsService.create(this.editForm.value).subscribe({
+      this.activitiesService.create(this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Exploração criada com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Atividade criada com sucesso', severity: 'success'});
           this.emitSave();
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 409) {
-            this.messageService.add({summary: 'Erro', detail: 'Já existe uma exploração com essa categoria', severity: 'error'});
+            this.messageService.add({summary: 'Erro', detail: 'Já existe uma atividade com essa categoria', severity: 'error'});
           }
           else {
-            this.messageService.add({summary: 'Erro', detail: 'Erro ao criar exploração', severity: 'error'});
+            this.messageService.add({summary: 'Erro', detail: 'Erro ao criar atividade', severity: 'error'});
           }
           this.emitSave();
         }

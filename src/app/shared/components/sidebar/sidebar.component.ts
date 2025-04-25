@@ -65,19 +65,19 @@ export class SidebarComponent implements OnInit {
             route: 'manage/properties'
           },
           {
-            key: 'explorations',
-            label: 'Explorações',
+            key: 'activities',
+            label: 'Atividades',
             faIcon: faSeedling,
-            route: 'manage/explorations'
+            route: 'manage/activities'
           },
           {
-            key: 'permanent-crops',
-            label: 'Cultura Permanente',
+            key: 'crops',
+            label: 'Cultura',
             faIcon: faLeaf,
-            route: 'manage/permanent-crops'
+            route: 'manage/crops'
           },
           {
-            key: 'permanent-crops',
+            key: 'machinery',
             label: 'Maquinario',
             faIcon: faTractor,
             route: 'manage/machinery'

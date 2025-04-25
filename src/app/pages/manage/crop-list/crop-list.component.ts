@@ -2,6 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
+<<<<<<< HEAD:src/app/pages/manage/crop-list/crop-list.component.ts
+import {PaginatorState} from 'primeng/paginator';
+import {CropService} from '../../../services/crop.service';
+import {Button} from 'primeng/button';
+import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
+import {Subject, takeUntil} from 'rxjs';
+import CropModel from '../../../models/crop.model';
+import {EditCropComponent} from '../../../components/edit-crop/edit-crop.component';
+=======
 import {PermanentCropService} from '../../../services/permanent-crop.service';
 import {Button} from 'primeng/button';
 import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
@@ -9,31 +18,32 @@ import {Subject, takeUntil} from 'rxjs';
 import PermanentCropModel from '../../../models/permanent-crop.model';
 import {EditPermanentCropComponent} from '../../../components/edit-permanent-crop/edit-permanent-crop.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+>>>>>>> origin/main:src/app/pages/manage/permanent-crop-list/permanent-crop-list.component.ts
 
 @Component({
-  selector: 'app-permanent-crop-list',
+  selector: 'app-crop-list',
   standalone: true,
   imports: [
     Button,
     LazyTableComponent,
-    EditPermanentCropComponent,
+    EditCropComponent,
   ],
-  templateUrl: './permanent-crop-list.component.html',
-  styleUrl: './permanent-crop-list.component.css'
+  templateUrl: './crop-list.component.html',
+  styleUrl: './crop-list.component.css'
 })
-export class PermanentCropListComponent implements OnInit, OnDestroy {
+export class CropListComponent implements OnInit, OnDestroy {
   loading = true;
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
-  currentEdit?: PermanentCropModel;
+  currentEdit?: CropModel;
   unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
     headers: [
       {
-        title: 'Exploração',
-        field: 'exploration.category'
+        title: 'Atividade',
+        field: 'activity.category'
       },
       {
         title: 'Nome',
@@ -50,24 +60,6 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
         field: 'area',
         center: true,
         unit: 'ha'
-      },
-      {
-        title: 'Valor Unitário',
-        field: 'unitValue',
-        type: 'currency',
-        center: true
-      },
-      {
-        title: 'Depreciável',
-        field: 'isDepreciable',
-        type: 'boolean',
-        center: true
-      },
-      {
-        title: 'Vida Útil',
-        field: 'lifeCycle',
-        center: true,
-        unit: 'anos'
       },
     ],
     actions: [
@@ -86,17 +78,17 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private permanentCropsService: PermanentCropService,
+    private cropsService: CropService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
   ) { }
 
   ngOnInit() {
-    this.getPermanentCrops();
+    this.getCrops();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getPermanentCrops());
+      .subscribe(() => this.getCrops());
   }
 
   ngOnDestroy() {
@@ -104,10 +96,14 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getPermanentCrops() {
+  getCrops() {
     this.loading = true;
 
+<<<<<<< HEAD:src/app/pages/manage/crop-list/crop-list.component.ts
+    this.cropsService.get({page: this.page, pageSize: this.pageSize}).subscribe({
+=======
     this.permanentCropsService.get(this.paginateData).subscribe({
+>>>>>>> origin/main:src/app/pages/manage/permanent-crop-list/permanent-crop-list.component.ts
       next: data => {
         this.tableData.data = data.items;
 
@@ -127,9 +123,19 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
     });
   }
 
+<<<<<<< HEAD:src/app/pages/manage/crop-list/crop-list.component.ts
+  onPageChange(event: PaginatorState) {
+    this.page = event.page ?? 0;
+    this.pageSize = event.rows ?? this.pageSize;
+
+    this.getCrops();
+  }
+
+=======
+>>>>>>> origin/main:src/app/pages/manage/permanent-crop-list/permanent-crop-list.component.ts
   onSave() {
     this.editVisible = false;
-    this.getPermanentCrops();
+    this.getCrops();
   }
 
   addCulture() {
@@ -161,11 +167,11 @@ export class PermanentCropListComponent implements OnInit, OnDestroy {
             outlined: true
           },
           accept: () => {
-            this.permanentCropsService.delete(row.id).subscribe({
+            this.cropsService.delete(row.id).subscribe({
               next: () => {
-                this.getPermanentCrops();
+                this.getCrops();
                 this.messageService.add({
-                  summary: 'Cultura Permanente excluída',
+                  summary: 'Cultura excluída',
                   detail: `A cultura ${row.name} foi excluída com sucesso`,
                   severity: 'success',
                 });

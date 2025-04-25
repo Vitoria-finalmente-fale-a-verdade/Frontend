@@ -2,29 +2,29 @@ import {Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} f
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {HttpErrorResponse} from '@angular/common/http';
-import {PermanentCropService} from '../../services/permanent-crop.service';
+import {CropService} from '../../services/crop.service';
 import {Subject, takeUntil} from 'rxjs';
 import {EditFormComponent} from '../edit-form/edit-form.component';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
-import PermanentCropModel from '../../models/permanent-crop.model';
-import {ExplorationModel} from '../../models/exploration.model';
-import {ExplorationsService} from '../../services/explorations.service';
+import CropModel from '../../models/crop.model';
+import {ActivityModel} from '../../models/activity.model';
+import {ActivitiesService} from '../../services/activities.service';
 import {AuthService} from '../../services/auth.service';
 
 @Component({
-  selector: 'app-edit-permanent-crop',
+  selector: 'app-edit-crop',
   standalone: true,
   imports: [
     EditFormComponent,
     ReactiveFormsModule,
     PrimeNgModule,
   ],
-  templateUrl: './edit-permanent-crop.component.html',
-  styleUrl: './edit-permanent-crop.component.css'
+  templateUrl: './edit-crop.component.html',
+  styleUrl: './edit-crop.component.css'
 })
-export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy {
+export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
   @Input({ required: true }) visible!: boolean;
-  @Input() permanentCrop?: PermanentCropModel;
+  @Input() crop?: CropModel;
 
   @Output() onSave = new Subject<void>();
   @Output() onClose = new Subject<void>();
@@ -32,28 +32,28 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
   editForm!: FormGroup;
   loading = false;
   edit = false;
-  loadingExplorations = true;
-  explorationList: ExplorationModel[] = [];
+  loadingActivities = true;
+  activityList: ActivityModel[] = [];
   unsubscribe = new Subject<void>();
 
   today = new Date();
 
   constructor(
     private formBuilder: FormBuilder,
-    private permanentCropService: PermanentCropService,
+    private cropService: CropService,
     private messageService: MessageService,
-    private explorationsService: ExplorationsService,
+    private activitiesService: ActivitiesService,
     private authService: AuthService,
   ) {
     this.initForm();
   }
 
   ngOnInit() {
-    this.getExplorations();
+    this.getActivities();
 
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getExplorations());
+      .subscribe(() => this.getActivities());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -61,7 +61,7 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
       return;
     }
 
-    this.edit = !!this.permanentCrop?.id;
+    this.edit = !!this.crop?.id;
     this.resetForm();
   }
 
@@ -70,11 +70,11 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
     this.unsubscribe.complete();
   }
 
-  getExplorations() {
-    this.explorationsService.getAll().subscribe({
+  getActivities() {
+    this.activitiesService.getAll().subscribe({
       next: data => {
-        this.explorationList = data;
-        this.loadingExplorations = false;
+        this.activityList = data;
+        this.loadingActivities = false;
       },
       error: _ => {
         this.messageService.add({
@@ -82,7 +82,7 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
           detail: 'Erro ao buscar explorações',
           severity: 'error',
         })
-        this.loadingExplorations = false;
+        this.loadingActivities = false;
       }
     })
   }
@@ -90,24 +90,18 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
   initForm() {
     this.editForm = this.formBuilder.group({
       name: [null, Validators.required],
-      explorationId: [null, Validators.required],
+      activityId: [null, Validators.required],
       implantationDate: [null, Validators.required],
       area: [null, Validators.required],
-      unitValue: [null, Validators.required],
-      lifeCycle: [null, Validators.required],
-      isDepreciable: [false, Validators.required],
     });
   }
 
   resetForm() {
     this.editForm.setValue({
-      name: this.permanentCrop?.name ?? '',
-      explorationId: this.permanentCrop?.exploration?.id ?? '',
-      implantationDate: this.permanentCrop?.implantationDate ?? new Date(),
-      area: this.permanentCrop?.area ?? null,
-      unitValue: this.permanentCrop?.unitValue ?? null,
-      lifeCycle: this.permanentCrop?.lifeCycle ?? null,
-      isDepreciable: this.permanentCrop?.isDepreciable ?? false,
+      name: this.crop?.name ?? '',
+      activityId: this.crop?.activity?.id ?? '',
+      implantationDate: this.crop?.implantationDate ?? new Date(),
+      area: this.crop?.area ?? null,
     });
   }
 
@@ -118,10 +112,10 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     this.loading = true;
-    if (this.permanentCrop) {
-      this.permanentCropService.update(this.permanentCrop.id, this.editForm.value).subscribe({
+    if (this.crop) {
+      this.cropService.update(this.crop.id, this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Cultura Permanente atualizada com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Cultura atualizada com sucesso', severity: 'success'});
           this.emitSave()
         },
         error: (_: HttpErrorResponse) => {
@@ -130,13 +124,13 @@ export class EditPermanentCropComponent implements OnInit, OnChanges, OnDestroy 
         }
       });
     } else {
-      this.permanentCropService.create(this.editForm.value).subscribe({
+      this.cropService.create(this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Cultura Permanente criada com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Cultura criada com sucesso', severity: 'success'});
           this.emitSave();
         },
         error: (_: HttpErrorResponse) => {
-          this.messageService.add({summary: 'Erro', detail: 'Erro ao criar cultura permanente', severity: 'error'});
+          this.messageService.add({summary: 'Erro', detail: 'Erro ao criar cultura', severity: 'error'});
           this.loading = false;
         }
       });

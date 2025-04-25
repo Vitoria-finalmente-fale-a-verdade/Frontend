@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExplorationListComponent } from './exploration-list.component';
+import { CropListComponent } from './crop-list.component';
 
-describe('ExplorationListComponent', () => {
-  let component: ExplorationListComponent;
-  let fixture: ComponentFixture<ExplorationListComponent>;
+describe('CultureListComponent', () => {
+  let component: CropListComponent;
+  let fixture: ComponentFixture<CropListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExplorationListComponent]
+      imports: [CropListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ExplorationListComponent);
+    fixture = TestBed.createComponent(CropListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

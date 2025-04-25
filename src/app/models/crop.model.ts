@@ -1,9 +1,9 @@
-import {ExplorationModel} from './exploration.model';
+import {ActivityModel} from './activity.model';
 
-export default interface PermanentCropModel {
+export default interface CropModel {
   id: string;
-  explorationId: string;
-  exploration: ExplorationModel,
+  activityId: string;
+  activity: ActivityModel,
   name: string;
   implantationDate: Date;
   area: number;

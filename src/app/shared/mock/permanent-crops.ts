@@ -1,15 +1,15 @@
 import {PaginateResponseModel} from '../../models/paginate-response.model';
-import PermanentCropModel from '../../models/permanent-crop.model';
+import CropModel from '../../models/crop.model';
 
-export const permanentCrops: PaginateResponseModel<PermanentCropModel> = {
+export const crops: PaginateResponseModel<CropModel> = {
   page: 0,
   pageSize: 10,
   total: 0,
   items: [
     {
       id: '',
-      explorationId: '0',
-      exploration: { id: '0', category: 'Colheita' },
+      activityId: '0',
+      activity: { id: '0', category: 'Colheita' },
       name: 'Cultura seilá',
       implantationDate: new Date('2024-02-25T00:00:00-03'),
       area: 5,
@@ -22,8 +22,8 @@ export const permanentCrops: PaginateResponseModel<PermanentCropModel> = {
     },
     {
       id: '',
-      explorationId: '1',
-      exploration: { id: '1', category: 'Gado' },
+      activityId: '1',
+      activity: { id: '1', category: 'Gado' },
       name: 'Cultura seilá',
       implantationDate: new Date('2024-02-25T00:00:00-03'),
       area: 5,
@@ -36,8 +36,8 @@ export const permanentCrops: PaginateResponseModel<PermanentCropModel> = {
     },
     {
       id: '',
-      explorationId: '0',
-      exploration: { id: '0', category: 'Colheita' },
+      activityId: '0',
+      activity: { id: '0', category: 'Colheita' },
       name: 'Cultura seilá',
       implantationDate: new Date('2024-02-25T00:00:00-03'),
       area: 5,
@@ -50,8 +50,8 @@ export const permanentCrops: PaginateResponseModel<PermanentCropModel> = {
     },
     {
       id: '',
-      explorationId: '0',
-      exploration: { id: '0', category: 'Colheita' },
+      activityId: '0',
+      activity: { id: '0', category: 'Colheita' },
       name: 'Cultura seilá',
       implantationDate: new Date('2024-02-25T00:00:00-03'),
       area: 5,
@@ -64,8 +64,8 @@ export const permanentCrops: PaginateResponseModel<PermanentCropModel> = {
     },
     {
       id: '',
-      explorationId: '0',
-      exploration: { id: '0', category: 'Colheita' },
+      activityId: '0',
+      activity: { id: '0', category: 'Colheita' },
       name: 'Cultura seilá',
       implantationDate: new Date('2024-02-25T00:00:00-03'),
       area: 5,
@@ -78,8 +78,8 @@ export const permanentCrops: PaginateResponseModel<PermanentCropModel> = {
     },
     {
       id: '',
-      explorationId: '0',
-      exploration: { id: '0', category: 'Colheita' },
+      activityId: '0',
+      activity: { id: '0', category: 'Colheita' },
       name: 'Cultura seilá',
       implantationDate: new Date('2024-02-25T00:00:00-03'),
       area: 5,

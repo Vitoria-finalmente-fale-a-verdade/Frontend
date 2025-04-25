@@ -4,33 +4,37 @@ import {HttpClient} from '@angular/common/http';
 import {PaginateRequestModel} from '../models/paginate-request.model';
 import {PaginateResponseModel} from '../models/paginate-response.model';
 import {PropertyModel} from '../models/property.model';
+<<<<<<< HEAD:src/app/services/crop.service.ts
+import CropModel from '../models/crop.model';
+=======
 import PermanentCropModel from '../models/permanent-crop.model';
 import getPaginateParams from '../shared/utils/get-paginate-params';
+>>>>>>> origin/main:src/app/services/permanent-crop.service.ts
 
 @Injectable({
   providedIn: 'root'
 })
-export class PermanentCropService {
-  baseUrl = environment.baseUrl + 'permanent-crop/';
+export class CropService {
+  baseUrl = environment.baseUrl + 'crop/';
 
   constructor(private client: HttpClient) { }
 
   public get(paginate: PaginateRequestModel){
     const params = getPaginateParams(paginate);
 
-    return this.client.get<PaginateResponseModel<PermanentCropModel>>(`${this.baseUrl}`, {params: params});
+    return this.client.get<PaginateResponseModel<CropModel>>(`${this.baseUrl}`, {params: params});
   }
 
   public getAll() {
-    return this.client.get<PermanentCropModel[]>(this.baseUrl + 'all');
+    return this.client.get<CropModel[]>(this.baseUrl + 'all');
   }
 
-  public create(permanentCrop: PermanentCropModel) {
-    return this.client.post<PermanentCropModel>(`${this.baseUrl}`, permanentCrop);
+  public create(crop: CropModel) {
+    return this.client.post<CropModel>(`${this.baseUrl}`, crop);
   }
 
-  public update(id: string, permanentCrop: PermanentCropModel) {
-    return this.client.put<PropertyModel>(`${this.baseUrl}${id}`, permanentCrop);
+  public update(id: string, crop: CropModel) {
+    return this.client.put<PropertyModel>(`${this.baseUrl}${id}`, crop);
   }
 
   public delete(id: string) {

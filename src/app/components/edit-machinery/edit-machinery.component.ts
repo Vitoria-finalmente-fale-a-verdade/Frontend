@@ -2,9 +2,9 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges }
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MachineryService } from '../../services/machinery.service';
 import { MessageService } from 'primeng/api';
-import { ExplorationsService } from '../../services/explorations.service';
+import { ActivitiesService } from '../../services/activities.service';
 import { AuthService } from '../../services/auth.service';
-import { ExplorationModel } from '../../models/exploration.model';
+import { ActivityModel } from '../../models/activity.model';
 import { Subject, takeUntil } from 'rxjs';
 import MachineryModel from '../../models/machinery.model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -32,8 +32,8 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
   editForm!: FormGroup;
   loading = false;
   edit = false;
-  loadingExplorations = true;
-  explorationList: ExplorationModel[] = [];
+  loadingActivities = true;
+  activityList: ActivityModel[] = [];
   unsubscribe = new Subject<void>();
 
   today = new Date();
@@ -42,18 +42,18 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
     private formBuilder: FormBuilder,
     private machineryService: MachineryService,
     private messageService: MessageService,
-    private explorationsService: ExplorationsService,
+    private activitiesService: ActivitiesService,
     private authService: AuthService,
   ) {
     this.initForm();
   }
 
   ngOnInit() {
-    this.getExplorations();
+    this.getActivities();
 
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getExplorations());
+      .subscribe(() => this.getActivities());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -70,11 +70,11 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getExplorations() {
-    this.explorationsService.getAll().subscribe({
+  getActivities() {
+    this.activitiesService.getAll().subscribe({
       next: data => {
-        this.explorationList = data;
-        this.loadingExplorations = false;
+        this.activityList = data;
+        this.loadingActivities = false;
       },
       error: _ => {
         this.messageService.add({
@@ -82,29 +82,29 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
           detail: 'Erro ao buscar explorações',
           severity: 'error',
         })
-        this.loadingExplorations = false;
+        this.loadingActivities = false;
       }
     })
   }
 
   initForm() {
     this.editForm = this.formBuilder.group({
-      description: [null, Validators.required],
-      explorationId: [null, Validators.required],
+      name: [null, Validators.required],
       acquisitionDate: [null, Validators.required],
-      acquisitionValue: [null, Validators.required],
-      serviceLife: [null, Validators.required],
+      unitValue: [null, Validators.required],
+      quantity: [null, Validators.required],
+      lifeCycle: [null, Validators.required],
       isDepreciable: [false, Validators.required],
     });
   }
 
   resetForm() {
     this.editForm.setValue({
-      description: this.machinery?.description ?? '',
-      explorationId: this.machinery?.exploration?.id ?? '',
+      name: this.machinery?.name ?? '',
       acquisitionDate: this.machinery?.acquisitionDate ?? new Date(),
-      acquisitionValue: this.machinery?.acquisitionValue ?? null,
-      serviceLife: this.machinery?.serviceLife ?? null,
+      unitValue: this.machinery?.unitValue ?? null,
+      quantity: this.machinery?.quantity ?? null,
+      lifeCycle: this.machinery?.lifeCycle ?? null,
       isDepreciable: this.machinery?.isDepreciable ?? false,
     });
   }

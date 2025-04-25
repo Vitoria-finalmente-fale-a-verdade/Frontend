@@ -1,9 +1,9 @@
 <div class="flex justify-end items-center w-full mb-4">
   <p-button
     severity="secondary"
-    label="Nova exploração"
+    label="Nova cultura"
     icon="pi pi-plus"
-    (onClick)="addProperty()"
+    (onClick)="addCulture()"
   />
 </div>
 <app-lazy-table
@@ -11,12 +11,12 @@
   [loading]="loading"
   [(paginateData)]="paginateData"
   [total]="total"
-  (onPaginate)="getExplorations()"
+  (onPaginate)="getPermanentCrops()"
   (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
 />
-<app-edit-exploration
+<app-edit-crop
   [visible]="editVisible"
   (onSave)="onSave()"
   (onClose)="onEditCancel()"
-  [exploration]="currentEdit"
-></app-edit-exploration>
+  [crop]="currentEdit"
+></app-edit-crop>

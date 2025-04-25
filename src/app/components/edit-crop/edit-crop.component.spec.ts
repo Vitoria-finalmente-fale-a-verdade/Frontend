@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditPermanentCropComponent } from './edit-permanent-crop.component';
+import { EditCropComponent } from './edit-crop.component';
 
 describe('EditCultureComponent', () => {
-  let component: EditPermanentCropComponent;
-  let fixture: ComponentFixture<EditPermanentCropComponent>;
+  let component: EditCropComponent;
+  let fixture: ComponentFixture<EditCropComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditPermanentCropComponent]
+      imports: [EditCropComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditPermanentCropComponent);
+    fixture = TestBed.createComponent(EditCropComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

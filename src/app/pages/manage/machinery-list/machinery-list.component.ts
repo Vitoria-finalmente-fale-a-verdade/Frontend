@@ -32,22 +32,34 @@ export class MachineryListComponent implements OnInit, OnDestroy {
   tableData: LazyTableDataModel = {
     headers: [
       {
-        title: 'Exploração',
-        field: 'exploration.category'
+        title: 'Nome',
+        field: 'name'
       },
       {
+<<<<<<< HEAD
+        title: 'Valor',
+        field: 'unitValue',
+        type: 'currency'
+=======
         title: 'Descrição',
         field: 'description',
         sortable: true,
+>>>>>>> origin/main
       },
       {
-        title: 'Compra',
+        title: 'Quantidade',
+        field: 'quantity'
+      },
+      {
+        title: 'Data de Compra',
         field: 'acquisitionDate',
         type: 'date',
         center: true,
         sortable: true,
       },
       {
+<<<<<<< HEAD
+=======
         title: 'Valor',
         field: 'acquisitionValue',
         type: 'currency',
@@ -62,8 +74,9 @@ export class MachineryListComponent implements OnInit, OnDestroy {
         sortable: true,
       },
       {
+>>>>>>> origin/main
         title: 'Vida Útil',
-        field: 'serviceLife',
+        field: 'lifeCycle',
         center: true,
         unit: 'anos',
         sortable: true,
