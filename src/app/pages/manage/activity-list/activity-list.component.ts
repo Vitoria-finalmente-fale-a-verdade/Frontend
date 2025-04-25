@@ -6,7 +6,6 @@ import {Subject, takeUntil} from 'rxjs';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
-import {PaginatorState} from 'primeng/paginator';
 import {ActivitiesService} from '../../../services/activities.service';
 import {EditActivityComponent} from '../../../components/edit-activity/edit-activity.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
@@ -34,7 +33,8 @@ export class ActivityListComponent implements OnInit, OnDestroy {
     headers: [
       {
         title: 'Categoria',
-        field: 'category'
+        field: 'category',
+        sortable: true,
       },
     ],
     actions: [

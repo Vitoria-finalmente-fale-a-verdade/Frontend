@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
-import {PaginatorState} from 'primeng/paginator';
 import {CropService} from '../../../services/crop.service';
 import {Button} from 'primeng/button';
 import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
@@ -38,19 +37,22 @@ export class CropListComponent implements OnInit, OnDestroy {
       },
       {
         title: 'Nome',
-        field: 'name'
+        field: 'name',
+        sortable: true,
       },
       {
         title: 'Implantação',
         field: 'implantationDate',
         type: 'date',
-        center: true
+        center: true,
+        sortable: true,
       },
       {
         title: 'Área',
         field: 'area',
         center: true,
-        unit: 'ha'
+        unit: 'ha',
+        sortable: true,
       },
     ],
     actions: [
