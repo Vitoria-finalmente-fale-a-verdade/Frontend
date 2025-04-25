@@ -9,6 +9,7 @@ import {AuthService} from '../../../services/auth.service';
 import {PaginatorState} from 'primeng/paginator';
 import {ActivitiesService} from '../../../services/activities.service';
 import {EditActivityComponent} from '../../../components/edit-activity/edit-activity.component';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-activity-list',
@@ -23,8 +24,7 @@ import {EditActivityComponent} from '../../../components/edit-activity/edit-acti
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
   loading = true;
-  page = 0;
-  pageSize = 10;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: ActivityModel;
@@ -74,19 +74,12 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   getActivities() {
     this.loading = true;
 
-    this.activitiesService.get({page: this.page, pageSize: this.pageSize}).subscribe(data => {
+    this.activitiesService.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
       this.loading = false;
     });
-  }
-
-  onPageChange(event: PaginatorState) {
-    this.page = event.page ?? 0;
-    this.pageSize = event.rows ?? this.pageSize;
-
-    this.getActivities();
   }
 
   onSave() {

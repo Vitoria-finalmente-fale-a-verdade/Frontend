@@ -1,8 +1,10 @@
 <p-card>
-  <p-table [value]="loading ? Array.from(Array(pageSize).keys()) : table.data">
+  <p-table [value]="loading ? Array.from(Array(paginateData.pageSize).keys()) : table.data" [lazy]="true" (onLazyLoad)="onSortChange($event)" [sortField]="table.preSort?.field" [sortOrder]="table.preSort?.descending ? 1 : -1">
     <ng-template #header>
       <tr>
-        <th *ngFor="let header of table.headers" [ngClass]="header.center ? '!text-center' : ''">{{header.title}}</th>
+        <th *ngFor="let header of table.headers" [pSortableColumn]="header.sortable ? header.field : undefined" [ngClass]="header.center ? '!text-center' : ''">
+          {{header.title}} <p-sortIcon *ngIf="header.sortable" [field]="header.field" />
+        </th>
         <th class="!text-center" *ngIf="table.actions?.length">
           Ações
         </th>
@@ -55,7 +57,7 @@
     </ng-template>
 
   </p-table>
-  <p-paginator (onPageChange)="onChange($event)" [rows]="pageSize" [totalRecords]="total" [rowsPerPageOptions]="[10, 20, 30]" />
+  <p-paginator (onPageChange)="onPageChange($event)" [rows]="paginateData.pageSize" [totalRecords]="total" [rowsPerPageOptions]="[10, 20, 30]" />
 </p-card>
 
 <ng-template #loadingBody>

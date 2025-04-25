@@ -9,6 +9,7 @@ import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.comp
 import {Subject, takeUntil} from 'rxjs';
 import CropModel from '../../../models/crop.model';
 import {EditCropComponent} from '../../../components/edit-crop/edit-crop.component';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-crop-list',
@@ -23,8 +24,7 @@ import {EditCropComponent} from '../../../components/edit-crop/edit-crop.compone
 })
 export class CropListComponent implements OnInit, OnDestroy {
   loading = true;
-  page = 0;
-  pageSize = 10;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: CropModel;
@@ -90,7 +90,7 @@ export class CropListComponent implements OnInit, OnDestroy {
   getCrops() {
     this.loading = true;
 
-    this.cropsService.get({page: this.page, pageSize: this.pageSize}).subscribe({
+    this.cropsService.get(this.paginateData).subscribe({
       next: data => {
         this.tableData.data = data.items;
 
@@ -108,13 +108,6 @@ export class CropListComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
-  }
-
-  onPageChange(event: PaginatorState) {
-    this.page = event.page ?? 0;
-    this.pageSize = event.rows ?? this.pageSize;
-
-    this.getCrops();
   }
 
   onSave() {
