@@ -8,7 +8,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
 import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
 import { MachineryService } from '../../../services/machinery.service';
-import { PaginatorState } from 'primeng/paginator';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 
 @Component({
   selector: 'app-machinery-list',
@@ -23,8 +23,7 @@ import { PaginatorState } from 'primeng/paginator';
 })
 export class MachineryListComponent implements OnInit, OnDestroy {
   loading = true;
-  page = 0;
-  pageSize = 10;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: MachineryModel;
@@ -37,9 +36,15 @@ export class MachineryListComponent implements OnInit, OnDestroy {
         field: 'name'
       },
       {
+<<<<<<< HEAD
         title: 'Valor',
         field: 'unitValue',
         type: 'currency'
+=======
+        title: 'Descrição',
+        field: 'description',
+        sortable: true,
+>>>>>>> origin/main
       },
       {
         title: 'Quantidade',
@@ -49,13 +54,32 @@ export class MachineryListComponent implements OnInit, OnDestroy {
         title: 'Data de Compra',
         field: 'acquisitionDate',
         type: 'date',
-        center: true
+        center: true,
+        sortable: true,
       },
       {
+<<<<<<< HEAD
+=======
+        title: 'Valor',
+        field: 'acquisitionValue',
+        type: 'currency',
+        center: true,
+        sortable: true,
+      },
+      {
+        title: 'Depreciável',
+        field: 'isDepreciable',
+        type: 'boolean',
+        center: true,
+        sortable: true,
+      },
+      {
+>>>>>>> origin/main
         title: 'Vida Útil',
         field: 'lifeCycle',
         center: true,
-        unit: 'anos'
+        unit: 'anos',
+        sortable: true,
       },
     ],
     actions: [
@@ -95,7 +119,7 @@ export class MachineryListComponent implements OnInit, OnDestroy {
   getMachinery() {
     this.loading = true;
 
-    this.machineryService.get({page: this.page, pageSize: this.pageSize}).subscribe({
+    this.machineryService.get(this.paginateData).subscribe({
       next: data => {
         this.tableData.data = data.items;
 
@@ -106,20 +130,13 @@ export class MachineryListComponent implements OnInit, OnDestroy {
       error: () => {
         this.messageService.add({
           summary: 'Erro',
-          detail: `Erro ao buscar culturas`,
+          detail: `Erro ao buscar maquinários`,
           severity: 'error',
         });
 
         this.loading = false;
       }
     });
-  }
-
-  onPageChange(event: PaginatorState) {
-    this.page = event.page ?? 0;
-    this.pageSize = event.rows ?? this.pageSize;
-
-    this.getMachinery();
   }
 
   onSave() {

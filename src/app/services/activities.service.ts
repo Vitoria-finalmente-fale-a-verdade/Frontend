@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {PaginateRequestModel} from '../models/paginate-request.model';
 import {PaginateResponseModel} from '../models/paginate-response.model';
+<<<<<<< HEAD:src/app/services/activities.service.ts
 import {ActivityModel} from '../models/activity.model';
+=======
+import {ExplorationModel} from '../models/exploration.model';
+import getPaginateParams from '../shared/utils/get-paginate-params';
+>>>>>>> origin/main:src/app/services/explorations.service.ts
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +20,7 @@ export class ActivitiesService {
   constructor(private client: HttpClient) { }
 
   public get(paginate: PaginateRequestModel) {
-    const params = new HttpParams()
-      .set('page', paginate.page)
-      .set('pageSize', paginate.pageSize);
+    const params = getPaginateParams(paginate);
 
     return this.client.get<PaginateResponseModel<ActivityModel>>(`${this.baseUrl}`, {params: params});
   }

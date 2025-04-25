@@ -6,9 +6,10 @@ import {Subject, takeUntil} from 'rxjs';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
-import {PaginatorState} from 'primeng/paginator';
 import {ActivitiesService} from '../../../services/activities.service';
 import {EditActivityComponent} from '../../../components/edit-activity/edit-activity.component';
+import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+import { PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-activity-list',
@@ -23,8 +24,7 @@ import {EditActivityComponent} from '../../../components/edit-activity/edit-acti
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
   loading = true;
-  page = 0;
-  pageSize = 10;
+  paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
   currentEdit?: ActivityModel;
