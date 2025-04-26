@@ -33,7 +33,8 @@ export class CropListComponent implements OnInit, OnDestroy {
     headers: [
       {
         title: 'Atividade',
-        field: 'activity.category'
+        field: 'activity.category',
+        sortable: true,
       },
       {
         title: 'Nome',
