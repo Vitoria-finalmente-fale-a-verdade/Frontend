@@ -82,7 +82,6 @@ export class CropListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getCrops();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getCrops());

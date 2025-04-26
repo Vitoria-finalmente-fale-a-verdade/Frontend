@@ -75,7 +75,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getProperties();
     this.authService.customerChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getProperties());

@@ -85,7 +85,6 @@ export class MachineryListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getMachinery();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getMachinery());

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {UsersService} from '../../../services/users.service';
@@ -21,7 +21,7 @@ import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginat
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
   loading = true;
   paginateData = getDefaultPaginateRequest();
   total = 0;
@@ -74,10 +74,6 @@ export class UserListComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
   ) { }
-
-  ngOnInit() {
-    this.getUsers();
-  }
 
   getUsers() {
     this.loading = true;

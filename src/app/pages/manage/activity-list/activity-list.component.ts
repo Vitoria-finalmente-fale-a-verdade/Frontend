@@ -60,7 +60,6 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getActivities();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getActivities());
