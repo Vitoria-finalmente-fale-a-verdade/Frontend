@@ -68,6 +68,9 @@ export class CropListComponent implements OnInit, OnDestroy {
         severity: 'danger'
       }
     ],
+    preSort: {
+      field: 'implantationDate',
+    },
     data: []
   };
 

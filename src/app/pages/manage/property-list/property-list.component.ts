@@ -30,9 +30,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
-    preSort: {
-      field: 'name'
-    },
     headers: [
       {
         title: 'Nome',
