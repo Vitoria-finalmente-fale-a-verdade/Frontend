@@ -2,9 +2,15 @@ import {PaginateRequestModel} from '../../models/paginate-request.model';
 import {HttpParams} from '@angular/common/http';
 
 export default function getPaginateParams(paginate: PaginateRequestModel) {
-  return new HttpParams()
+  let params = new HttpParams()
     .set('page', paginate.page)
     .set('pageSize', paginate.pageSize)
-    .set('orderBy', paginate.orderBy ?? '')
-    .set('descending', paginate.descending ?? false);
+
+  if (paginate.orderBy?.length) {
+    params = params
+      .set('orderBy', paginate.orderBy ?? '')
+      .set('descending', paginate.descending ?? false);
+  }
+
+  return params;
 }
