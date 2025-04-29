@@ -9,6 +9,8 @@ import {AuthService} from '../../../services/auth.service';
 import {ActivitiesService} from '../../../services/activities.service';
 import {EditActivityComponent} from '../../../components/edit-activity/edit-activity.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+import {faLeaf} from '@fortawesome/free-solid-svg-icons';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-activity-list',
@@ -49,6 +51,13 @@ export class ActivityListComponent implements OnInit, OnDestroy {
         severity: 'danger'
       }
     ],
+    navigators: [
+      {
+        id: 'crop',
+        icon: faLeaf,
+        tooltip: 'Culturas',
+      },
+    ],
     data: []
   };
 
@@ -57,6 +66,7 @@ export class ActivityListComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private authService: AuthService,
     private activitiesService: ActivitiesService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -127,6 +137,20 @@ export class ActivityListComponent implements OnInit, OnDestroy {
             });
           },
         });
+    }
+  }
+
+  onNavigateClick(_: MouseEvent, id: string, activity: ActivityModel) {
+    switch (id) {
+      case 'crop':
+        this.router.navigate(['/manage/crops'], {
+          state: {
+            filters: {
+              'activity.id': activity.id
+            },
+          }
+        }).then();
+        break;
     }
   }
 }

@@ -9,6 +9,7 @@ import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
 import {FormsModule} from '@angular/forms';
 import getProp from '../../shared/utils/get-prop';
 import {PaginateRequestModel} from '../../models/paginate-request.model';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-lazy-table',
@@ -22,6 +23,7 @@ import {PaginateRequestModel} from '../../models/paginate-request.model';
     PrimeNgModule,
     FormsModule,
     NgOptimizedImage,
+    FaIconComponent,
   ],
   templateUrl: './lazy-table.component.html',
   styleUrl: './lazy-table.component.css'
@@ -35,6 +37,7 @@ export class LazyTableComponent {
   @Output() paginateDataChange = new EventEmitter<PaginateRequestModel>();
   @Output() onPaginate = new EventEmitter<void>();
   @Output() onActionClick = new EventEmitter();
+  @Output() onNavigateClick = new EventEmitter();
 
   onPaginateOutput(paginate: PaginateRequestModel) {
     this.paginateData = paginate;
@@ -58,6 +61,10 @@ export class LazyTableComponent {
 
   onAction(event: MouseEvent, id: string, row: any) {
     this.onActionClick.emit({event, id, row});
+  }
+
+  onNavigate(event: MouseEvent, id: string, row: any) {
+    this.onNavigateClick.emit({event, id, row});
   }
 
   protected readonly Array = Array;

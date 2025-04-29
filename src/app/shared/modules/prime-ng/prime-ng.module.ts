@@ -24,6 +24,7 @@ import {DatePickerModule} from 'primeng/datepicker';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {PanelMenuModule} from 'primeng/panelmenu';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [],
@@ -50,6 +51,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
     InputNumberModule,
     ToggleButtonModule,
     PanelMenuModule,
+    TooltipModule,
   ],
   exports: [
     CardModule,
@@ -77,6 +79,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
     InputNumberModule,
     ToggleButtonModule,
     PanelMenuModule,
+    TooltipModule,
   ]
 })
 export class PrimeNgModule { }

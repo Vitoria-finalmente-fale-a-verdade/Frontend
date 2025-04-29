@@ -5,10 +5,11 @@ import {AuthService} from '../../../services/auth.service';
 import {CropService} from '../../../services/crop.service';
 import {Button} from 'primeng/button';
 import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
-import {Subject, takeUntil} from 'rxjs';
+import {Observable, Subject, takeUntil} from 'rxjs';
 import CropModel from '../../../models/crop.model';
 import {EditCropComponent} from '../../../components/edit-crop/edit-crop.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+import {PaginateResponseModel} from '../../../models/paginate-response.model';
 
 @Component({
   selector: 'app-crop-list',
@@ -28,6 +29,7 @@ export class CropListComponent implements OnInit, OnDestroy {
   editVisible = false;
   currentEdit?: CropModel;
   unsubscribe = new Subject<void>();
+  filters?: any;
 
   tableData: LazyTableDataModel = {
     headers: [
@@ -85,6 +87,8 @@ export class CropListComponent implements OnInit, OnDestroy {
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getCrops());
+
+    this.filters = history.state.filters;
   }
 
   ngOnDestroy() {
@@ -94,8 +98,14 @@ export class CropListComponent implements OnInit, OnDestroy {
 
   getCrops() {
     this.loading = true;
-
-    this.cropsService.get(this.paginateData).subscribe({
+    let query: Observable<PaginateResponseModel<CropModel>>;
+    if (this.filters) {
+       query = this.cropsService.search(this.paginateData, this.filters);
+    } else {
+      query = this.cropsService.get(this.paginateData);
+    }
+    
+    query.subscribe({
       next: data => {
         this.tableData.data = data.items;
 

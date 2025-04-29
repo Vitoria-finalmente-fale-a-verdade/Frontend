@@ -9,6 +9,8 @@ import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
 import {Subject, takeUntil} from 'rxjs';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+import {faLeaf, faTractor} from '@fortawesome/free-solid-svg-icons';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-property-list',
@@ -64,6 +66,18 @@ export class PropertyListComponent implements OnInit, OnDestroy {
         severity: 'danger'
       }
     ],
+    navigators: [
+      {
+        id: 'crop',
+        icon: faLeaf,
+        tooltip: 'Culturas',
+      },
+      {
+        id: 'machinery',
+        icon: faTractor,
+        tooltip: 'Maquinários',
+      },
+    ],
     data: []
   };
 
@@ -72,6 +86,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -142,6 +157,20 @@ export class PropertyListComponent implements OnInit, OnDestroy {
             });
           },
         });
+    }
+  }
+
+  onNavigateClick(_: MouseEvent, id: string, property: PropertyModel) {
+    this.authService.property = property;
+
+    switch (id) {
+      case 'crop':
+        this.router.navigate(['/manage/crops']).then();
+        break;
+
+      case 'machinery':
+        this.router.navigate(['/manage/machinery']).then();
+        break;
     }
   }
 }
