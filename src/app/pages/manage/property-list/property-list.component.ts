@@ -9,7 +9,7 @@ import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
 import {Subject, takeUntil} from 'rxjs';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
-import {faLeaf, faTractor} from '@fortawesome/free-solid-svg-icons';
+import {faSeedling, faTractor} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 
 @Component({
@@ -68,9 +68,9 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     ],
     navigators: [
       {
-        id: 'crop',
-        icon: faLeaf,
-        tooltip: 'Culturas',
+        id: 'activity',
+        icon: faSeedling,
+        tooltip: 'Atividades',
       },
       {
         id: 'machinery',
@@ -164,8 +164,8 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.authService.property = property;
 
     switch (id) {
-      case 'crop':
-        this.router.navigate(['/manage/crops']).then();
+      case 'activity':
+        this.router.navigate(['/manage/activities']).then();
         break;
 
       case 'machinery':
