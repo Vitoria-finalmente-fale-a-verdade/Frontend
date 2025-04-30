@@ -146,7 +146,7 @@ export class ActivityListComponent implements OnInit, OnDestroy {
         this.router.navigate(['/manage/crops'], {
           state: {
             filters: {
-              'activity.id': activity.id
+              'activity': activity
             },
           }
         }).then();

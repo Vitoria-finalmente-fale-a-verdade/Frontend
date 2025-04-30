@@ -104,7 +104,7 @@ export class CropListComponent implements OnInit, OnDestroy {
     } else {
       query = this.cropsService.get(this.paginateData);
     }
-    
+
     query.subscribe({
       next: data => {
         this.tableData.data = data.items;

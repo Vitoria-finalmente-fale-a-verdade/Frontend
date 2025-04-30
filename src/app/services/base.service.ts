@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {PaginateRequestModel} from '../models/paginate-request.model';
 import getPaginateParams from '../shared/utils/get-paginate-params';
 import {PaginateResponseModel} from '../models/paginate-response.model';
+import setFilters from '../shared/utils/set-filters';
 
 export class BaseService<Model> {
   constructor(
@@ -16,7 +17,8 @@ export class BaseService<Model> {
 
   public search(paginate: PaginateRequestModel, searchFields: Model) {
     const params = getPaginateParams(paginate);
-    return this.client.post<PaginateResponseModel<Model>>(this.baseUrl + 'search', searchFields, { params: params });
+    const filters = setFilters(searchFields);
+    return this.client.post<PaginateResponseModel<Model>>(this.baseUrl + 'search', filters, { params: params });
   }
 
   public getAll() {
