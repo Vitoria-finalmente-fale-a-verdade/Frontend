@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {UsersService} from '../../../services/users.service';
@@ -8,6 +8,7 @@ import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 import {UserModel} from '../../../models/user.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -21,8 +22,8 @@ import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginat
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
-export class UserListComponent {
-  loading = true;
+export class UserListComponent implements OnDestroy{
+  loading: Subscription|null = new Subscription();
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
@@ -75,10 +76,14 @@ export class UserListComponent {
     private messageService: MessageService,
   ) { }
 
-  getUsers() {
-    this.loading = true;
+  ngOnDestroy() {
+    this.loading?.unsubscribe();
+  }
 
-    this.usersSerivce.get(this.paginateData).subscribe(data => {
+  getUsers() {
+    this.loading?.unsubscribe();
+
+    this.loading = this.usersSerivce.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items.map(user => {
         let item: any;
         item = user;
@@ -89,7 +94,7 @@ export class UserListComponent {
       });
 
       this.total = data.total;
-      this.loading = false;
+      this.loading = null;
     });
   }
 

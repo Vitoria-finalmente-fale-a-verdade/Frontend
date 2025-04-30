@@ -5,7 +5,7 @@ import {AuthService} from '../../../services/auth.service';
 import {CropService} from '../../../services/crop.service';
 import {Button} from 'primeng/button';
 import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
-import {Observable, Subject, takeUntil} from 'rxjs';
+import {Observable, Subject, Subscription, takeUntil} from 'rxjs';
 import CropModel from '../../../models/crop.model';
 import {EditCropComponent} from '../../../components/edit-crop/edit-crop.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
@@ -23,7 +23,7 @@ import {PaginateResponseModel} from '../../../models/paginate-response.model';
   styleUrl: './crop-list.component.css'
 })
 export class CropListComponent implements OnInit, OnDestroy {
-  loading = true;
+  loading: Subscription|null = new Subscription();
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
@@ -92,12 +92,14 @@ export class CropListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.loading?.unsubscribe();
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 
   getCrops() {
-    this.loading = true;
+    this.loading?.unsubscribe();
+
     let query: Observable<PaginateResponseModel<CropModel>>;
     if (this.filters) {
        query = this.cropsService.search(this.paginateData, this.filters);
@@ -105,12 +107,12 @@ export class CropListComponent implements OnInit, OnDestroy {
       query = this.cropsService.get(this.paginateData);
     }
 
-    query.subscribe({
+    this.loading = query.subscribe({
       next: data => {
         this.tableData.data = data.items;
 
         this.total = data.total;
-        this.loading = false;
+        this.loading = null;
       },
       error: () => {
         this.messageService.add({
@@ -119,7 +121,7 @@ export class CropListComponent implements OnInit, OnDestroy {
           severity: 'error',
         });
 
-        this.loading = false;
+        this.loading = null;
       }
     });
   }

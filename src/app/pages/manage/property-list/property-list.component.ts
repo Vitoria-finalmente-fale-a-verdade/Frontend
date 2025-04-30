@@ -7,7 +7,7 @@ import {PropertiesService} from '../../../services/properties.service';
 import {EditPropertyComponent} from '../../../components/edit-property/edit-property.component';
 import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject, Subscription, takeUntil} from 'rxjs';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 import {faSeedling, faTractor} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
@@ -24,7 +24,7 @@ import {Router} from '@angular/router';
   styleUrl: './property-list.component.css'
 })
 export class PropertyListComponent implements OnInit, OnDestroy {
-  loading = true;
+  loading: Subscription|null = new Subscription();
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
@@ -96,18 +96,19 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.loading?.unsubscribe();
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 
   getProperties() {
-    this.loading = true;
+    this.loading?.unsubscribe();
 
-    this.propertiesService.get(this.paginateData).subscribe(data => {
+    this.loading = this.propertiesService.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
-      this.loading = false;
+      this.loading = null;
     });
   }
 

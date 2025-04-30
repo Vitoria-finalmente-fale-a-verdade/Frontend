@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
 import {ActivityModel} from '../../../models/activity.model';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject, Subscription, takeUntil} from 'rxjs';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
@@ -24,7 +24,7 @@ import {Router} from '@angular/router';
   styleUrl: './activity-list.component.css'
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
-  loading = true;
+  loading: Subscription|null = new Subscription();
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
@@ -76,18 +76,19 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.loading?.unsubscribe();
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 
   getActivities() {
-    this.loading = true;
+    this.loading?.unsubscribe();
 
-    this.activitiesService.get(this.paginateData).subscribe(data => {
+    this.loading = this.activitiesService.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
-      this.loading = false;
+      this.loading = null;
     });
   }
 

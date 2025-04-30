@@ -32,7 +32,7 @@ export class LazyTableComponent {
   @Input({ required: true }) table!: LazyTableDataModel;
   @Input({required: true}) paginateData!: PaginateRequestModel;
   @Input({ required: true }) total!: number;
-  @Input() loading = false;
+  @Input() loading: boolean|any = false;
 
   @Output() paginateDataChange = new EventEmitter<PaginateRequestModel>();
   @Output() onPaginate = new EventEmitter<void>();

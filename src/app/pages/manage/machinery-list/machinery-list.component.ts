@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Button } from 'primeng/button';
 import { LazyTableComponent } from '../../../components/lazy-table/lazy-table.component';
 import { EditMachineryComponent } from '../../../components/edit-machinery/edit-machinery.component';
-import { Subject, takeUntil } from 'rxjs';
+import {Subject, Subscription, takeUntil} from 'rxjs';
 import MachineryModel from '../../../models/machinery.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
@@ -22,7 +22,7 @@ import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginat
   styleUrl: './machinery-list.component.css'
 })
 export class MachineryListComponent implements OnInit, OnDestroy {
-  loading = true;
+  loading: Subscription|null = new Subscription();
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
@@ -91,19 +91,20 @@ export class MachineryListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.loading?.unsubscribe();
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 
   getMachinery() {
-    this.loading = true;
+    this.loading?.unsubscribe();
 
-    this.machineryService.get(this.paginateData).subscribe({
+    this.loading = this.machineryService.get(this.paginateData).subscribe({
       next: data => {
         this.tableData.data = data.items;
 
         this.total = data.total;
-        this.loading = false;
+        this.loading = null;
       },
       error: () => {
         this.messageService.add({
@@ -112,7 +113,7 @@ export class MachineryListComponent implements OnInit, OnDestroy {
           severity: 'error',
         });
 
-        this.loading = false;
+        this.loading = null;
       }
     });
   }
