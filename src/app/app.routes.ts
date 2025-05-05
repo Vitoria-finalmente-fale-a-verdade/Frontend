@@ -10,6 +10,7 @@ import {PropertyListComponent} from './pages/manage/property-list/property-list.
 import {ActivityListComponent} from './pages/manage/activity-list/activity-list.component';
 import {CropListComponent} from './pages/manage/crop-list/crop-list.component';
 import { MachineryListComponent } from './pages/manage/machinery-list/machinery-list.component';
+import { ProductListComponent } from './pages/manage/product-list/product-list.component';
 
 
 export const routes: Routes = [
@@ -67,6 +68,13 @@ export const routes: Routes = [
             component: MachineryListComponent,
             data: {
               title: 'Maquinário'
+            }
+          },
+          {
+            path: 'products',
+            component: ProductListComponent,
+            data: {
+              title: 'Produto'
             }
           },
         ]

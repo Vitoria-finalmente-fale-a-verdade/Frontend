@@ -9,7 +9,7 @@ import {RouterModule} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
-import {faBriefcase, faBuilding, faHome, faLeaf, faSeedling, faUser, faTractor} from '@fortawesome/free-solid-svg-icons';
+import {faBriefcase, faBuilding, faHome, faLeaf, faSeedling, faUser, faTractor, faBox} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -81,6 +81,12 @@ export class SidebarComponent implements OnInit {
             label: 'Maquinario',
             faIcon: faTractor,
             route: 'manage/machinery'
+          },
+          {
+            key: 'product',
+            label: 'Produto',
+            faIcon: faBox,
+            route: 'manage/products'
           }
         ]
       }

@@ -1,0 +1,22 @@
+<div class="flex justify-end items-center w-full mb-4">
+  <p-button
+    severity="secondary"
+    label="Novo produto"
+    icon="pi pi-plus"
+    (onClick)="addProperty()"
+  />
+</div>
+<app-lazy-table
+  [table]="tableData"
+  [loading]="loading"
+  [(paginateData)]="paginateData"
+  [total]="total"
+  (onPaginate)="getProducts()"
+  (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
+/>
+<app-edit-product
+  [visible]="editVisible"
+  (onSave)="onSave()"
+  (onClose)="onEditCancel()"
+  [product]="currentEdit"
+></app-edit-product>
