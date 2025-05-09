@@ -1,55 +1,58 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
-import {ConfirmationService, MessageService} from 'primeng/api';
-import {AuthService} from '../../../services/auth.service';
-import {CropService} from '../../../services/crop.service';
-import {Button} from 'primeng/button';
-import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
-import {Subject, takeUntil} from 'rxjs';
-import {CropModel} from '../../../models/crop.model';
-import {EditCropComponent} from '../../../components/edit-crop/edit-crop.component';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { StockMovementModel } from '../../../models/stock-movement.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+import { Subject, takeUntil } from 'rxjs';
+import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { AuthService } from '../../../services/auth.service';
+import { StockMovementService } from '../../../services/stock-movement.service';
+import { Button } from 'primeng/button';
+import { LazyTableComponent } from '../../../components/lazy-table/lazy-table.component';
+import { EditStockMovementComponent } from '../../../components/edit-stock-movement/edit-stock-movement.component';
 
 @Component({
-  selector: 'app-crop-list',
+  selector: 'app-stock-movement-list',
   standalone: true,
   imports: [
     Button,
     LazyTableComponent,
-    EditCropComponent,
+    EditStockMovementComponent,
   ],
-  templateUrl: './crop-list.component.html',
-  styleUrl: './crop-list.component.css'
+  templateUrl: './stock-movement-list.component.html',
+  styleUrl: './stock-movement-list.component.css'
 })
-export class CropListComponent implements OnInit, OnDestroy {
+export class StockMovementListComponent implements OnInit, OnDestroy {
   loading = true;
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
-  currentEdit?: CropModel;
+  currentEdit?: StockMovementModel;
   unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
     headers: [
       {
+        title: 'Item',
+        field: 'product.name'
+      },
+      {
         title: 'Atividade',
         field: 'activity.category'
       },
       {
-        title: 'Nome',
-        field: 'name',
-        sortable: true,
+        title: 'Cultura',
+        field: 'crop.name'
       },
       {
-        title: 'Implantação',
-        field: 'implantationDate',
+        title: 'Data',
+        field: 'movement_date',
         type: 'date',
         center: true,
         sortable: true,
       },
       {
-        title: 'Área',
-        field: 'area',
+        title: 'Quantidade',
+        field: 'quantity',
         center: true,
         unit: 'ha',
         sortable: true,
@@ -71,17 +74,18 @@ export class CropListComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private cropsService: CropService,
+    private stockMovementService: StockMovementService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
   ) { }
 
+
   ngOnInit() {
-    this.getCrops();
+    this.getStockMovements();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getCrops());
+      .subscribe(() => this.getStockMovements());
   }
 
   ngOnDestroy() {
@@ -89,10 +93,10 @@ export class CropListComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getCrops() {
+  getStockMovements() {
     this.loading = true;
 
-    this.cropsService.get(this.paginateData).subscribe({
+    this.stockMovementService.get(this.paginateData).subscribe({
       next: data => {
         this.tableData.data = data.items;
 
@@ -102,7 +106,7 @@ export class CropListComponent implements OnInit, OnDestroy {
       error: () => {
         this.messageService.add({
           summary: 'Erro',
-          detail: `Erro ao buscar culturas`,
+          detail: `Erro ao buscar movimentação`,
           severity: 'error',
         });
 
@@ -113,10 +117,10 @@ export class CropListComponent implements OnInit, OnDestroy {
 
   onSave() {
     this.editVisible = false;
-    this.getCrops();
+    this.getStockMovements();
   }
 
-  addCulture() {
+  addStockMovement() {
     this.editVisible = true;
   }
 
@@ -134,7 +138,7 @@ export class CropListComponent implements OnInit, OnDestroy {
       case 'delete':
         this.confirmationService.confirm({
           header: 'Cuidado!',
-          message: `Tem certeza que deseja excluir a cultura '${row.name}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
+          message: `Tem certeza que deseja excluir a movimentação '${row.name}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
           acceptButtonProps: {
             label: 'Excluir',
             severity: 'danger',
@@ -145,12 +149,12 @@ export class CropListComponent implements OnInit, OnDestroy {
             outlined: true
           },
           accept: () => {
-            this.cropsService.delete(row.id).subscribe({
+            this.stockMovementService.delete(row.id).subscribe({
               next: () => {
-                this.getCrops();
+                this.getStockMovements();
                 this.messageService.add({
-                  summary: 'Cultura excluída',
-                  detail: `A cultura ${row.name} foi excluída com sucesso`,
+                  summary: 'Movimentação excluída',
+                  detail: `A movimentação ${row.name} foi excluída com sucesso`,
                   severity: 'success',
                 });
               }

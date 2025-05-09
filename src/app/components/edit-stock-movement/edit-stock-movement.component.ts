@@ -1,30 +1,33 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MessageService} from 'primeng/api';
-import {HttpErrorResponse} from '@angular/common/http';
-import {CropService} from '../../services/crop.service';
-import {Subject, takeUntil} from 'rxjs';
-import {EditFormComponent} from '../edit-form/edit-form.component';
-import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
-import {CropModel} from '../../models/crop.model';
-import {ActivityModel} from '../../models/activity.model';
-import {ActivitiesService} from '../../services/activities.service';
-import {AuthService} from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { ActivitiesService } from '../../services/activities.service';
+import { MessageService } from 'primeng/api';
+import { CropService } from '../../services/crop.service';
+import { StockMovementModel } from '../../models/stock-movement.model';
+import { ActivityModel } from '../../models/activity.model';
+import { CropModel } from '../../models/crop.model';
+import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
+import { EditFormComponent } from '../edit-form/edit-form.component';
+import { ProductModel } from '../../models/product.model';
+
 
 @Component({
-  selector: 'app-edit-crop',
+  selector: 'app-edit-stock-movement',
   standalone: true,
   imports: [
     EditFormComponent,
     ReactiveFormsModule,
     PrimeNgModule,
   ],
-  templateUrl: './edit-crop.component.html',
-  styleUrl: './edit-crop.component.css'
+  templateUrl: './edit-stock-movement.component.html',
+  styleUrl: './edit-stock-movement.component.css'
 })
-export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
+export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy {
   @Input({ required: true }) visible!: boolean;
-  @Input() crop?: CropModel;
+  @Input() stockMovement?: StockMovementModel;
 
   @Output() onSave = new Subject<void>();
   @Output() onClose = new Subject<void>();
@@ -33,7 +36,9 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
   loading = false;
   edit = false;
   loadingActivities = true;
+  productList: ProductModel[] = [];
   activityList: ActivityModel[] = [];
+  cropList: CropModel[] = [];
   unsubscribe = new Subject<void>();
 
   today = new Date();
@@ -61,7 +66,7 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    this.edit = !!this.crop?.id;
+    this.edit = !!this.stockMovement?.id;
     this.resetForm();
   }
 
@@ -89,19 +94,28 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
 
   initForm() {
     this.editForm = this.formBuilder.group({
-      name: [null, Validators.required],
+      productId: [null, Validators.required],
       activityId: [null, Validators.required],
-      implantationDate: [null, Validators.required],
-      area: [null, Validators.required],
+      cropId: [null, Validators.required],
+      movementType: [null, Validators.required],
+      quantity: [null, Validators.required],
+      movementDate: [null, Validators.required],
+      unitValue: [null, Validators.required],
+      notes: null,
+
     });
   }
 
   resetForm() {
     this.editForm.setValue({
-      name: this.crop?.name ?? '',
-      activityId: this.crop?.activity?.id ?? '',
-      implantationDate: this.crop?.implantationDate ?? new Date(),
-      area: this.crop?.area ?? null,
+      productId: this.stockMovement?.product?.id ?? '',
+      activityId: this.stockMovement?.activity?.id ?? '',
+      cropId: this.stockMovement?.crop?.id ?? '',
+      movementType: this.stockMovement?.movement_type ?? '',
+      quantity: this.stockMovement?.quantity ?? '',
+      movementDate: this.stockMovement?.movement_date ?? new Date(),
+      unitValue: this.stockMovement?.unit_value ?? null,
+      notes: this.stockMovement?.notes ?? null,
     });
   }
 
@@ -112,10 +126,10 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.loading = true;
-    if (this.crop) {
-      this.cropService.update(this.crop.id, this.editForm.value).subscribe({
+    if (this.stockMovement) {
+      this.cropService.update(this.stockMovement.id, this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Cultura atualizada com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Movimentação atualizada com sucesso', severity: 'success'});
           this.emitSave()
         },
         error: (_: HttpErrorResponse) => {
@@ -126,11 +140,11 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.cropService.create(this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Cultura criada com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Movimentação criada com sucesso', severity: 'success'});
           this.emitSave();
         },
         error: (_: HttpErrorResponse) => {
-          this.messageService.add({summary: 'Erro', detail: 'Erro ao criar cultura', severity: 'error'});
+          this.messageService.add({summary: 'Erro', detail: 'Erro ao criar movimentação', severity: 'error'});
           this.loading = false;
         }
       });

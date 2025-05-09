@@ -5,7 +5,7 @@ import {PaginateRequestModel} from '../models/paginate-request.model';
 import {PaginateResponseModel} from '../models/paginate-response.model';
 import {PropertyModel} from '../models/property.model';
 import getPaginateParams from '../shared/utils/get-paginate-params';
-import CropModel from '../models/crop.model';
+import {CropModel} from '../models/crop.model';
 
 @Injectable({
   providedIn: 'root'
