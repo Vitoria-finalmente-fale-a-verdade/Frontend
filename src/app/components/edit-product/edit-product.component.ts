@@ -49,16 +49,20 @@ export class EditProductComponent implements OnChanges{
   initForm() {
     this.editForm = this.formBuilder.group({
       name: [null, Validators.required],
-      unitValue: [null, Validators.required],
-      quantity: [null, Validators.required],
+      description: [null, Validators.required],
+      unitOfMeasure: [null, Validators.required],
+      currentStockLevel: [null, Validators.required],
+      itemType: [null, Validators.required],
     });
   }
 
   resetForm() {
     this.editForm.setValue({
       name: this.product?.name ?? '',
-      unitValue: this.product?.unitValue ?? null,
-      quantity: this.product?.quantity ?? null,
+      description: this.product?.description ?? '',
+      unitOfMeasure: this.product?.unitOfMeasure ?? '',
+      currentStockLevel: this.product?.currentStockLevel ?? null,
+      itemType: this.product?.itemType ?? null,
     });
   }
 

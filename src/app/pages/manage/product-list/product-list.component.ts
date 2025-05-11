@@ -37,16 +37,21 @@ export class ProductListComponent implements OnInit, OnDestroy {
         sortable: true,
       },
       {
-        title: 'Valor',
-        field: 'unitValue',
-        type: 'currency',
+        title: 'Descrição',
+        field: 'description',
         sortable: true,
       },
       {
         title: 'Quantidade',
-        field: 'quantity',
+        field: 'currentStockLevel',
         sortable: true,
       },
+      {
+        title: 'Unidade',
+        field: 'unitOfMeasure',
+        sortable: true,
+      },
+
     ],
     actions: [
       {
@@ -75,6 +80,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getProducts());
+
+      this.productService.getMovementTypes()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => console.log(data));
   }
 
   ngOnDestroy() {
