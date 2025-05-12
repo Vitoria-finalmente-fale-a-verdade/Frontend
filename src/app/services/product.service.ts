@@ -11,7 +11,7 @@ import { ProductModel } from '../models/product.model';
 })
 export class ProductService {
 
-  baseUrl = environment.baseUrl + 'inventory/items';
+  baseUrl = environment.baseUrl + 'inventory/items/';
 
   constructor(private client: HttpClient) { }
 
@@ -38,6 +38,6 @@ export class ProductService {
   }
 
   public getMovementTypes(){
-    return this.client.get<any>(`${this.baseUrl}movementTypes/`);
+    return this.client.get<any>(`inventory/movementTypes/`);
   }
 }

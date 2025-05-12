@@ -13,7 +13,7 @@
           id="activity"
           class="w-full"
           [options]="productList"
-          formControlName="productId"
+          formControlName="inventoryItemId"
           optionLabel="category"
           [loading]="loadingActivities"
           appendTo="body"
@@ -27,7 +27,7 @@
           id="activity"
           class="w-full"
           [options]="activityList"
-          formControlName="activityId"
+          formControlName="relatedActivityId"
           optionLabel="category"
           [loading]="loadingActivities"
           appendTo="body"
@@ -38,12 +38,12 @@
       </p-floatlabel>
       <p-floatlabel class="basis-1/3" variant="on">
         <p-select
-          id="activity"
+          id="crop"
           class="w-full"
           [options]="cropList"
           formControlName="cropId"
-          optionLabel="category"
-          [loading]="loadingActivities"
+          optionLabel="name"
+          [loading]="loadingCrops"
           appendTo="body"
           dataKey="id"
           optionValue="id"

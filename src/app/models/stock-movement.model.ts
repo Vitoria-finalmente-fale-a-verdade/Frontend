@@ -5,17 +5,18 @@ import { PropertyModel } from "./property.model";
 
 export interface StockMovementModel {
   id: string;
-  product_id: string;
-  product: ProductModel;
-  property_id: string;
+  inventoryItemId: string;
+  inventoryItemName: string;
+  inventoryItemUnit: string;
+  propertyId: string;
   property: PropertyModel;
-  movement_type: number;
+  movementType: number;
   quantity: number;
-  movement_date: Date;
-  unit_value: number;
-  related_activity_id: string;
-  activity: ActivityModel;
-  related_crop_id: string;
-  crop: CropModel;
+  movementDate: Date;
+  unitValue: number;
+  relatedActivityId: string;
+  relatedActivityCategory: string;
+  relatedCropId: string;
+  relatedCropName: string;
   notes: string;
 }

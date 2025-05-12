@@ -33,19 +33,19 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
     headers: [
       {
         title: 'Item',
-        field: 'product.name'
+        field: 'inventoryItemName'
       },
       {
         title: 'Atividade',
-        field: 'activity.category'
+        field: 'relatedActivityCategory'
       },
       {
         title: 'Cultura',
-        field: 'crop.name'
+        field: 'relatedCropName'
       },
       {
         title: 'Data',
-        field: 'movement_date',
+        field: 'movementDate',
         type: 'date',
         center: true,
         sortable: true,
@@ -54,7 +54,18 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
         title: 'Quantidade',
         field: 'quantity',
         center: true,
-        unit: 'ha',
+        sortable: true,
+      },
+      {
+        title: 'Unidade',
+        field: 'inventoryItemUnit',
+        center: true,
+        sortable: true,
+      },
+      {
+        title: 'Notas',
+        field: 'notes',
+        center: true,
         sortable: true,
       },
     ],

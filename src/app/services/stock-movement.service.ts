@@ -11,7 +11,7 @@ import { StockMovementModel } from '../models/stock-movement.model';
 })
 export class StockMovementService {
 
-  baseUrl = environment.baseUrl + 'stock_movements/';
+  baseUrl = environment.baseUrl + 'inventory/items/f11a11a1-feed-4eec-abee-abc123def001/movements/';
 
   constructor(private client: HttpClient) { }
 

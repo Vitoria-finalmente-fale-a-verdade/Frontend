@@ -1,3 +1,4 @@
+import { ProductService } from './../../services/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -35,7 +36,9 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   editForm!: FormGroup;
   loading = false;
   edit = false;
+  loadingProducts = true;
   loadingActivities = true;
+  loadingCrops = true;
   productList: ProductModel[] = [];
   activityList: ActivityModel[] = [];
   cropList: CropModel[] = [];
@@ -48,6 +51,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     private cropService: CropService,
     private messageService: MessageService,
     private activitiesService: ActivitiesService,
+    private productService: ProductService,
     private authService: AuthService,
   ) {
     this.initForm();
@@ -55,10 +59,17 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
 
   ngOnInit() {
     this.getActivities();
-
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getActivities());
+    this.getCrops();
+    this.authService.propertyChange
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => this.getCrops());
+    this.getProducts();
+    this.authService.propertyChange
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => this.getProducts());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -92,10 +103,44 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     })
   }
 
+  getCrops() {
+    this.cropService.getAll().subscribe({
+      next: data => {
+        this.cropList = data;
+        this.loadingCrops = false;
+      },
+      error: _ => {
+        this.messageService.add({
+          summary: 'Erro',
+          detail: 'Erro ao buscar culturas',
+          severity: 'error',
+        })
+        this.loadingCrops = false;
+      }
+    })
+  }
+
+  getProducts() {
+    this.productService.getAll().subscribe({
+      next: data => {
+        this.productList = data;
+        this.loadingProducts = false;
+      },
+      error: _ => {
+        this.messageService.add({
+          summary: 'Erro',
+          detail: 'Erro ao buscar culturas',
+          severity: 'error',
+        })
+        this.loadingProducts = false;
+      }
+    })
+  }
+
   initForm() {
     this.editForm = this.formBuilder.group({
-      productId: [null, Validators.required],
-      activityId: [null, Validators.required],
+      inventoryItemId: [null, Validators.required],
+      relatedActivityId: [null, Validators.required],
       cropId: [null, Validators.required],
       movementType: [null, Validators.required],
       quantity: [null, Validators.required],
@@ -108,13 +153,13 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
 
   resetForm() {
     this.editForm.setValue({
-      productId: this.stockMovement?.product?.id ?? '',
-      activityId: this.stockMovement?.activity?.id ?? '',
-      cropId: this.stockMovement?.crop?.id ?? '',
-      movementType: this.stockMovement?.movement_type ?? '',
+      inventoryItemId: this.stockMovement?.inventoryItemId ?? '',
+      relatedActivityId: this.stockMovement?.relatedActivityId ?? '',
+      cropId: this.stockMovement?.relatedCropId ?? '',
+      movementType: this.stockMovement?.movementType ?? '',
       quantity: this.stockMovement?.quantity ?? '',
-      movementDate: this.stockMovement?.movement_date ?? new Date(),
-      unitValue: this.stockMovement?.unit_value ?? null,
+      movementDate: this.stockMovement?.movementDate ?? new Date(),
+      unitValue: this.stockMovement?.unitValue ?? null,
       notes: this.stockMovement?.notes ?? null,
     });
   }
