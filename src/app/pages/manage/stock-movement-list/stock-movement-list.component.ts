@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StockMovementModel } from '../../../models/stock-movement.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
-import { Subject, takeUntil } from 'rxjs';
+import {Observable, Subject, takeUntil} from 'rxjs';
 import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
@@ -9,6 +9,7 @@ import { StockMovementService } from '../../../services/stock-movement.service';
 import { Button } from 'primeng/button';
 import { LazyTableComponent } from '../../../components/lazy-table/lazy-table.component';
 import { EditStockMovementComponent } from '../../../components/edit-stock-movement/edit-stock-movement.component';
+import {PaginateResponseModel} from '../../../models/paginate-response.model';
 
 @Component({
   selector: 'app-stock-movement-list',
@@ -28,12 +29,13 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
   editVisible = false;
   currentEdit?: StockMovementModel;
   unsubscribe = new Subject<void>();
+  filters?: any;
 
   tableData: LazyTableDataModel = {
     headers: [
       {
         title: 'Item',
-        field: 'inventoryItemName'
+        field: 'inventoryItem.name'
       },
       {
         title: 'Atividade',
@@ -93,10 +95,11 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.getStockMovements();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getStockMovements());
+
+    this.filters = history.state.filters;
   }
 
   ngOnDestroy() {
@@ -107,7 +110,14 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
   getStockMovements() {
     this.loading = true;
 
-    this.stockMovementService.get(this.paginateData).subscribe({
+    let query: Observable<PaginateResponseModel<StockMovementModel>>;
+    if (this.filters) {
+      query = this.stockMovementService.search(this.paginateData, this.filters);
+    } else {
+      query = this.stockMovementService.get(this.paginateData);
+    }
+
+    query.subscribe({
       next: data => {
         this.tableData.data = data.items;
 

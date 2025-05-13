@@ -9,6 +9,8 @@ import { InventoryItemModel } from '../../../models/inventory-item.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
 import { EditInventoryItemComponent } from '../../../components/edit-inventory-item/edit-inventory-item.component';
+import {faArrows} from '@fortawesome/free-solid-svg-icons';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-inventory-item-list',
@@ -65,6 +67,13 @@ export class InventoryItemListComponent implements OnInit, OnDestroy {
         severity: 'danger'
       }
     ],
+    navigators: [
+      {
+        id: 'stockMovements',
+        icon: faArrows,
+        tooltip: 'Movimentações',
+      },
+    ],
     data: []
   };
 
@@ -72,11 +81,11 @@ export class InventoryItemListComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
-    private inventoryItemService: InventoryItemService
+    private inventoryItemService: InventoryItemService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.getInventoryItems();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getInventoryItems());
@@ -144,6 +153,20 @@ export class InventoryItemListComponent implements OnInit, OnDestroy {
             });
           },
         });
+    }
+  }
+
+  onNavigateClick(_: MouseEvent, id: string, item: InventoryItemModel) {
+    switch (id) {
+      case 'stockMovements':
+        this.router.navigate(['/manage/stock-movements'], {
+          state: {
+            filters: {
+              'inventoryItem': item
+            },
+          }
+        }).then();
+        break;
     }
   }
 }

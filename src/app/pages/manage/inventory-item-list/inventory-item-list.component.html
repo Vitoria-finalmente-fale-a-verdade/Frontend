@@ -13,6 +13,7 @@
   [total]="total"
   (onPaginate)="getInventoryItems()"
   (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
+  (onNavigateClick)="onNavigateClick($event.event, $event.id, $event.row)"
 />
 <app-edit-inventory-item
   [visible]="editVisible"

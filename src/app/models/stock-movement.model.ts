@@ -1,10 +1,10 @@
 import { PropertyModel } from "./property.model";
+import {InventoryItemModel} from './inventory-item.model';
 
 export interface StockMovementModel {
   id: string;
   inventoryItemId: string;
-  inventoryItemName: string;
-  inventoryItemUnit: string;
+  inventoryItem: InventoryItemModel;
   propertyId: string;
   property: PropertyModel;
   movementType: number;
