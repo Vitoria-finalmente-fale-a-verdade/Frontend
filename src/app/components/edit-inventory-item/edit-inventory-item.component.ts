@@ -1,26 +1,26 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProductModel } from '../../models/product.model';
+import { InventoryItemModel } from '../../models/inventoryItem.model';
 import { MessageService } from 'primeng/api';
-import { ProductService } from '../../services/product.service';
+import { InventoryItemService } from '../../services/inventoryItem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
 
 @Component({
-  selector: 'app-edit-product',
+  selector: 'app-edit-inventory-item',
   standalone: true,
   imports: [
     EditFormComponent,
     ReactiveFormsModule,
     PrimeNgModule,
   ],
-  templateUrl: './edit-product.component.html',
-  styleUrl: './edit-product.component.css'
+  templateUrl: './edit-inventory-item.component.html',
+  styleUrl: './edit-inventory-item.component.css'
 })
-export class EditProductComponent implements OnChanges{
+export class EditInventoryItemComponent implements OnChanges{
   @Input({ required: true }) visible!: boolean;
-  @Input() product?: ProductModel;
+  @Input() inventoryItem?: InventoryItemModel;
 
   @Output() onSave = new EventEmitter();
   @Output() onClose = new EventEmitter();
@@ -32,7 +32,7 @@ export class EditProductComponent implements OnChanges{
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private productService: ProductService,
+    private inventoryItemService: InventoryItemService,
   ) {
     this.initForm();
   }
@@ -42,7 +42,7 @@ export class EditProductComponent implements OnChanges{
       return;
     }
 
-    this.edit = !!this.product?.id;
+    this.edit = !!this.inventoryItem?.id;
     this.resetForm();
   }
 
@@ -58,11 +58,11 @@ export class EditProductComponent implements OnChanges{
 
   resetForm() {
     this.editForm.setValue({
-      name: this.product?.name ?? '',
-      description: this.product?.description ?? '',
-      unitOfMeasure: this.product?.unitOfMeasure ?? '',
-      currentStockLevel: this.product?.currentStockLevel ?? null,
-      itemType: this.product?.itemType ?? null,
+      name: this.inventoryItem?.name ?? '',
+      description: this.inventoryItem?.description ?? '',
+      unitOfMeasure: this.inventoryItem?.unitOfMeasure ?? '',
+      currentStockLevel: this.inventoryItem?.currentStockLevel ?? null,
+      itemType: this.inventoryItem?.itemType ?? null,
     });
   }
 
@@ -73,15 +73,15 @@ export class EditProductComponent implements OnChanges{
     }
 
     this.loading = true;
-    if (this.product) {
-      this.productService.update(this.product.id, this.editForm.value).subscribe({
+    if (this.inventoryItem) {
+      this.inventoryItemService.update(this.inventoryItem.id, this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Produto atualizado com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Inventário atualizado com sucesso', severity: 'success'});
           this.emitSave();
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 409) {
-            this.messageService.add({summary: 'Erro', detail: 'Já existe um produto com essa categoria', severity: 'error'});
+            this.messageService.add({summary: 'Erro', detail: 'Já existe um item no inventário com essa categoria', severity: 'error'});
           }
           else {
             this.messageService.add({summary: 'Erro', detail: 'Erro ao salvar alterações', severity: 'error'});
@@ -90,17 +90,17 @@ export class EditProductComponent implements OnChanges{
         }
       });
     } else {
-      this.productService.create(this.editForm.value).subscribe({
+      this.inventoryItemService.create(this.editForm.value).subscribe({
         next: () => {
-          this.messageService.add({summary: 'Sucesso', detail: 'Produto criado com sucesso', severity: 'success'});
+          this.messageService.add({summary: 'Sucesso', detail: 'Item no inventário criado com sucesso', severity: 'success'});
           this.emitSave();
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 409) {
-            this.messageService.add({summary: 'Erro', detail: 'Já existe um produto com essa categoria', severity: 'error'});
+            this.messageService.add({summary: 'Erro', detail: 'Já existe um item no inventário com essa categoria', severity: 'error'});
           }
           else {
-            this.messageService.add({summary: 'Erro', detail: 'Erro ao criar produto', severity: 'error'});
+            this.messageService.add({summary: 'Erro', detail: 'Erro ao criar item no inventário', severity: 'error'});
           }
           this.emitSave();
         }

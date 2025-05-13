@@ -83,10 +83,10 @@ export class SidebarComponent implements OnInit {
             route: 'manage/machinery'
           },
           {
-            key: 'product',
-            label: 'Produto',
+            key: 'inventory-items',
+            label: 'Inventário',
             faIcon: faBox,
-            route: 'manage/products'
+            route: 'manage/inventory-items'
           },
           {
             key: 'stock-movement',

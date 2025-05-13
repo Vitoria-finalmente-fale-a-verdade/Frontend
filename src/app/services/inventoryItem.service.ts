@@ -4,12 +4,12 @@ import { environment } from '../../environments/environment';
 import { PaginateRequestModel } from '../models/paginate-request.model';
 import getPaginateParams from '../shared/utils/get-paginate-params';
 import { PaginateResponseModel } from '../models/paginate-response.model';
-import { ProductModel } from '../models/product.model';
+import { InventoryItemModel } from '../models/inventoryItem.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class InventoryItemService {
 
   baseUrl = environment.baseUrl + 'inventory/items/';
 
@@ -18,19 +18,19 @@ export class ProductService {
   public get(paginate: PaginateRequestModel) {
     const params = getPaginateParams(paginate);
 
-    return this.client.get<PaginateResponseModel<ProductModel>>(`${this.baseUrl}`, {params: params});
+    return this.client.get<PaginateResponseModel<InventoryItemModel>>(`${this.baseUrl}`, {params: params});
   }
 
   public getAll() {
-    return this.client.get<ProductModel[]>(`${this.baseUrl}all/`);
+    return this.client.get<InventoryItemModel[]>(`${this.baseUrl}all/`);
   }
 
-  public create(user: ProductModel) {
-    return this.client.post<ProductModel>(`${this.baseUrl}`, user);
+  public create(user: InventoryItemModel) {
+    return this.client.post<InventoryItemModel>(`${this.baseUrl}`, user);
   }
 
-  public update(id: string, user: ProductModel) {
-    return this.client.put<ProductModel>(`${this.baseUrl}${id}`, user);
+  public update(id: string, user: InventoryItemModel) {
+    return this.client.put<InventoryItemModel>(`${this.baseUrl}${id}`, user);
   }
 
   public delete(id: string) {

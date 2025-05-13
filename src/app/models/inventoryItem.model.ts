@@ -1,6 +1,6 @@
 import { PropertyModel } from "./property.model";
 
-export interface ProductModel {
+export interface InventoryItemModel {
   id: string;
   itemType: number;
   name: string;

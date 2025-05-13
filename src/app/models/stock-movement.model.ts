@@ -1,6 +1,6 @@
 import { ActivityModel } from "./activity.model";
 import { CropModel } from "./crop.model";
-import { ProductModel } from "./product.model";
+import { InventoryItemModel } from "./inventoryItem.model";
 import { PropertyModel } from "./property.model";
 
 export interface StockMovementModel {
