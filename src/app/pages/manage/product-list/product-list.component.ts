@@ -9,6 +9,7 @@ import { ProductModel } from '../../../models/product.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
 import { EditProductComponent } from "../../../components/edit-product/edit-product.component";
+import {StockMovementService} from '../../../services/stock-movement.service';
 
 @Component({
   selector: 'app-product-list',
@@ -73,6 +74,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private authService: AuthService,
     private productService: ProductService,
+    private stockMovementService: StockMovementService,
   ) { }
 
   ngOnInit() {
@@ -81,7 +83,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getProducts());
 
-      this.productService.getMovementTypes()
+      this.stockMovementService.getMovementTypes()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(data => console.log(data));
   }

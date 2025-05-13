@@ -1,6 +1,3 @@
-import { ActivityModel } from "./activity.model";
-import { CropModel } from "./crop.model";
-import { ProductModel } from "./product.model";
 import { PropertyModel } from "./property.model";
 
 export interface StockMovementModel {
@@ -14,9 +11,9 @@ export interface StockMovementModel {
   quantity: number;
   movementDate: Date;
   unitValue: number;
-  relatedActivityId: string;
-  relatedActivityCategory: string;
-  relatedCropId: string;
-  relatedCropName: string;
+  activityId: string;
+  activity: string;
+  cropId: string;
+  crop: string;
   notes: string;
 }

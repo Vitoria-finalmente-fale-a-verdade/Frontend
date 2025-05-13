@@ -37,11 +37,11 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
       },
       {
         title: 'Atividade',
-        field: 'relatedActivityCategory'
+        field: 'activity.category'
       },
       {
         title: 'Cultura',
-        field: 'relatedCropName'
+        field: 'crop.name'
       },
       {
         title: 'Data',

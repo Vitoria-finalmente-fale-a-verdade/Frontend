@@ -1,4 +1,4 @@
-import { ProductService } from './../../services/product.service';
+import { ProductService } from '../../services/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,6 +13,7 @@ import { CropModel } from '../../models/crop.model';
 import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 import { ProductModel } from '../../models/product.model';
+import {StockMovementService} from '../../services/stock-movement.service';
 
 
 @Component({
@@ -53,6 +54,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     private activitiesService: ActivitiesService,
     private productService: ProductService,
     private authService: AuthService,
+    private stockMovementService: StockMovementService,
   ) {
     this.initForm();
   }
@@ -140,7 +142,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   initForm() {
     this.editForm = this.formBuilder.group({
       inventoryItemId: [null, Validators.required],
-      relatedActivityId: [null, Validators.required],
+      activityId: [null, Validators.required],
       cropId: [null, Validators.required],
       movementType: [null, Validators.required],
       quantity: [null, Validators.required],
@@ -154,8 +156,8 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   resetForm() {
     this.editForm.setValue({
       inventoryItemId: this.stockMovement?.inventoryItemId ?? '',
-      relatedActivityId: this.stockMovement?.relatedActivityId ?? '',
-      cropId: this.stockMovement?.relatedCropId ?? '',
+      activityId: this.stockMovement?.activityId ?? '',
+      cropId: this.stockMovement?.cropId ?? '',
       movementType: this.stockMovement?.movementType ?? '',
       quantity: this.stockMovement?.quantity ?? '',
       movementDate: this.stockMovement?.movementDate ?? new Date(),
@@ -172,7 +174,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
 
     this.loading = true;
     if (this.stockMovement) {
-      this.cropService.update(this.stockMovement.id, this.editForm.value).subscribe({
+      this.stockMovementService.update(this.stockMovement.id, this.editForm.value).subscribe({
         next: () => {
           this.messageService.add({summary: 'Sucesso', detail: 'Movimentação atualizada com sucesso', severity: 'success'});
           this.emitSave()
@@ -183,7 +185,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
         }
       });
     } else {
-      this.cropService.create(this.editForm.value).subscribe({
+      this.stockMovementService.create(this.editForm.value).subscribe({
         next: () => {
           this.messageService.add({summary: 'Sucesso', detail: 'Movimentação criada com sucesso', severity: 'success'});
           this.emitSave();

@@ -6,7 +6,7 @@
   (onSave)="onSubmit()"
   [title]="(edit ? 'Editar' : 'Novo') + ' cultura'"
 >
-  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
+  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72" (keyup.enter)="onSubmit()">
     <div class="flex gap-2 items-center">
       <p-floatlabel class="basis-1/3" variant="on">
         <p-select
@@ -14,7 +14,7 @@
           class="w-full"
           [options]="productList"
           formControlName="inventoryItemId"
-          optionLabel="category"
+          optionLabel="name"
           [loading]="loadingActivities"
           appendTo="body"
           dataKey="id"
@@ -27,7 +27,7 @@
           id="activity"
           class="w-full"
           [options]="activityList"
-          formControlName="relatedActivityId"
+          formControlName="activityId"
           optionLabel="category"
           [loading]="loadingActivities"
           appendTo="body"
