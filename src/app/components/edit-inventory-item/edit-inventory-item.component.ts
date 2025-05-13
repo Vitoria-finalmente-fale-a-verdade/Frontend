@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InventoryItemModel } from '../../models/inventoryItem.model';
+import { InventoryItemModel } from '../../models/inventory-item.model';
 import { MessageService } from 'primeng/api';
 import { InventoryItemService } from '../../services/inventoryItem.service';
 import { HttpErrorResponse } from '@angular/common/http';

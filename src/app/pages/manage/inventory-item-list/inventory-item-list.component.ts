@@ -5,11 +5,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
 import { InventoryItemService } from '../../../services/inventoryItem.service';
 import { Subject, takeUntil } from 'rxjs';
-import { InventoryItemModel } from '../../../models/inventoryItem.model';
+import { InventoryItemModel } from '../../../models/inventory-item.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
 import { EditInventoryItemComponent } from '../../../components/edit-inventory-item/edit-inventory-item.component';
-import {StockMovementService} from '../../../services/stock-movement.service';
 
 @Component({
   selector: 'app-inventory-item-list',
@@ -73,8 +72,7 @@ export class InventoryItemListComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
-    private inventoryItemService: InventoryItemService,
-    private stockMovementService: StockMovementService,
+    private inventoryItemService: InventoryItemService
   ) { }
 
   ngOnInit() {
@@ -82,10 +80,6 @@ export class InventoryItemListComponent implements OnInit, OnDestroy {
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getInventoryItems());
-
-      this.stockMovementService.getMovementTypes()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(data => console.log(data));
   }
 
   ngOnDestroy() {

@@ -12,7 +12,7 @@ import { ActivityModel } from '../../models/activity.model';
 import { CropModel } from '../../models/crop.model';
 import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
 import { EditFormComponent } from '../edit-form/edit-form.component';
-import { InventoryItemModel } from '../../models/inventoryItem.model';
+import { InventoryItemModel } from '../../models/inventory-item.model';
 import {StockMovementService} from '../../services/stock-movement.service';
 
 

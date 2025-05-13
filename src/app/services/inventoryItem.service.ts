@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { InventoryItemModel } from '../models/product.model';
+import { InventoryItemModel } from '../models/inventory-item.model';
 import {BaseService} from './base.service';
+import EnumModel from '../models/enum.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,6 @@ export class InventoryItemService extends BaseService<InventoryItemModel> {
   }
 
   public getMovementTypes() {
-    return this.client.get<any>(`inventory/movementTypes/`);
+    return this.client.get<EnumModel>(`${this.baseUrl}types`);
   }
 }
