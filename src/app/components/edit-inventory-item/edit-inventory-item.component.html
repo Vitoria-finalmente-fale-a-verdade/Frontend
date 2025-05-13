@@ -3,7 +3,7 @@
   [visible]="visible"
   (onCancel)="onCancel()"
   (onSave)="onSubmit()"
-  [title]="(edit ? 'Editar' : 'Novo') + ' produto'"
+  [title]="(edit ? 'Editar' : 'Novo') + ' item no inventário'"
 >
   <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
     <div class="flex gap-2 items-center">

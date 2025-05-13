@@ -1,7 +1,7 @@
 <div class="flex justify-end items-center w-full mb-4">
   <p-button
     severity="secondary"
-    label="Novo produto"
+    label="Novo item"
     icon="pi pi-plus"
     (onClick)="addProperty()"
   />
@@ -11,12 +11,12 @@
   [loading]="loading"
   [(paginateData)]="paginateData"
   [total]="total"
-  (onPaginate)="getProducts()"
+  (onPaginate)="getInventoryItems()"
   (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
 />
-<app-edit-product
+<app-edit-inventory-item
   [visible]="editVisible"
   (onSave)="onSave()"
   (onClose)="onEditCancel()"
-  [product]="currentEdit"
-></app-edit-product>
+  [inventoryItem]="currentEdit"
+></app-edit-inventory-item>

@@ -1,15 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ProductModel } from '../models/product.model';
+import { InventoryItemModel } from '../models/product.model';
 import {BaseService} from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService extends BaseService<ProductModel> {
+export class InventoryItemService extends BaseService<InventoryItemModel> {
 
   constructor(client: HttpClient) {
     super(client, environment.baseUrl + 'inventory/items/');
+  }
+
+  public getMovementTypes() {
+    return this.client.get<any>(`inventory/movementTypes/`);
   }
 }

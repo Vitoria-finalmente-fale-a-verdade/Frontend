@@ -1,4 +1,4 @@
-import { ProductService } from '../../services/product.service';
+import { InventoryItemService } from '../../services/inventoryItem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { ActivityModel } from '../../models/activity.model';
 import { CropModel } from '../../models/crop.model';
 import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
 import { EditFormComponent } from '../edit-form/edit-form.component';
-import { ProductModel } from '../../models/product.model';
+import { InventoryItemModel } from '../../models/inventoryItem.model';
 import {StockMovementService} from '../../services/stock-movement.service';
 
 
@@ -37,10 +37,10 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   editForm!: FormGroup;
   loading = false;
   edit = false;
-  loadingProducts = true;
+  loadingInventoryItems = true;
   loadingActivities = true;
   loadingCrops = true;
-  productList: ProductModel[] = [];
+  inventoryItemList: InventoryItemModel[] = [];
   activityList: ActivityModel[] = [];
   cropList: CropModel[] = [];
   unsubscribe = new Subject<void>();
@@ -52,7 +52,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     private cropService: CropService,
     private messageService: MessageService,
     private activitiesService: ActivitiesService,
-    private productService: ProductService,
+    private inventoryItemService: InventoryItemService,
     private authService: AuthService,
     private stockMovementService: StockMovementService,
   ) {
@@ -68,10 +68,10 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getCrops());
-    this.getProducts();
+    this.getInventoryItems();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getProducts());
+      .subscribe(() => this.getInventoryItems());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -122,11 +122,11 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     })
   }
 
-  getProducts() {
-    this.productService.getAll().subscribe({
+  getInventoryItems() {
+    this.inventoryItemService.getAll().subscribe({
       next: data => {
-        this.productList = data;
-        this.loadingProducts = false;
+        this.inventoryItemList = data;
+        this.loadingInventoryItems = false;
       },
       error: _ => {
         this.messageService.add({
@@ -134,7 +134,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
           detail: 'Erro ao buscar culturas',
           severity: 'error',
         })
-        this.loadingProducts = false;
+        this.loadingInventoryItems = false;
       }
     })
   }

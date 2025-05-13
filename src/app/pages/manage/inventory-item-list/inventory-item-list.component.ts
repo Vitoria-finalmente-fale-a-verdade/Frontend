@@ -3,31 +3,31 @@ import { Button } from 'primeng/button';
 import { LazyTableComponent } from '../../../components/lazy-table/lazy-table.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
-import { ProductService } from '../../../services/product.service';
+import { InventoryItemService } from '../../../services/inventoryItem.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ProductModel } from '../../../models/product.model';
+import { InventoryItemModel } from '../../../models/inventoryItem.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 import { LazyTableDataModel } from '../../../models/lazy-table-data.model';
-import { EditProductComponent } from "../../../components/edit-product/edit-product.component";
+import { EditInventoryItemComponent } from '../../../components/edit-inventory-item/edit-inventory-item.component';
 import {StockMovementService} from '../../../services/stock-movement.service';
 
 @Component({
-  selector: 'app-product-list',
+  selector: 'app-inventory-item-list',
   standalone: true,
   imports: [
     Button,
     LazyTableComponent,
-    EditProductComponent
+    EditInventoryItemComponent
 ],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css'
+  templateUrl: './inventory-item-list.component.html',
+  styleUrl: './inventory-item-list.component.css'
 })
-export class ProductListComponent implements OnInit, OnDestroy {
+export class InventoryItemListComponent implements OnInit, OnDestroy {
   loading = true;
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
-  currentEdit?: ProductModel;
+  currentEdit?: InventoryItemModel;
   unsubscribe = new Subject<void>();
 
   tableData: LazyTableDataModel = {
@@ -73,15 +73,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
-    private productService: ProductService,
+    private inventoryItemService: InventoryItemService,
     private stockMovementService: StockMovementService,
   ) { }
 
   ngOnInit() {
-    this.getProducts();
+    this.getInventoryItems();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getProducts());
+      .subscribe(() => this.getInventoryItems());
 
       this.stockMovementService.getMovementTypes()
       .pipe(takeUntil(this.unsubscribe))
@@ -93,10 +93,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getProducts() {
+  getInventoryItems() {
     this.loading = true;
 
-    this.productService.get(this.paginateData).subscribe(data => {
+    this.inventoryItemService.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
@@ -106,7 +106,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   onSave() {
     this.editVisible = false;
-    this.getProducts();
+    this.getInventoryItems();
   }
 
   addProperty() {
@@ -127,7 +127,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       case 'delete':
         this.confirmationService.confirm({
           header: 'Cuidado!',
-          message: `Tem certeza que deseja excluir o produto '${row.category}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
+          message: `Tem certeza que deseja excluir o item do inventário '${row.category}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
           acceptButtonProps: {
             label: 'Excluir',
             severity: 'danger',
@@ -138,12 +138,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
             outlined: true
           },
           accept: () => {
-            this.productService.delete(row.id).subscribe({
+            this.inventoryItemService.delete(row.id).subscribe({
               next: () => {
-                this.getProducts();
+                this.getInventoryItems();
                 this.messageService.add({
-                  summary: 'Produto excluído',
-                  detail: `O produto ${row.category} foi excluído com sucesso`,
+                  summary: 'Item excluído',
+                  detail: `O item ${row.category} foi excluído com sucesso`,
                   severity: 'success',
                 });
               }
