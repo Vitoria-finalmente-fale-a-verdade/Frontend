@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 import {RoleModel} from '../models/role.model';
+import {BaseService} from './base.service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RolesService {
+export class RolesService extends BaseService<RoleModel> {
 
-  baseUrl = environment.baseUrl + 'roles/';
-
-  constructor(private httpClient: HttpClient) { }
-
-  public getAll() {
-    return this.httpClient.get<RoleModel[]>(this.baseUrl + 'all');
+  constructor(client: HttpClient) {
+    super(client, environment.baseUrl + 'roles/');
   }
 }

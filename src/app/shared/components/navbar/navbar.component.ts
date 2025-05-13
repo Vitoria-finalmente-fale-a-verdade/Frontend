@@ -37,6 +37,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.propertiesService.changeProperties.subscribe(() => this.getProperties());
     this.authService.customerChange.subscribe(() => this.getProperties());
+    this.authService.propertyChange.subscribe(() => this.onChangePropertyExternal());
 
     if (this.authService.property)
       this.selectedProperty = this.authService.property;
@@ -72,6 +73,12 @@ export class NavbarComponent implements OnInit {
         ]
       }
     ];
+  }
+
+  onChangePropertyExternal() {
+    if (this.selectedProperty?.id !== this.authService.property?.id) {
+      this.selectedProperty = this.authService.property ?? undefined;
+    }
   }
 
   onChangeProperty(property: PropertyModel) {

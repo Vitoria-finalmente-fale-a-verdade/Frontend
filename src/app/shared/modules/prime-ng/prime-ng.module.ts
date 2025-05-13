@@ -24,6 +24,7 @@ import {DatePickerModule} from 'primeng/datepicker';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {PanelMenuModule} from 'primeng/panelmenu';
+import {TooltipModule} from 'primeng/tooltip';
 import { TextareaModule } from 'primeng/textarea';
 
 @NgModule({
@@ -51,6 +52,7 @@ import { TextareaModule } from 'primeng/textarea';
     InputNumberModule,
     ToggleButtonModule,
     PanelMenuModule,
+    TooltipModule,
     TextareaModule,
   ],
   exports: [
@@ -79,6 +81,7 @@ import { TextareaModule } from 'primeng/textarea';
     InputNumberModule,
     ToggleButtonModule,
     PanelMenuModule,
+    TooltipModule,
     TextareaModule,
   ]
 })

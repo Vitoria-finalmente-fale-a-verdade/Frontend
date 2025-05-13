@@ -1,3 +1,5 @@
+import {IconDefinition} from '@fortawesome/free-solid-svg-icons';
+
 export interface LazyTableDataModel {
   headers: {
     title: string;
@@ -10,6 +12,12 @@ export interface LazyTableDataModel {
   actions?: {
     id: string;
     icon: string;
+    severity?: "success" | "info" | "warn" | "danger" | "help" | "primary" | "secondary" | "contrast";
+  }[];
+  navigators?: {
+    id: string;
+    icon: IconDefinition;
+    tooltip?: string;
     severity?: "success" | "info" | "warn" | "danger" | "help" | "primary" | "secondary" | "contrast";
   }[];
   preSort?: {

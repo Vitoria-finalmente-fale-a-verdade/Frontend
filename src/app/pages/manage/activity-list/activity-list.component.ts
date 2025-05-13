@@ -2,13 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
 import {LazyTableComponent} from "../../../components/lazy-table/lazy-table.component";
 import {ActivityModel} from '../../../models/activity.model';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject, Subscription, takeUntil} from 'rxjs';
 import {LazyTableDataModel} from '../../../models/lazy-table-data.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {ActivitiesService} from '../../../services/activities.service';
 import {EditActivityComponent} from '../../../components/edit-activity/edit-activity.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
+import {faLeaf} from '@fortawesome/free-solid-svg-icons';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-activity-list',
@@ -22,7 +24,7 @@ import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginat
   styleUrl: './activity-list.component.css'
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
-  loading = true;
+  loading: Subscription|null = new Subscription();
   paginateData = getDefaultPaginateRequest();
   total = 0;
   editVisible = false;
@@ -49,6 +51,13 @@ export class ActivityListComponent implements OnInit, OnDestroy {
         severity: 'danger'
       }
     ],
+    navigators: [
+      {
+        id: 'crop',
+        icon: faLeaf,
+        tooltip: 'Culturas',
+      },
+    ],
     data: []
   };
 
@@ -57,28 +66,29 @@ export class ActivityListComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private authService: AuthService,
     private activitiesService: ActivitiesService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.getActivities();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getActivities());
   }
 
   ngOnDestroy() {
+    this.loading?.unsubscribe();
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 
   getActivities() {
-    this.loading = true;
+    this.loading?.unsubscribe();
 
-    this.activitiesService.get(this.paginateData).subscribe(data => {
+    this.loading = this.activitiesService.get(this.paginateData).subscribe(data => {
       this.tableData.data = data.items;
 
       this.total = data.total;
-      this.loading = false;
+      this.loading = null;
     });
   }
 
@@ -128,6 +138,20 @@ export class ActivityListComponent implements OnInit, OnDestroy {
             });
           },
         });
+    }
+  }
+
+  onNavigateClick(_: MouseEvent, id: string, activity: ActivityModel) {
+    switch (id) {
+      case 'crop':
+        this.router.navigate(['/manage/crops'], {
+          state: {
+            filters: {
+              'activity': activity
+            },
+          }
+        }).then();
+        break;
     }
   }
 }

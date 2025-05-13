@@ -13,6 +13,7 @@
   [total]="total"
   (onPaginate)="getProperties()"
   (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
+  (onNavigateClick)="onNavigateClick($event.event, $event.id, $event.row)"
 />
 <app-edit-property
   [visible]="editVisible"

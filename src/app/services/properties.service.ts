@@ -1,33 +1,22 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 import {PropertyModel} from '../models/property.model';
-import {PaginateResponseModel} from '../models/paginate-response.model';
-import {PaginateRequestModel} from '../models/paginate-request.model';
 import {Subject, tap} from 'rxjs';
-import getPaginateParams from '../shared/utils/get-paginate-params';
+import {BaseService} from './base.service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PropertiesService {
-  baseUrl = environment.baseUrl + 'properties/';
+export class PropertiesService extends BaseService<PropertyModel> {
   changeProperties = new Subject<void>();
 
-  constructor(private client: HttpClient) { }
-
-  public get(paginate: PaginateRequestModel){
-    const params = getPaginateParams(paginate);
-
-    return this.client.get<PaginateResponseModel<PropertyModel>>(`${this.baseUrl}`, {params: params});
+  constructor(client: HttpClient) {
+    super(client, environment.baseUrl + 'properties/');
   }
 
-  public getAll() {
-    return this.client.get<PropertyModel[]>(this.baseUrl + 'all');
-  }
-
-  public create(property: PropertyModel) {
-    return this.client.post<PropertyModel>(`${this.baseUrl}`, property).pipe(
+  public override create(property: PropertyModel) {
+    return super.create(property).pipe(
       tap({
         next: _ => {
           this.changeProperties.next();
@@ -36,8 +25,8 @@ export class PropertiesService {
     );
   }
 
-  public update(id: string, property: PropertyModel) {
-    return this.client.put<PropertyModel>(`${this.baseUrl}${id}`, property).pipe(
+  public override update(id: string, property: PropertyModel) {
+    return super.update(id, property).pipe(
       tap({
         next: _ => {
           this.changeProperties.next();
@@ -46,8 +35,8 @@ export class PropertiesService {
     );
   }
 
-  public delete(id: string) {
-    return this.client.delete(`${this.baseUrl}${id}`).pipe(
+  public override delete(id: string) {
+    return super.delete(id).pipe(
       tap({
         next: _ => {
           this.changeProperties.next();
