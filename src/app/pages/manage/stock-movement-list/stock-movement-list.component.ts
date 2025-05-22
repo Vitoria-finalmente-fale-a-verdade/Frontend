@@ -60,14 +60,13 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
       },
       {
         title: 'Unidade',
-        field: 'inventoryItemUnit',
+        field: 'inventoryItem.unitOfMeasure',
         center: true,
-        sortable: true,
       },
       {
-        title: 'Notas',
-        field: 'notes',
-        center: true,
+        title: 'Valor',
+        field: 'unitValue',
+        type: 'currency',
         sortable: true,
       },
     ],

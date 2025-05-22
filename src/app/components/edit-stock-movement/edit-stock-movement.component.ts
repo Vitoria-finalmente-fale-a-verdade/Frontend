@@ -2,7 +2,7 @@ import { InventoryItemService } from '../../services/inventoryItem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import {Subject, Subscription, takeUntil} from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { ActivitiesService } from '../../services/activities.service';
 import { MessageService } from 'primeng/api';
@@ -14,6 +14,7 @@ import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 import { InventoryItemModel } from '../../models/inventory-item.model';
 import {StockMovementService} from '../../services/stock-movement.service';
+import EnumModel from '../../models/enum.model';
 
 
 @Component({
@@ -37,13 +38,16 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   editForm!: FormGroup;
   loading = false;
   edit = false;
-  loadingInventoryItems = true;
-  loadingActivities = true;
-  loadingCrops = true;
+  loadingInventoryItems = false;
+  loadingActivities = false;
+  loadingCrops: Subscription|null = null;
   inventoryItemList: InventoryItemModel[] = [];
   activityList: ActivityModel[] = [];
   cropList: CropModel[] = [];
   unsubscribe = new Subject<void>();
+  filters?: any;
+  movementTypes: EnumModel[] = [];
+  loadingMovementTypes = true;
 
   today = new Date();
 
@@ -60,14 +64,13 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnInit() {
+    this.filters = history.state.filters;
+
+    this.getMovementTypes();
     this.getActivities();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getActivities());
-    this.getCrops();
-    this.authService.propertyChange
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getCrops());
     this.getInventoryItems();
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
@@ -75,7 +78,8 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes['visible']) {
+    if (!changes['visible'].currentValue) {
+      this.loadingCrops?.unsubscribe();
       return;
     }
 
@@ -89,6 +93,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   getActivities() {
+    this.loadingActivities = true;
     this.activitiesService.getAll().subscribe({
       next: data => {
         this.activityList = data;
@@ -105,11 +110,32 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     })
   }
 
+  onActivityChange(_: ActivityModel) {
+    this.editForm.controls['cropId']?.reset();
+    this.getCrops();
+  }
+
+  getMovementTypes() {
+    this.stockMovementService.getMovementTypes().subscribe(data => {
+      this.movementTypes = data;
+      this.loadingMovementTypes = false;
+    });
+  }
+
   getCrops() {
-    this.cropService.getAll().subscribe({
+    this.loadingCrops?.unsubscribe();
+    if (!this.editForm.value.activityId)
+      return;
+
+    this.cropList = [];
+
+    this.loadingCrops = this.cropService.searchAll({
+      'activity.id': this.editForm.value.activityId
+    }).subscribe({
       next: data => {
         this.cropList = data;
-        this.loadingCrops = false;
+        this.editForm.controls['cropId']?.enable();
+        this.loadingCrops = null;
       },
       error: _ => {
         this.messageService.add({
@@ -117,12 +143,13 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
           detail: 'Erro ao buscar culturas',
           severity: 'error',
         })
-        this.loadingCrops = false;
+        this.loadingCrops = null;
       }
     })
   }
 
   getInventoryItems() {
+    this.loadingInventoryItems = true;
     this.inventoryItemService.getAll().subscribe({
       next: data => {
         this.inventoryItemList = data;
@@ -143,27 +170,29 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     this.editForm = this.formBuilder.group({
       inventoryItemId: [null, Validators.required],
       activityId: [null, Validators.required],
-      cropId: [null, Validators.required],
+      cropId: [{value: null, disabled: true}, Validators.required],
       movementType: [null, Validators.required],
       quantity: [null, Validators.required],
       movementDate: [null, Validators.required],
       unitValue: [null, Validators.required],
       notes: null,
-
     });
   }
 
   resetForm() {
+    this.editForm.controls['cropId'].disable();
     this.editForm.setValue({
-      inventoryItemId: this.stockMovement?.inventoryItemId ?? '',
-      activityId: this.stockMovement?.activityId ?? '',
-      cropId: this.stockMovement?.cropId ?? '',
-      movementType: this.stockMovement?.movementType ?? '',
-      quantity: this.stockMovement?.quantity ?? '',
-      movementDate: this.stockMovement?.movementDate ?? new Date(),
+      inventoryItemId: this.stockMovement?.inventoryItem?.id ?? this.filters?.inventoryItem?.id ?? null,
+      activityId: this.stockMovement?.activity?.id ?? null,
+      cropId: this.stockMovement?.crop?.id ?? null,
+      movementType: this.stockMovement?.movementType ?? null,
+      quantity: this.stockMovement?.quantity ?? null,
+      movementDate: this.stockMovement?.movementDate ?? null,
       unitValue: this.stockMovement?.unitValue ?? null,
       notes: this.stockMovement?.notes ?? null,
     });
+
+    this.getCrops();
   }
 
   onSubmit() {

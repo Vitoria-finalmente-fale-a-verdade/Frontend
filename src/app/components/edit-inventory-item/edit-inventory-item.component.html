@@ -6,34 +6,30 @@
   [title]="(edit ? 'Editar' : 'Novo') + ' item no inventário'"
 >
   <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
+    <p-floatlabel variant="on" class="w-full">
+      <input
+        id="name"
+        formControlName="name"
+        type="text"
+        pInputText
+        class="w-full"
+      />
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="name">Nome</label>
+    </p-floatlabel>
     <div class="flex gap-2 items-center">
-      <p-floatlabel variant="on">
-        <input
-          id="name"
-          formControlName="name"
-          type="text"
-          pInputText
-          class="w-full"
-        />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="name">Nome</label>
-      </p-floatlabel>
-      <p-floatlabel variant="on">
-        <p-input-number
+      <p-floatlabel variant="on" class="w-full">
+        <p-select
           id="itemType"
-          inputId="itemType"
+          class="w-full"
+          [options]="itemTypes"
           formControlName="itemType"
+          optionLabel="name"
+          [loading]="loadingItemTypes"
+          appendTo="body"
+          dataKey="id"
+          optionValue="id"
         />
         <label class="block text-sm font-medium text-gray-700 mb-1" for="itemType">Tipo</label>
-      </p-floatlabel>
-    </div>
-    <div class="flex gap-2 items-center">
-      <p-floatlabel variant="on">
-        <p-input-number
-          id="currentStockLevel"
-          inputId="currentStockLevel"
-          formControlName="currentStockLevel"
-        />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="currentStockLevel">Quantidade</label>
       </p-floatlabel>
       <p-floatlabel variant="on">
         <input

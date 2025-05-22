@@ -46,12 +46,10 @@ export class InventoryItemListComponent implements OnInit, OnDestroy {
       {
         title: 'Quantidade',
         field: 'currentStockLevel',
-        sortable: true,
       },
       {
         title: 'Unidade',
         field: 'unitOfMeasure',
-        sortable: true,
       },
 
     ],

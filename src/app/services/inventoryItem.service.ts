@@ -14,7 +14,7 @@ export class InventoryItemService extends BaseService<InventoryItemModel> {
     super(client, environment.baseUrl + 'inventory/items/');
   }
 
-  public getMovementTypes() {
-    return this.client.get<EnumModel>(`${this.baseUrl}types`);
+  public getItemTypes() {
+    return this.client.get<EnumModel[]>(`${this.baseUrl}types`);
   }
 }

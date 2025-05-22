@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InventoryItemModel } from '../../models/inventory-item.model';
@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { InventoryItemService } from '../../services/inventoryItem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
+import EnumModel from '../../models/enum.model';
 
 @Component({
   selector: 'app-edit-inventory-item',
@@ -18,7 +19,7 @@ import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
   templateUrl: './edit-inventory-item.component.html',
   styleUrl: './edit-inventory-item.component.css'
 })
-export class EditInventoryItemComponent implements OnChanges{
+export class EditInventoryItemComponent implements OnInit, OnChanges{
   @Input({ required: true }) visible!: boolean;
   @Input() inventoryItem?: InventoryItemModel;
 
@@ -28,6 +29,8 @@ export class EditInventoryItemComponent implements OnChanges{
   editForm!: FormGroup;
   loading = false;
   edit = false;
+  itemTypes?: EnumModel[];
+  loadingItemTypes = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +40,10 @@ export class EditInventoryItemComponent implements OnChanges{
     this.initForm();
   }
 
+  ngOnInit() {
+    this.getItemTypes();
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (!changes['visible']) {
       return;
@@ -44,6 +51,16 @@ export class EditInventoryItemComponent implements OnChanges{
 
     this.edit = !!this.inventoryItem?.id;
     this.resetForm();
+  }
+
+  getItemTypes() {
+    this.itemTypes = [];
+    this.loading = true;
+
+    this.inventoryItemService.getItemTypes().subscribe(types => {
+      this.itemTypes = types;
+      this.loading = false;
+    });
   }
 
   initForm() {

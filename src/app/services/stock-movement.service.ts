@@ -15,6 +15,6 @@ export class StockMovementService extends BaseService<StockMovementModel> {
   }
 
   public getMovementTypes() {
-    return this.client.get<EnumModel>(`${this.baseUrl}types`);
+    return this.client.get<EnumModel[]>(`${this.baseUrl}types`);
   }
 }
