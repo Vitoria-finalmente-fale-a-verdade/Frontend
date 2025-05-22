@@ -25,6 +25,11 @@ export class BaseService<Model> {
     return this.client.get<Model[]>(`${this.baseUrl}all/`);
   }
 
+  public searchAll(searchFields: any) {
+    const filters = setFilters(searchFields);
+    return this.client.post<Model[]>(`${this.baseUrl}all/search/`, filters);
+  }
+
   public create(model: Model) {
     return this.client.post<Model>(this.baseUrl, model);
   }
