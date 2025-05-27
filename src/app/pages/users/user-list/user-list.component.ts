@@ -160,7 +160,7 @@ export class UserListComponent implements OnDestroy{
   }
 
   onNavigateClick(_: MouseEvent, id: string, user: UserModel) {
-    this.authService.user = user;
+    this.authService.customer = user;
 
     switch (id) {
       case 'properties':
