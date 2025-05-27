@@ -11,8 +11,6 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   let headers = req.headers;
 
-  if (authService.isAuthenticated())
-    headers = headers.set('Authorization', 'Bearer ' + token);
   if (property)
     headers = headers.set('X-Property', property.id);
   if (customer)
@@ -20,6 +18,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   const dupReq = req.clone({
     headers: headers,
+    withCredentials: true,
   });
 
   return next(dupReq);
