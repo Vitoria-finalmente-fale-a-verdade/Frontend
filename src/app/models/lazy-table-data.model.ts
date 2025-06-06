@@ -8,6 +8,10 @@ export interface LazyTableDataModel {
     center?: boolean;
     unit?: string;
     sortable?: boolean;
+    dynamicValue?: (row: any, item: any) => any;
+    dynamicClass?: (row: any, item: any) => string;
+    prefix?: string;
+    suffix?: string;
   }[];
   actions?: {
     id: string;

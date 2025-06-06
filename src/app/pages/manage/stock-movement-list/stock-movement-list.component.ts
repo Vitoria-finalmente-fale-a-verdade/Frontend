@@ -10,14 +10,20 @@ import { Button } from 'primeng/button';
 import { LazyTableComponent } from '../../../components/lazy-table/lazy-table.component';
 import { EditStockMovementComponent } from '../../../components/edit-stock-movement/edit-stock-movement.component';
 import {PaginateResponseModel} from '../../../models/paginate-response.model';
+import {InventoryItemModel} from '../../../models/inventory-item.model';
+import {InventoryItemService} from '../../../services/inventoryItem.service';
+import {CommonModule} from '@angular/common';
+import {TagModule} from 'primeng/tag';
 
 @Component({
   selector: 'app-stock-movement-list',
   standalone: true,
   imports: [
+    CommonModule,
     Button,
     LazyTableComponent,
     EditStockMovementComponent,
+    TagModule,
   ],
   templateUrl: './stock-movement-list.component.html',
   styleUrl: './stock-movement-list.component.css'
@@ -30,6 +36,7 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
   currentEdit?: StockMovementModel;
   unsubscribe = new Subject<void>();
   filters?: any;
+  inventoryItem?: InventoryItemModel;
 
   tableData: LazyTableDataModel = {
     headers: [
@@ -57,18 +64,21 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
         field: 'quantity',
         center: true,
         sortable: true,
+        dynamicValue: (row: StockMovementModel) => row.quantity + row.inventoryItem?.unitOfMeasure,
       },
       {
-        title: 'Unidade',
-        field: 'inventoryItem.unitOfMeasure',
-        center: true,
-      },
-      {
-        title: 'Valor',
+        title: 'Valor un.',
         field: 'unitValue',
         type: 'currency',
         sortable: true,
       },
+      {
+        title: 'Total',
+        field: 'total',
+        type: 'currency',
+        dynamicValue: (row: StockMovementModel) => row.quantity * row.unitValue,
+        dynamicClass: (row: StockMovementModel) => row.movementType == 1 ? 'text-green-600' : 'text-red-600',
+      }
     ],
     actions: [
       {
@@ -90,6 +100,7 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
+    private inventoryItemService: InventoryItemService,
   ) { }
 
 
@@ -107,6 +118,7 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
   }
 
   getStockMovements() {
+    this.getInventoryItem();
     this.loading = true;
 
     let query: Observable<PaginateResponseModel<StockMovementModel>>;
@@ -135,6 +147,26 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
     });
   }
 
+  getInventoryItem() {
+    if (!this.filters?.inventoryItem) {
+      delete this.inventoryItem;
+      return;
+    }
+
+    this.inventoryItemService.getById(this.filters.inventoryItem.id).subscribe({
+      next: data => {
+        this.inventoryItem = data;
+      },
+      error: () => {
+        this.messageService.add({
+          summary: 'Erro',
+          detail: `Erro ao buscar nível de estoque`,
+          severity: 'error',
+        });
+      }
+    })
+  }
+
   onSave() {
     this.editVisible = false;
     this.getStockMovements();
@@ -158,7 +190,7 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
       case 'delete':
         this.confirmationService.confirm({
           header: 'Cuidado!',
-          message: `Tem certeza que deseja excluir a movimentação '${row.name}'? <br><strong>Esta ação não poderá ser desfeita</strong>`,
+          message: `Tem certeza que deseja excluir essa movimentação? <br><strong>Esta ação não poderá ser desfeita</strong>`,
           acceptButtonProps: {
             label: 'Excluir',
             severity: 'danger',

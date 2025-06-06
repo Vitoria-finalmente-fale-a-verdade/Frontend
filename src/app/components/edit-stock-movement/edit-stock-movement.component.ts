@@ -15,15 +15,21 @@ import { EditFormComponent } from '../edit-form/edit-form.component';
 import { InventoryItemModel } from '../../models/inventory-item.model';
 import {StockMovementService} from '../../services/stock-movement.service';
 import EnumModel from '../../models/enum.model';
+import {CommonModule} from '@angular/common';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
+import {faMinusCircle} from '@fortawesome/free-solid-svg-icons/faMinusCircle';
 
 
 @Component({
   selector: 'app-edit-stock-movement',
   standalone: true,
   imports: [
+    CommonModule,
     EditFormComponent,
     ReactiveFormsModule,
     PrimeNgModule,
+    FontAwesomeModule,
   ],
   templateUrl: './edit-stock-movement.component.html',
   styleUrl: './edit-stock-movement.component.css'
@@ -71,14 +77,10 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     this.authService.propertyChange
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.getActivities());
-    this.getInventoryItems();
-    this.authService.propertyChange
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getInventoryItems());
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes['visible'].currentValue) {
+    if (!changes['visible']?.currentValue) {
       this.loadingCrops?.unsubscribe();
       return;
     }
@@ -150,6 +152,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
 
   getInventoryItems() {
     this.loadingInventoryItems = true;
+    this.inventoryItemList = [];
     this.inventoryItemService.getAll().subscribe({
       next: data => {
         this.inventoryItemList = data;
@@ -192,12 +195,29 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
       notes: this.stockMovement?.notes ?? null,
     });
 
+    this.getInventoryItems();
     this.getCrops();
+  }
+
+  getCurrentItem(): InventoryItemModel|undefined {
+    const itemId = this.editForm.controls['inventoryItemId']?.value;
+    return this.inventoryItemList.find(item => item.id === itemId);
+  }
+
+  getCurrentMovementType(): EnumModel|undefined {
+    const itemId = this.editForm.value.movementType;
+    return this.movementTypes.find(item => item.id === itemId);
   }
 
   onSubmit() {
     if (this.editForm.invalid) {
       this.messageService.add({summary: 'Formulário incompleto', detail: 'Preencha todos os campos para salvar', severity: 'warn'});
+      return;
+    }
+
+    const type = this.editForm.controls['movementType'].value;
+    if ([3,4,7].includes(type) && this.editForm.controls['quantity']?.value > this.getCurrentItem()!.currentStockLevel) {
+      this.messageService.add({summary: 'Estoque insuficiente', detail: 'Não há itens suficientes no estoque\nVerifique a quantidade inserida', severity: 'error'});
       return;
     }
 
@@ -234,7 +254,9 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   onCancel() {
-    this.resetForm();
     this.onClose.next();
   }
+
+  protected readonly faPlusCircle = faPlusCircle;
+  protected readonly faMinusCircle = faMinusCircle;
 }
