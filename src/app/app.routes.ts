@@ -10,8 +10,6 @@ import {PropertyListComponent} from './pages/manage/property-list/property-list.
 import {ActivityListComponent} from './pages/manage/activity-list/activity-list.component';
 import {CropListComponent} from './pages/manage/crop-list/crop-list.component';
 import { MachineryListComponent } from './pages/manage/machinery-list/machinery-list.component';
-import { InventoryItemListComponent } from './pages/manage/inventory-item-list/inventory-item-list.component';
-import { StockMovementListComponent } from './pages/manage/stock-movement-list/stock-movement-list.component';
 
 
 export const routes: Routes = [
@@ -69,20 +67,6 @@ export const routes: Routes = [
             component: MachineryListComponent,
             data: {
               title: 'Maquinário'
-            }
-          },
-          {
-            path: 'inventory-items',
-            component: InventoryItemListComponent,
-            data: {
-              title: 'Inventário'
-            }
-          },
-          {
-            path: 'stock-movements',
-            component: StockMovementListComponent,
-            data: {
-              title: 'Movimentações'
             }
           },
         ]

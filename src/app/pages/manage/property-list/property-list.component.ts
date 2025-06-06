@@ -9,7 +9,7 @@ import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
 import {Subject, Subscription, takeUntil} from 'rxjs';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
-import {faBox, faSeedling, faTractor} from '@fortawesome/free-solid-svg-icons';
+import {faSeedling, faTractor} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 
 @Component({
@@ -76,11 +76,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
         id: 'machinery',
         icon: faTractor,
         tooltip: 'Maquinários',
-      },
-      {
-        id: 'inventory-items',
-        icon: faBox,
-        tooltip: 'Inventário',
       },
     ],
     data: []
@@ -176,10 +171,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
       case 'machinery':
         this.router.navigate(['/manage/machinery']).then();
-        break;
-
-      case 'inventory-items':
-        this.router.navigate(['/manage/inventory-items']).then();
         break;
     }
   }

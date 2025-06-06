@@ -1,5 +1,5 @@
 import {PaginateResponseModel} from '../../models/paginate-response.model';
-import {CropModel} from '../../models/crop.model';
+import CropModel from '../../models/crop.model';
 
 export const crops: PaginateResponseModel<CropModel> = {
   page: 0,

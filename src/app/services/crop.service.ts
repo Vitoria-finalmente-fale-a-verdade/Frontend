@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {CropModel} from '../models/crop.model';
+import CropModel from '../models/crop.model';
 import {BaseService} from './base.service';
 import {HttpClient} from '@angular/common/http';
 

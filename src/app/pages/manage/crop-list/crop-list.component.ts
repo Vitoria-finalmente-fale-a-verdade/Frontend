@@ -6,7 +6,7 @@ import {CropService} from '../../../services/crop.service';
 import {Button} from 'primeng/button';
 import {LazyTableComponent} from '../../../components/lazy-table/lazy-table.component';
 import {Observable, Subject, Subscription, takeUntil} from 'rxjs';
-import {CropModel} from '../../../models/crop.model';
+import CropModel from '../../../models/crop.model';
 import {EditCropComponent} from '../../../components/edit-crop/edit-crop.component';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 import {PaginateResponseModel} from '../../../models/paginate-response.model';

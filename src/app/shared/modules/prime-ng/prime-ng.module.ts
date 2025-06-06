@@ -25,8 +25,6 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {TooltipModule} from 'primeng/tooltip';
-import { TextareaModule } from 'primeng/textarea';
-import {TagModule} from 'primeng/tag';
 
 @NgModule({
   declarations: [],
@@ -54,8 +52,6 @@ import {TagModule} from 'primeng/tag';
     ToggleButtonModule,
     PanelMenuModule,
     TooltipModule,
-    TextareaModule,
-    TagModule,
   ],
   exports: [
     CardModule,
@@ -84,8 +80,6 @@ import {TagModule} from 'primeng/tag';
     ToggleButtonModule,
     PanelMenuModule,
     TooltipModule,
-    TextareaModule,
-    TagModule,
   ]
 })
 export class PrimeNgModule { }

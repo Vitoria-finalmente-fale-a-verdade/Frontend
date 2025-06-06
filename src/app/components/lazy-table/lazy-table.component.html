@@ -14,8 +14,8 @@
 
     <ng-template #body let-row>
       <tr *ngIf="!loading; else loadingBody">
-        <td *ngIf="table.navigators?.length">
-          <div class="flex gap-2">
+        <td *ngIf="table.navigators?.length" class="!w-1">
+          <div class="flex items-center justify-center flex-nowrap text-nowrap gap-2">
             <p-button
               *ngFor="let navigator of table.navigators"
               pRipple
@@ -25,24 +25,23 @@
               tooltipPosition="right"
               size="small"
             >
-              <fa-icon [icon]="navigator.icon" [fixedWidth]="true"></fa-icon>
+              <fa-icon [icon]="navigator.icon"></fa-icon>
             </p-button>
           </div>
         </td>
         <td *ngFor="let header of table.headers">
-          @let value = header.dynamicValue ? header.dynamicValue(row, getProp(row, header.field)) : getProp(row, header.field);
-          <div [ngSwitch]="header.type" [class]="(header.center ? 'flex justify-center ' : '') + (header.dynamicClass ? header.dynamicClass(row,value) : '')">
+          <div [ngSwitch]="header.type" [class]="header.center ? 'flex justify-center' : ''">
             <ng-container *ngSwitchCase="'boolean'">
-              {{header.prefix ? (header.prefix + ' ') : ''}}<i [class]="'pi ' + (value ? 'pi-check' : 'pi-times')"></i>{{header.suffix ? (header.suffix + ' ') : ''}}
+              <i [class]="'pi ' + (getProp(row, header.field) ? 'pi-check' : 'pi-times')"></i>
             </ng-container>
             <ng-container *ngSwitchCase="'currency'">
-              {{header.prefix ? (header.prefix + ' ') : ''}}{{ value | currency: 'BRL' }}{{header.suffix ? (header.suffix + ' ') : ''}}
+              {{ getProp(row, header.field) | currency: 'BRL' }}
             </ng-container>
             <ng-container *ngSwitchCase="'date'">
-              {{header.prefix ? (header.prefix + ' ') : ''}}{{ value | date: 'dd/MM/yyyy' }}{{header.suffix ? (header.suffix + ' ') : ''}}
+              {{ getProp(row, header.field) | date: 'dd/MM/yyyy' }}
             </ng-container>
             <ng-container *ngSwitchDefault>
-              {{header.prefix ? (header.prefix + ' ') : ''}}{{ value }} {{ header.unit }}{{header.suffix ? (header.suffix + ' ') : ''}}
+              {{ getProp(row, header.field) }} {{ header.unit }}
             </ng-container>
           </div>
         </td>

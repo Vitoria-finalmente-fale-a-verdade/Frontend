@@ -9,9 +9,6 @@ import {ButtonModule} from 'primeng/button';
 import {UserModel} from '../../../models/user.model';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
 import {Subscription} from 'rxjs';
-import {faBuilding} from '@fortawesome/free-solid-svg-icons';
-import {AuthService} from '../../../services/auth.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -70,13 +67,6 @@ export class UserListComponent implements OnDestroy{
         severity: 'danger'
       }
     ],
-    navigators: [
-      {
-        id: 'properties',
-        icon: faBuilding,
-        tooltip: 'Propriedades'
-      },
-    ],
     data: []
   };
 
@@ -84,8 +74,6 @@ export class UserListComponent implements OnDestroy{
     private usersSerivce: UsersService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private authService: AuthService,
-    private router: Router,
   ) { }
 
   ngOnDestroy() {
@@ -156,16 +144,6 @@ export class UserListComponent implements OnDestroy{
             });
           },
         });
-    }
-  }
-
-  onNavigateClick(_: MouseEvent, id: string, user: UserModel) {
-    this.authService.customer = user;
-
-    switch (id) {
-      case 'properties':
-        this.router.navigate(['/manage/properties']).then();
-        break;
     }
   }
 }
