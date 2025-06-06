@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, Subject, tap} from 'rxjs';
 import {Router} from '@angular/router';
 import {UserModel} from '../models/user.model';
-import {TokenResponseModel} from '../models/token-response.model';
 import {StorageService} from './storage.service';
 import {StorageModel} from '../models/storage.model';
 import {PropertyModel} from '../models/property.model';
@@ -30,16 +29,8 @@ export class AuthService {
     return this.user.roles.map(role => role.normalizedName).includes(Roles.ADMIN);
   }
 
-  public get token(): string {
-    return this.storageService.get(StorageModel.TOKEN);
-  }
-
   public set user(value: UserModel) {
     this.storageService.set(StorageModel.USER, value);
-  }
-
-  public set token(value: string) {
-    this.storageService.set(StorageModel.TOKEN, value);
   }
 
   public get customer(): UserModel {
@@ -82,25 +73,26 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-    return !!this.token;
+    return !!this.user;
   }
 
-  login(username: string, password: string): Observable<TokenResponseModel> {
-    return this.client.post<TokenResponseModel>(`${this.baseUrl}login/`, {username, password})
+  login(username: string, password: string, rememberMe?: boolean): Observable<UserModel> {
+    return this.client.post<UserModel>(`${this.baseUrl}login/`, {username, password, rememberMe})
       .pipe(
         tap({
           next: (res) => {
-            this.token = res.token;
-            this.user = res.user;
+            this.user = res;
           }
         })
       );
   }
 
   logout() {
-    this.storageService.clear();
+    this.client.post(`${this.baseUrl}logout/`, {}).subscribe(_ => {
+      this.storageService.clear();
 
-    this.router.navigate(['/login']).then();
+      this.router.navigate(['/login']).then();
+    });
   }
 
   changePassword(data: any) {

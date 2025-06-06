@@ -1,0 +1,23 @@
+<div class="flex justify-end items-center w-full mb-4 gap-4">
+  <p-tag severity="success" *ngIf="inventoryItem" class="w-max mr-auto" [value]="'Estoque de ' + inventoryItem.name + ': ' + inventoryItem.currentStockLevel + inventoryItem.unitOfMeasure" />
+  <p-button
+    severity="secondary"
+    label="Nova movimentação"
+    icon="pi pi-plus"
+    (onClick)="addStockMovement()"
+  />
+</div>
+<app-lazy-table
+  [table]="tableData"
+  [loading]="loading"
+  [(paginateData)]="paginateData"
+  [total]="total"
+  (onPaginate)="getStockMovements()"
+  (onActionClick)="onActionClick($event.event, $event.id, $event.row)"
+/>
+<app-edit-stock-movement
+  [visible]="editVisible"
+  (onSave)="onSave()"
+  (onClose)="onEditCancel()"
+  [stockMovement]="currentEdit"
+></app-edit-stock-movement>

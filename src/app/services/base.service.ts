@@ -15,6 +15,10 @@ export class BaseService<Model> {
     return this.client.get<PaginateResponseModel<Model>>(this.baseUrl, { params });
   }
 
+  public getById(id: string) {
+    return this.client.get<Model>(`${this.baseUrl}${id}`);
+  }
+
   public search(paginate: PaginateRequestModel, searchFields: Model) {
     const params = getPaginateParams(paginate);
     const filters = setFilters(searchFields);
@@ -23,6 +27,11 @@ export class BaseService<Model> {
 
   public getAll() {
     return this.client.get<Model[]>(`${this.baseUrl}all/`);
+  }
+
+  public searchAll(searchFields: any) {
+    const filters = setFilters(searchFields);
+    return this.client.post<Model[]>(`${this.baseUrl}all/search/`, filters);
   }
 
   public create(model: Model) {

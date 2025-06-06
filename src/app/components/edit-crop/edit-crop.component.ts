@@ -6,7 +6,7 @@ import {CropService} from '../../services/crop.service';
 import {Subject, takeUntil} from 'rxjs';
 import {EditFormComponent} from '../edit-form/edit-form.component';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
-import CropModel from '../../models/crop.model';
+import {CropModel} from '../../models/crop.model';
 import {ActivityModel} from '../../models/activity.model';
 import {ActivitiesService} from '../../services/activities.service';
 import {AuthService} from '../../services/auth.service';

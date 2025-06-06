@@ -5,14 +5,11 @@ import {AuthService} from '../../services/auth.service';
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  const token = authService.token;
   const customer = authService.customer;
   const property = authService.property;
 
   let headers = req.headers;
 
-  if (authService.isAuthenticated())
-    headers = headers.set('Authorization', 'Bearer ' + token);
   if (property)
     headers = headers.set('X-Property', property.id);
   if (customer)
@@ -20,6 +17,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   const dupReq = req.clone({
     headers: headers,
+    withCredentials: true,
   });
 
   return next(dupReq);

@@ -14,8 +14,8 @@
 
     <ng-template #body let-row>
       <tr *ngIf="!loading; else loadingBody">
-        <td *ngIf="table.navigators?.length" class="!w-1">
-          <div class="flex items-center justify-center flex-nowrap text-nowrap gap-2">
+        <td *ngIf="table.navigators?.length">
+          <div class="flex gap-2">
             <p-button
               *ngFor="let navigator of table.navigators"
               pRipple
@@ -25,23 +25,24 @@
               tooltipPosition="right"
               size="small"
             >
-              <fa-icon [icon]="navigator.icon"></fa-icon>
+              <fa-icon [icon]="navigator.icon" [fixedWidth]="true"></fa-icon>
             </p-button>
           </div>
         </td>
         <td *ngFor="let header of table.headers">
-          <div [ngSwitch]="header.type" [class]="header.center ? 'flex justify-center' : ''">
+          @let value = header.dynamicValue ? header.dynamicValue(row, getProp(row, header.field)) : getProp(row, header.field);
+          <div [ngSwitch]="header.type" [class]="(header.center ? 'flex justify-center ' : '') + (header.dynamicClass ? header.dynamicClass(row,value) : '')">
             <ng-container *ngSwitchCase="'boolean'">
-              <i [class]="'pi ' + (getProp(row, header.field) ? 'pi-check' : 'pi-times')"></i>
+              {{header.prefix ? (header.prefix + ' ') : ''}}<i [class]="'pi ' + (value ? 'pi-check' : 'pi-times')"></i>{{header.suffix ? (header.suffix + ' ') : ''}}
             </ng-container>
             <ng-container *ngSwitchCase="'currency'">
-              {{ getProp(row, header.field) | currency: 'BRL' }}
+              {{header.prefix ? (header.prefix + ' ') : ''}}{{ value | currency: 'BRL' }}{{header.suffix ? (header.suffix + ' ') : ''}}
             </ng-container>
             <ng-container *ngSwitchCase="'date'">
-              {{ getProp(row, header.field) | date: 'dd/MM/yyyy' }}
+              {{header.prefix ? (header.prefix + ' ') : ''}}{{ value | date: 'dd/MM/yyyy' }}{{header.suffix ? (header.suffix + ' ') : ''}}
             </ng-container>
             <ng-container *ngSwitchDefault>
-              {{ getProp(row, header.field) }} {{ header.unit }}
+              {{header.prefix ? (header.prefix + ' ') : ''}}{{ value }} {{ header.unit }}{{header.suffix ? (header.suffix + ' ') : ''}}
             </ng-container>
           </div>
         </td>

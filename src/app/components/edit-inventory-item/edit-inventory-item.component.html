@@ -1,0 +1,59 @@
+<app-edit-form
+  [loading]="loading"
+  [visible]="visible"
+  (onCancel)="onCancel()"
+  (onSave)="onSubmit()"
+  [title]="(edit ? 'Editar' : 'Novo') + ' item no inventário'"
+>
+  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-72 max-w-96" (keyup.enter)="onSubmit()">
+    <p-floatlabel variant="on" class="w-full">
+      <input
+        id="name"
+        formControlName="name"
+        type="text"
+        pInputText
+        class="w-full"
+      />
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="name">Nome</label>
+    </p-floatlabel>
+    <div class="flex gap-2 items-center">
+      <p-floatlabel variant="on" class="w-full">
+        <p-select
+          id="itemType"
+          class="w-full"
+          [options]="itemTypes"
+          formControlName="itemType"
+          optionLabel="name"
+          [loading]="loadingItemTypes"
+          appendTo="body"
+          dataKey="id"
+          optionValue="id"
+        />
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="itemType">Tipo</label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input
+        id="unitOfMeasure"
+        formControlName="unitOfMeasure"
+        type="text"
+        pInputText
+        class="w-full"
+      />
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="unitOfMeasure">Unidade</label>
+      </p-floatlabel>
+    </div>
+    <div  class="flex gap-2 items-center">
+      <p-floatlabel class="w-full" variant="on">
+        <textarea
+          pTextarea
+          id="description"
+          rows="4"
+          class="w-full"
+          formControlName="description"
+          style="resize: none"
+        ></textarea>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="description">Descrição</label>
+      </p-floatlabel>
+    </div>
+  </form>
+</app-edit-form>
