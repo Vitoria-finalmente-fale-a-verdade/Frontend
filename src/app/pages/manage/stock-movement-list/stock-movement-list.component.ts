@@ -77,7 +77,7 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
         field: 'total',
         type: 'currency',
         dynamicValue: (row: StockMovementModel) => row.quantity * row.unitValue,
-        dynamicClass: (row: StockMovementModel) => row.movementType == 1 ? 'text-green-600' : 'text-red-600',
+        dynamicClass: (row: StockMovementModel) => [1,2,4,6].includes(row.movementType) ? 'text-green-600' : 'text-red-600',
       }
     ],
     actions: [

@@ -2,7 +2,7 @@
 @let currentItem = getCurrentItem();
 @let currentMovementType = getCurrentMovementType();
 @let form = editForm.value;
-@let isAdd = currentMovementType?.id == 1;
+@let isAdd = [1,2,4,6].includes(currentMovementType?.id ?? 0);
 
 <app-edit-form
   [loading]="loading"
@@ -71,13 +71,13 @@
         >
           <ng-template let-movementType #item>
             <div class="flex items-center gap-2">
-              <fa-icon [icon]="movementType.id == 1 ? faPlusCircle : faMinusCircle" [ngClass]="movementType.id == 1 ? 'text-green-600' : 'text-red-600'" />
+              <fa-icon [icon]="[1,2,4,6].includes(movementType.id)? faPlusCircle : faMinusCircle" [ngClass]="[1,2,4,6].includes(movementType.id) ? 'text-green-600' : 'text-red-600'" />
               <div>{{ movementType.name }}</div>
             </div>
           </ng-template>
           <ng-template let-movementType #selectedItem>
             <div class="flex items-center gap-2">
-              <fa-icon [icon]="movementType.id == 1 ? faPlusCircle : faMinusCircle" [ngClass]="movementType.id == 1 ? 'text-green-600' : 'text-red-600'" />
+              <fa-icon [icon]="[1,2,4,6].includes(movementType.id) ? faPlusCircle : faMinusCircle" [ngClass]="[1,2,4,6].includes(movementType.id) ? 'text-green-600' : 'text-red-600'" />
               <div>{{ movementType.name }}</div>
             </div>
           </ng-template>
