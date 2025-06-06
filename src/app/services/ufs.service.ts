@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpBackend, HttpClient} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {UfModel} from '../models/uf.model';
 import {CityModel} from '../models/city.model';
 
@@ -10,10 +10,8 @@ import {CityModel} from '../models/city.model';
 export class UfsService {
 
   baseUrl = environment.ibgeDataUrl + 'localidades/estados/';
-  client: HttpClient;
-  constructor(handler: HttpBackend) {
-    this.client = new HttpClient(handler);
-  }
+
+  constructor(private client: HttpClient) { }
 
   public get() {
     return this.client.get<UfModel[]>(`${this.baseUrl}`);

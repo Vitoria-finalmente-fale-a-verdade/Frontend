@@ -82,26 +82,25 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-    return !!this.user;
+    return !!this.token;
   }
 
-  login(username: string, password: string, rememberMe?: boolean): Observable<UserModel> {
-    return this.client.post<UserModel>(`${this.baseUrl}login/`, {username, password, rememberMe})
+  login(username: string, password: string): Observable<TokenResponseModel> {
+    return this.client.post<TokenResponseModel>(`${this.baseUrl}login/`, {username, password})
       .pipe(
         tap({
           next: (res) => {
-            this.user = res;
+            this.token = res.token;
+            this.user = res.user;
           }
         })
       );
   }
 
   logout() {
-    this.client.post(`${this.baseUrl}logout/`, {}).subscribe(_ => {
-      this.storageService.clear();
+    this.storageService.clear();
 
-      this.router.navigate(['/login']).then();
-    });
+    this.router.navigate(['/login']).then();
   }
 
   changePassword(data: any) {
