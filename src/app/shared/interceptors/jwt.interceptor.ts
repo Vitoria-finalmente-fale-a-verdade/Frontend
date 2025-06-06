@@ -5,6 +5,7 @@ import {AuthService} from '../../services/auth.service';
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
+  const token = authService.token;
   const customer = authService.customer;
   const property = authService.property;
 
