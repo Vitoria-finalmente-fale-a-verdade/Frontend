@@ -68,7 +68,6 @@ export class EditInventoryItemComponent implements OnInit, OnChanges{
       name: [null, Validators.required],
       description: [null, Validators.required],
       unitOfMeasure: [null, Validators.required],
-      currentStockLevel: [null, Validators.required],
       itemType: [null, Validators.required],
     });
   }
@@ -78,7 +77,6 @@ export class EditInventoryItemComponent implements OnInit, OnChanges{
       name: this.inventoryItem?.name ?? '',
       description: this.inventoryItem?.description ?? '',
       unitOfMeasure: this.inventoryItem?.unitOfMeasure ?? '',
-      currentStockLevel: this.inventoryItem?.currentStockLevel ?? null,
       itemType: this.inventoryItem?.itemType ?? null,
     });
   }
