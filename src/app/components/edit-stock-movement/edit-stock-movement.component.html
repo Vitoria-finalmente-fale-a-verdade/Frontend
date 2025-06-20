@@ -11,24 +11,9 @@
   (onSave)="onSubmit()"
   [title]="(edit ? 'Editar' : 'Nova') + ' movimentação'"
 >
-  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3 min-w-max" (keyup.enter)="onSubmit()">
+  <form [formGroup]="editForm" id="edit-form" class="flex flex-col gap-3" (keyup.enter)="onSubmit()">
     <div class="flex gap-2 items-center">
-      <p-floatlabel class="basis-1/2" variant="on">
-        <p-select
-          id="activity"
-          class="w-full"
-          [options]="activityList"
-          formControlName="activityId"
-          optionLabel="category"
-          [loading]="loadingActivities"
-          appendTo="body"
-          dataKey="id"
-          optionValue="id"
-          (onChange)="onActivityChange($event.value)"
-        />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="state">Atividade</label>
-      </p-floatlabel>
-      <p-floatlabel class="basis-1/2" variant="on">
+      <p-floatlabel variant="on" class="flex-1">
         <p-select
           id="crop"
           class="w-full"
@@ -42,23 +27,7 @@
         />
         <label class="block text-sm font-medium text-gray-700 mb-1" for="state">Cultura</label>
       </p-floatlabel>
-    </div>
-    <div class="flex gap-2 items-center">
-      <p-floatlabel class="basis-1/5" variant="on">
-        <p-select
-          id="activity"
-          class="w-full"
-          [options]="inventoryItemList"
-          formControlName="inventoryItemId"
-          optionLabel="name"
-          [loading]="loadingInventoryItems"
-          appendTo="body"
-          dataKey="id"
-          optionValue="id"
-        />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="state">Item</label>
-      </p-floatlabel>
-      <p-floatlabel class="basis-2/5" variant="on">
+      <p-floatlabel variant="on" class="flex-1">
         <p-select
           id="movementType"
           [options]="movementTypes"
@@ -71,23 +40,40 @@
         >
           <ng-template let-movementType #item>
             <div class="flex items-center gap-2">
-              <fa-icon [icon]="[1,2,4,6].includes(movementType.id)? faPlusCircle : faMinusCircle" [ngClass]="[1,2,4,6].includes(movementType.id) ? 'text-green-600' : 'text-red-600'" />
+              <fa-icon [icon]="[1,2,4,6].includes(movementType.id)? faPlusCircle : faMinusCircle" [class]="[1,2,4,6].includes(movementType.id) ? 'text-green-600' : 'text-red-600'" />
               <div>{{ movementType.name }}</div>
             </div>
           </ng-template>
           <ng-template let-movementType #selectedItem>
             <div class="flex items-center gap-2">
-              <fa-icon [icon]="[1,2,4,6].includes(movementType.id) ? faPlusCircle : faMinusCircle" [ngClass]="[1,2,4,6].includes(movementType.id) ? 'text-green-600' : 'text-red-600'" />
+              <fa-icon [icon]="[1,2,4,6].includes(movementType.id) ? faPlusCircle : faMinusCircle" [class]="[1,2,4,6].includes(movementType.id) ? 'text-green-600' : 'text-red-600'" />
               <div>{{ movementType.name }}</div>
             </div>
           </ng-template>
         </p-select>
         <label class="block text-sm font-medium text-gray-700 mb-1" for="movementType">Tipo de movimentação</label>
       </p-floatlabel>
-      <p-floatlabel class="basis-2/5" variant="on">
+    </div>
+    <div class="flex gap-2 items-center">
+      <p-floatlabel class="flex-1" variant="on">
+        <p-select
+          id="inventoryItem"
+          class="w-full"
+          [options]="inventoryItemList"
+          formControlName="inventoryItemId"
+          optionLabel="name"
+          [loading]="loadingInventoryItems"
+          appendTo="body"
+          dataKey="id"
+          optionValue="id"
+        />
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="inventoryItem">Item</label>
+      </p-floatlabel>
+      <p-floatlabel class="flex-1" variant="on">
         <p-datePicker
           id="movementDate"
-          class="flex !w-full"
+          class="w-full flex"
+          styleClass="w-full"
           formControlName="movementDate"
           showIcon
           [maxDate]="today"
@@ -116,7 +102,7 @@
           mode="currency"
           currency="BRL"
         />
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="unitValue">{{ currentItem ? 'Valor por ' + currentItem.unitOfMeasure : 'Valor unitário' }}</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="unitValue">{{ (currentItem ? 'Valor por ' + currentItem.unitOfMeasure : 'Valor unitário') }}</label>
       </p-floatlabel>
       <p-tag [severity]="!currentMovementType ? 'info' : isAdd ? 'success' : 'danger'" class="w-max text-nowrap">
         = {{ form.quantity * form.unitValue | currency: 'BRL' }}

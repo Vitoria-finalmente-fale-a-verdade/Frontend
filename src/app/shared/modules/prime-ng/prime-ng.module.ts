@@ -27,6 +27,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 import {TooltipModule} from 'primeng/tooltip';
 import { TextareaModule } from 'primeng/textarea';
 import {TagModule} from 'primeng/tag';
+import {FluidModule} from 'primeng/fluid';
 
 @NgModule({
   declarations: [],
@@ -56,6 +57,7 @@ import {TagModule} from 'primeng/tag';
     TooltipModule,
     TextareaModule,
     TagModule,
+    FluidModule,
   ],
   exports: [
     CardModule,
@@ -86,6 +88,7 @@ import {TagModule} from 'primeng/tag';
     TooltipModule,
     TextareaModule,
     TagModule,
+    FluidModule,
   ]
 })
 export class PrimeNgModule { }

@@ -9,7 +9,7 @@ import {PropertyModel} from '../../../models/property.model';
 import {AuthService} from '../../../services/auth.service';
 import {Subject, Subscription, takeUntil} from 'rxjs';
 import getDefaultPaginateRequest from '../../../shared/utils/get-default-paginate-request';
-import {faBox, faSeedling, faTractor} from '@fortawesome/free-solid-svg-icons';
+import {faLeaf, faTractor} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 
 @Component({
@@ -68,19 +68,14 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     ],
     navigators: [
       {
-        id: 'activity',
-        icon: faSeedling,
-        tooltip: 'Atividades',
-      },
-      {
         id: 'machinery',
         icon: faTractor,
         tooltip: 'Maquinários',
       },
       {
-        id: 'inventory-items',
-        icon: faBox,
-        tooltip: 'Inventário',
+        id: 'crops',
+        icon: faLeaf,
+        tooltip: 'Culturas',
       },
     ],
     data: []
@@ -170,16 +165,12 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.authService.property = property;
 
     switch (id) {
-      case 'activity':
-        this.router.navigate(['/manage/activities']).then();
-        break;
-
       case 'machinery':
         this.router.navigate(['/manage/machinery']).then();
         break;
 
-      case 'inventory-items':
-        this.router.navigate(['/manage/inventory-items']).then();
+      case 'crops':
+        this.router.navigate(['/manage/crops']).then();
         break;
     }
   }
