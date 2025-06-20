@@ -2,10 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges }
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MachineryService } from '../../services/machinery.service';
 import { MessageService } from 'primeng/api';
-import { ActivitiesService } from '../../services/activities.service';
-import { AuthService } from '../../services/auth.service';
-import { ActivityModel } from '../../models/activity.model';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import MachineryModel from '../../models/machinery.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EditFormComponent } from '../edit-form/edit-form.component';
@@ -32,8 +29,6 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
   editForm!: FormGroup;
   loading = false;
   edit = false;
-  loadingActivities = true;
-  activityList: ActivityModel[] = [];
   unsubscribe = new Subject<void>();
 
   today = new Date();
@@ -42,18 +37,11 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
     private formBuilder: FormBuilder,
     private machineryService: MachineryService,
     private messageService: MessageService,
-    private activitiesService: ActivitiesService,
-    private authService: AuthService,
   ) {
     this.initForm();
   }
 
   ngOnInit() {
-    this.getActivities();
-
-    this.authService.propertyChange
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getActivities());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -68,23 +56,6 @@ export class EditMachineryComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-  }
-
-  getActivities() {
-    this.activitiesService.getAll().subscribe({
-      next: data => {
-        this.activityList = data;
-        this.loadingActivities = false;
-      },
-      error: _ => {
-        this.messageService.add({
-          summary: 'Erro',
-          detail: 'Erro ao buscar explorações',
-          severity: 'error',
-        })
-        this.loadingActivities = false;
-      }
-    })
   }
 
   initForm() {

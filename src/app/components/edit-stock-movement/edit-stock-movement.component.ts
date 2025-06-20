@@ -2,13 +2,10 @@ import { InventoryItemService } from '../../services/inventoryItem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {Subject, Subscription, takeUntil} from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { ActivitiesService } from '../../services/activities.service';
+import {Subject, Subscription} from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { CropService } from '../../services/crop.service';
 import { StockMovementModel } from '../../models/stock-movement.model';
-import { ActivityModel } from '../../models/activity.model';
 import { CropModel } from '../../models/crop.model';
 import { PrimeNgModule } from '../../shared/modules/prime-ng/prime-ng.module';
 import { EditFormComponent } from '../edit-form/edit-form.component';
@@ -45,10 +42,8 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   loading = false;
   edit = false;
   loadingInventoryItems = false;
-  loadingActivities = false;
   loadingCrops: Subscription|null = null;
   inventoryItemList: InventoryItemModel[] = [];
-  activityList: ActivityModel[] = [];
   cropList: CropModel[] = [];
   unsubscribe = new Subject<void>();
   filters?: any;
@@ -61,9 +56,7 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     private formBuilder: FormBuilder,
     private cropService: CropService,
     private messageService: MessageService,
-    private activitiesService: ActivitiesService,
     private inventoryItemService: InventoryItemService,
-    private authService: AuthService,
     private stockMovementService: StockMovementService,
   ) {
     this.initForm();
@@ -73,10 +66,6 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     this.filters = history.state.filters;
 
     this.getMovementTypes();
-    this.getActivities();
-    this.authService.propertyChange
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getActivities());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -94,29 +83,6 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     this.unsubscribe.complete();
   }
 
-  getActivities() {
-    this.loadingActivities = true;
-    this.activitiesService.getAll().subscribe({
-      next: data => {
-        this.activityList = data;
-        this.loadingActivities = false;
-      },
-      error: _ => {
-        this.messageService.add({
-          summary: 'Erro',
-          detail: 'Erro ao buscar explorações',
-          severity: 'error',
-        })
-        this.loadingActivities = false;
-      }
-    })
-  }
-
-  onActivityChange(_: ActivityModel) {
-    this.editForm.controls['cropId']?.reset();
-    this.getCrops();
-  }
-
   getMovementTypes() {
     this.stockMovementService.getMovementTypes().subscribe(data => {
       this.movementTypes = data;
@@ -126,14 +92,9 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
 
   getCrops() {
     this.loadingCrops?.unsubscribe();
-    if (!this.editForm.value.activityId)
-      return;
-
     this.cropList = [];
 
-    this.loadingCrops = this.cropService.searchAll({
-      'activity.id': this.editForm.value.activityId
-    }).subscribe({
+    this.loadingCrops = this.cropService.getAll().subscribe({
       next: data => {
         this.cropList = data;
         this.editForm.controls['cropId']?.enable();
@@ -172,7 +133,6 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
   initForm() {
     this.editForm = this.formBuilder.group({
       inventoryItemId: [null, Validators.required],
-      activityId: [null, Validators.required],
       cropId: [{value: null, disabled: true}, Validators.required],
       movementType: [null, Validators.required],
       quantity: [null, Validators.required],
@@ -186,7 +146,6 @@ export class EditStockMovementComponent implements OnInit, OnChanges, OnDestroy 
     this.editForm.controls['cropId'].disable();
     this.editForm.setValue({
       inventoryItemId: this.stockMovement?.inventoryItem?.id ?? this.filters?.inventoryItem?.id ?? null,
-      activityId: this.stockMovement?.activity?.id ?? null,
       cropId: this.stockMovement?.crop?.id ?? null,
       movementType: this.stockMovement?.movementType ?? null,
       quantity: this.stockMovement?.quantity ?? null,
