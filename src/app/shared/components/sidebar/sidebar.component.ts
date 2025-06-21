@@ -54,16 +54,16 @@ export class SidebarComponent implements OnInit {
         visible: this.authService.isAdmin()
       },
       {
+        key: 'properties',
+        label: 'Propriedades',
+        faIcon: faBuilding,
+        route: 'manage/properties'
+      },
+      {
         key: 'admins',
         label: 'Administrar',
         faIcon: faBriefcase,
         items: [
-          {
-            key: 'properties',
-            label: 'Propriedades',
-            faIcon: faBuilding,
-            route: 'manage/properties'
-          },
           {
             key: 'crops',
             label: 'Cultura',

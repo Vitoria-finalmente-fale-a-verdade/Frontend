@@ -5,21 +5,24 @@
 
   <ng-template pTemplate="end">
     <div class="flex items-center gap-4">
-      <app-select-customer *isAuthorized="[Roles.ADMIN]" />
-      <p-select
-        name="property"
-        id="property"
-        [options]="properties"
-        [loading]="loadingProperties"
-        [(ngModel)]="selectedProperty"
-        optionLabel="name"
-        (onChange)="onChangeProperty($event.value)"
-        placeholder="Selecione uma propriedade"
-        emptyMessage="Nenhuma propriedade encontrada"
-        size="small"
-        variant="outlined"
-        class="!bg-[#FFFFFF88]"
-      />
+      <ng-template [ngIf]="authService.isAdmin() && customer()">
+        <ng-container *ngTemplateOutlet="selectedTag; context: {
+          severity: 'warn',
+          icon: faUser,
+          text: customer()?.username,
+          url: '/users',
+          tooltip: 'Trocar cliente',
+          removable: true,
+          removeTooltip: 'Voltar para minha conta'
+        }" />
+      </ng-template>
+      <ng-container *ngTemplateOutlet="selectedTag; context: {
+        severity: 'info',
+        icon: faBuilding,
+        text: property()?.name,
+        url: '/manage/properties',
+        tooltip: 'Trocar propriedade'
+      }" />
       <p-button outlined rounded (click)="profileMenu.toggle($event)" styleClass="!p-0">
         <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
       </p-button>
@@ -28,3 +31,20 @@
 </p-menubar>
 <p-menu #profileMenu [model]="profileMenuItems" [popup]="true" />
 <app-change-password [(visible)]="resetPasswordPopup" />
+
+<ng-template #selectedTag
+             let-severity="severity"
+             let-icon="icon"
+             let-text="text"
+             let-url="url"
+             let-tooltip="tooltip"
+             let-removeTooltip="removeTooltip"
+             let-removable="removable"
+>
+  <p-tag [severity]="severity" class="!gap-2">
+    <fa-icon [icon]="icon" [fixedWidth]="true" [pTooltip]="tooltip" tooltipPosition="bottom" class="cursor-pointer" (click)="router.navigate([url])" />
+    <span class="text-ellipsis text-nowrap overflow-hidden !max-w-[15ch]">{{ text ?? '--' }}</span>
+    <fa-icon [icon]="faRetweet" [pTooltip]="tooltip" tooltipPosition="bottom" class="cursor-pointer" (click)="router.navigate([url])" />
+    <fa-icon *ngIf="authService.isAdmin() && removable && customer()?.id != authService.user?.id" [icon]="faEyeSlash" [pTooltip]="removeTooltip" tooltipPosition="bottom" class="cursor-pointer" (click)="authService.customer = null" />
+  </p-tag>
+</ng-template>
