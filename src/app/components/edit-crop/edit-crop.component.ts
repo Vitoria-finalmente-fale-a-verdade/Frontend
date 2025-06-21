@@ -3,13 +3,10 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {MessageService} from 'primeng/api';
 import {HttpErrorResponse} from '@angular/common/http';
 import {CropService} from '../../services/crop.service';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject} from 'rxjs';
 import {EditFormComponent} from '../edit-form/edit-form.component';
 import {PrimeNgModule} from '../../shared/modules/prime-ng/prime-ng.module';
 import {CropModel} from '../../models/crop.model';
-import {ActivityModel} from '../../models/activity.model';
-import {ActivitiesService} from '../../services/activities.service';
-import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-edit-crop',
@@ -32,8 +29,6 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
   editForm!: FormGroup;
   loading = false;
   edit = false;
-  loadingActivities = true;
-  activityList: ActivityModel[] = [];
   unsubscribe = new Subject<void>();
 
   today = new Date();
@@ -42,18 +37,11 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
     private formBuilder: FormBuilder,
     private cropService: CropService,
     private messageService: MessageService,
-    private activitiesService: ActivitiesService,
-    private authService: AuthService,
   ) {
     this.initForm();
   }
 
   ngOnInit() {
-    this.getActivities();
-
-    this.authService.propertyChange
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.getActivities());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -70,27 +58,9 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getActivities() {
-    this.activitiesService.getAll().subscribe({
-      next: data => {
-        this.activityList = data;
-        this.loadingActivities = false;
-      },
-      error: _ => {
-        this.messageService.add({
-          summary: 'Erro',
-          detail: 'Erro ao buscar explorações',
-          severity: 'error',
-        })
-        this.loadingActivities = false;
-      }
-    })
-  }
-
   initForm() {
     this.editForm = this.formBuilder.group({
       name: [null, Validators.required],
-      activityId: [null, Validators.required],
       implantationDate: [null, Validators.required],
       area: [null, Validators.required],
     });
@@ -99,7 +69,6 @@ export class EditCropComponent implements OnInit, OnChanges, OnDestroy {
   resetForm() {
     this.editForm.setValue({
       name: this.crop?.name ?? '',
-      activityId: this.crop?.activity?.id ?? '',
       implantationDate: this.crop?.implantationDate ?? new Date(),
       area: this.crop?.area ?? null,
     });

@@ -34,11 +34,6 @@ export class CropListComponent implements OnInit, OnDestroy {
   tableData: LazyTableDataModel = {
     headers: [
       {
-        title: 'Atividade',
-        field: 'activity.category',
-        sortable: true,
-      },
-      {
         title: 'Nome',
         field: 'name',
         sortable: true,

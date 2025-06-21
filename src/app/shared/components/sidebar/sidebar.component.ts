@@ -9,7 +9,7 @@ import {RouterModule} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
-import {faBriefcase, faBuilding, faHome, faLeaf, faSeedling, faUser, faTractor, faBox, faTentArrowLeftRight, faArrows} from '@fortawesome/free-solid-svg-icons';
+import {faBriefcase, faBuilding, faHome, faLeaf, faUser, faTractor, faBox, faArrows} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -54,22 +54,16 @@ export class SidebarComponent implements OnInit {
         visible: this.authService.isAdmin()
       },
       {
+        key: 'properties',
+        label: 'Propriedades',
+        faIcon: faBuilding,
+        route: 'manage/properties'
+      },
+      {
         key: 'admins',
         label: 'Administrar',
         faIcon: faBriefcase,
         items: [
-          {
-            key: 'properties',
-            label: 'Propriedades',
-            faIcon: faBuilding,
-            route: 'manage/properties'
-          },
-          {
-            key: 'activities',
-            label: 'Atividades',
-            faIcon: faSeedling,
-            route: 'manage/activities'
-          },
           {
             key: 'crops',
             label: 'Cultura',

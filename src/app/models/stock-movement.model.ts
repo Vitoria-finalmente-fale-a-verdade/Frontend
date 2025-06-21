@@ -1,6 +1,5 @@
 import { PropertyModel } from "./property.model";
 import {InventoryItemModel} from './inventory-item.model';
-import {ActivityModel} from './activity.model';
 import {CropModel} from './crop.model';
 
 export interface StockMovementModel {
@@ -13,8 +12,6 @@ export interface StockMovementModel {
   quantity: number;
   movementDate: Date;
   unitValue: number;
-  activityId: string;
-  activity: ActivityModel;
   cropId: string;
   crop: CropModel;
   notes: string;

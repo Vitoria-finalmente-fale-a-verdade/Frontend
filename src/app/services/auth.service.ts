@@ -56,7 +56,7 @@ export class AuthService {
       this.storageService.set(StorageModel.CUSTOMER, value);
     }
 
-    this.setProperty();
+    this.property = null;
     this.customerChange.next(this.customer);
   }
 
@@ -72,13 +72,6 @@ export class AuthService {
     }
 
     this.propertyChange.next(this.property);
-  }
-
-  private setProperty(property?: PropertyModel) {
-    if (!property) {
-      this.storageService.remove(StorageModel.PROPERTY);
-    }
-    this.storageService.set(StorageModel.PROPERTY, property);
   }
 
   public isAuthenticated(): boolean {

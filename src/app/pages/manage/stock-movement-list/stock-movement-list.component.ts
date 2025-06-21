@@ -45,10 +45,6 @@ export class StockMovementListComponent implements OnInit, OnDestroy {
         field: 'inventoryItem.name'
       },
       {
-        title: 'Atividade',
-        field: 'activity.category'
-      },
-      {
         title: 'Cultura',
         field: 'crop.name'
       },

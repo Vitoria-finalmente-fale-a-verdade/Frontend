@@ -1,20 +1,30 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Signal} from '@angular/core';
 import {AuthService} from '../../../services/auth.service';
 import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
 import {MenuItem} from 'primeng/api';
-import {SelectCustomerComponent} from '../../../components/select-customer/select-customer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {IsAuthorizedDirective} from '../../directives/is-authorized.directive';
-import {Roles} from '../../../models/role.model';
 import {ChangePasswordComponent} from '../../../components/change-password/change-password.component';
 import {PropertyModel} from '../../../models/property.model';
-import {PropertiesService} from '../../../services/properties.service';
+import {CommonModule} from '@angular/common';
+import {faRetweet} from '@fortawesome/free-solid-svg-icons/faRetweet';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {faBuilding, faUser} from '@fortawesome/free-solid-svg-icons';
+import {UserModel} from '../../../models/user.model';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {faEyeSlash} from '@fortawesome/free-solid-svg-icons/faEyeSlash';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [PrimeNgModule, SelectCustomerComponent, FormsModule, IsAuthorizedDirective, ChangePasswordComponent, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    PrimeNgModule,
+    FormsModule,
+    ChangePasswordComponent,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -22,27 +32,20 @@ export class NavbarComponent implements OnInit {
   profileMenuItems: MenuItem[] = [];
   title?: string;
   resetPasswordPopup = false;
-  selectedProperty?: PropertyModel;
-  properties: PropertyModel[] = [];
-  loadingProperties = false;
+
+  customer!: Signal<UserModel|null>;
+  property!: Signal<PropertyModel|null>;
 
   constructor(
-    private authService: AuthService,
+    protected authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router,
-    private propertiesService: PropertiesService,
+    protected router: Router,
   ) {
+    this.customer = toSignal(this.authService.customerChange, { initialValue: this.authService.customer });
+    this.property = toSignal(this.authService.propertyChange, { initialValue: this.authService.property });
   }
 
   ngOnInit() {
-    this.propertiesService.changeProperties.subscribe(() => this.getProperties());
-    this.authService.customerChange.subscribe(() => this.getProperties());
-    this.authService.propertyChange.subscribe(() => this.onChangePropertyExternal());
-
-    if (this.authService.property)
-      this.selectedProperty = this.authService.property;
-
-    this.getProperties();
     this.title = this.route.snapshot.firstChild?.data['title'];
 
     this.router.events.subscribe(event => {
@@ -75,38 +78,8 @@ export class NavbarComponent implements OnInit {
     ];
   }
 
-  onChangePropertyExternal() {
-    if (this.selectedProperty?.id !== this.authService.property?.id) {
-      this.selectedProperty = this.authService.property ?? undefined;
-    }
-  }
-
-  onChangeProperty(property: PropertyModel) {
-    this.authService.property = property;
-  }
-
-  getProperties() {
-    this.loadingProperties = true;
-    this.propertiesService.getAll().subscribe({
-      next: properties => {
-        this.loadingProperties = false;
-        this.properties = properties;
-        if (!properties?.length)
-          return;
-
-        if (this.selectedProperty) {
-          this.selectedProperty = properties.find(property => property.id == this.selectedProperty?.id) ?? properties[0];
-        } else {
-          this.selectedProperty = properties[0];
-        }
-        this.onChangeProperty(this.selectedProperty);
-      },
-      error: error => {
-        this.loadingProperties = false;
-        console.error(error);
-      }
-    });
-  }
-
-  protected readonly Roles = Roles;
+  protected readonly faRetweet = faRetweet;
+  protected readonly faUser = faUser;
+  protected readonly faBuilding = faBuilding;
+  protected readonly faEyeSlash = faEyeSlash;
 }
