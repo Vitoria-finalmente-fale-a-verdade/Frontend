@@ -78,10 +78,6 @@ export class NavbarComponent implements OnInit {
     ];
   }
 
-  removeCustomer() {
-    this.authService.customer = null;
-  }
-
   protected readonly faRetweet = faRetweet;
   protected readonly faUser = faUser;
   protected readonly faBuilding = faBuilding;
