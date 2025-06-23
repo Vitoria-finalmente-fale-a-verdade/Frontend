@@ -9,7 +9,17 @@ import {RouterModule} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {AuthService} from '../../../services/auth.service';
 import {PrimeNgModule} from '../../modules/prime-ng/prime-ng.module';
-import {faBriefcase, faBuilding, faHome, faLeaf, faUser, faTractor, faBox, faArrows} from '@fortawesome/free-solid-svg-icons';
+import {
+  faBriefcase,
+  faBuilding,
+  faHome,
+  faLeaf,
+  faUser,
+  faTractor,
+  faBox,
+  faArrows,
+  faTasks
+} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -87,7 +97,13 @@ export class SidebarComponent implements OnInit {
             label: 'Movimentação',
             faIcon: faArrows,
             route: 'manage/stock-movements'
-          }
+          },
+          {
+            key: 'activities',
+            label: 'Atividades',
+            faIcon: faTasks,
+            route: 'manage/activities'
+          },
         ]
       }
     ];

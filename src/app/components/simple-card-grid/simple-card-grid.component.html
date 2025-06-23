@@ -1,0 +1,24 @@
+<p-card>
+  <div class="grid grid-cols-12 gap-4">
+    <p-card *ngFor="let item of data"
+            class="col-span-12 sm:col-span-6 md:col-span-4 aspect-[8/9]"
+            styleClass="h-full overflow-hidden"
+            [header]="item.title"
+    >
+
+      <ng-template #header>
+        <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+      </ng-template>
+
+      <ng-template #subtitle> {{item.description}} </ng-template>
+
+      <ng-template #footer>
+        <p-fluid class="flex gap-4">
+          <p-button label="Ver histórico" severity="secondary" [outlined]="true" />
+          <p-button label="Novo" severity="primary" icon="pi pi-plus" />
+        </p-fluid>
+      </ng-template>
+
+    </p-card>
+  </div>
+</p-card>

@@ -11,6 +11,7 @@ import {CropListComponent} from './pages/manage/crop-list/crop-list.component';
 import { MachineryListComponent } from './pages/manage/machinery-list/machinery-list.component';
 import { InventoryItemListComponent } from './pages/manage/inventory-item-list/inventory-item-list.component';
 import { StockMovementListComponent } from './pages/manage/stock-movement-list/stock-movement-list.component';
+import {ActivitiesListComponent} from './pages/manage/activities-list/activities-list.component';
 
 
 export const routes: Routes = [
@@ -75,6 +76,13 @@ export const routes: Routes = [
             component: StockMovementListComponent,
             data: {
               title: 'Movimentações'
+            }
+          },
+          {
+            path: 'activities',
+            component: ActivitiesListComponent,
+            data: {
+              title: 'Atividades'
             }
           },
         ]
